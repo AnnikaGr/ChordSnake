@@ -1,14 +1,12 @@
 package com.game.chordsnake;
 
-import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
+import com.game.chordsnake.model.Game;
 
 public class Controller {
+    private final Game gameModel;
 
-    @FXML
-    public void startGame(MouseEvent event) {
-        //start from level 1
-        Main.setPane(1);
+    public Controller(Game gameModel) {
+        this.gameModel = gameModel;
     }
 
-   }
+}

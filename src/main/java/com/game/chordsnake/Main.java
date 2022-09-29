@@ -1,5 +1,6 @@
 package com.game.chordsnake;
 
+import com.game.chordsnake.model.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +18,6 @@ public class Main extends Application {
     static AnchorPane root;
     static List<BorderPane> listPane = new ArrayList<>(totalPaneNum);
     private static int idCurrentPane = 0;
-
 
     public static void setPane(int idPane) {
         root.getChildren().remove(listPane.get(idCurrentPane));
@@ -45,21 +45,23 @@ public class Main extends Application {
         } else return 0;
     }
 
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("anchor.fxml")));
+        Game game = new Game();
+        Controller Controller = new Controller(game);
+        root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("anchor.fxml")));
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("start-view.fxml"))));
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("instrument-selection-view.fxml"))));
-        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("song-selection-view.fxml"))));
+        //listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("song-selection-view.fxml"))));
 
         root.getChildren().add(listPane.get(0));
         Scene scene = new Scene(root, 800, 600);
-        stage.setTitle("Hello!");
+        stage.setTitle("ChordSnake");
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }
