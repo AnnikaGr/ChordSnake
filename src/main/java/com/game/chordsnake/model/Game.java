@@ -6,13 +6,9 @@ public class Game {
     private int instrumentChosenID;
     private boolean gameStart;
 
-    public Game() {
-
-    }
-
     public void setInstrumentChosenID(int instrumentChosenID) {
         this.instrumentChosenID = instrumentChosenID;
-        System.out.println(this.instrumentChosenID);
+        System.out.println("instrument id: "+ this.instrumentChosenID);
     }
 
     public void setBoard(Board board) {
@@ -25,5 +21,6 @@ public class Game {
 
     public void setSongChosenID(int songChosenID) {
         this.songChosenID = songChosenID;
+        System.out.println("song id: "+ this.songChosenID);
     }
 }

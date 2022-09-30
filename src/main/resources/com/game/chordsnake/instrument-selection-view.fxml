@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx"
-            fx:controller="com.game.chordsnake.FXMLController">
+            fx:controller="com.game.chordsnake.Controller">
     <bottom>
         <Button mnemonicParsing="false" onMouseClicked="#confirmInstrument" text="Confirm"
                 BorderPane.alignment="CENTER">
