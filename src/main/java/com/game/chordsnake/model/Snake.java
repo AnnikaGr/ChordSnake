@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Snake {
     //chords in Snake
-    private List<String> snake;
+    private ArrayList<String> snake;
     private int direction; // up=0, left=1, right=2, down=3
 
     //position of Snake

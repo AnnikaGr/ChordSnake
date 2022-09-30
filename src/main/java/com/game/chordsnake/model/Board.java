@@ -18,7 +18,7 @@ public class Board {
         List<String> content = new ArrayList<>();
 
         //add chords to collect
-        content.addAll(Arrays.asList(song.getChordOrder()));
+        content.addAll(song.getChordOrder());
         //add specified number of random chords
         content.addAll(getRandomChords((10)));
         //add trash tile
