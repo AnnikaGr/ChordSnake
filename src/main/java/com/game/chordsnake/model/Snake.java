@@ -1,6 +1,5 @@
 package com.game.chordsnake.model;
 
-import java.lang.annotation.Documented;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,22 +28,19 @@ public class Snake {
     //shifts snake forward one field
     public void shiftSnake() {
         List<int[]> tmp = snakePosition;
-        int [] newHeadPosition = null;
-        if (direction == 0){ //up
+        int[] newHeadPosition = null;
+        if (direction == 0) { //up
             newHeadPosition = new int[]{snakePosition.get(0)[0], snakePosition.get(0)[1] + 1};
-        }
-        else if (direction == 3){ //down
+        } else if (direction == 3) { //down
             newHeadPosition = new int[]{snakePosition.get(0)[0], snakePosition.get(0)[1] - 1};
-        }
-        else if (direction == 2){ //right
+        } else if (direction == 2) { //right
             newHeadPosition = new int[]{snakePosition.get(0)[0] + 1, snakePosition.get(0)[1]};
-        }
-        else if (direction == 1){ //left
+        } else if (direction == 1) { //left
             newHeadPosition = new int[]{snakePosition.get(0)[0] - 1, snakePosition.get(0)[1]};
         }
         snakePosition.set(0, newHeadPosition);
-        for (int i = 0; i<snakePosition.size(); i++){
-            snakePosition.set(i+1, tmp.get(i));
+        for (int i = 0; i < snakePosition.size(); i++) {
+            snakePosition.set(i + 1, tmp.get(i));
         }
     }
 

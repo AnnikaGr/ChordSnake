@@ -1,51 +1,21 @@
 package com.game.chordsnake.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class Board {
-    private String[][] arrangement;
     private final int height = 20;
     private final int width = 20;
+    private String[][] arrangement;
     private Song currentSong;
     private Snake currentSnake;
     private String[] savedChords;
     private boolean gameWon;
+    private List<String> content;
 
-    public Board(Song song) {
-        List<String> content = new ArrayList<>();
-
-        //add chords to collect
-        content.addAll(song.getChordOrder());
-        //add specified number of random chords
-        content.addAll(getRandomChords((10)));
-        //add trash tile
-        content.add("T");
-        //add instrument tile
-        content.add("I");
-        //add snake head
-        content.add("SH");
-
-        //fill up with empty fields
-        for (int i = 0; i < width * height - content.size(); i++) {
-            content.add("Z");
-        }
-
-        //randomize order
-        Collections.shuffle(content);
-
-        int counter = 0;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                arrangement[i][j] = content.get((counter * (height - 1)) + j);
-                if (content.get((counter * (height - 1)) + j).equals("SH")) {
-                    currentSnake = new Snake(i, j);
-                }
-            }
-            counter = counter + 1;
-        }
+    public Board() {
+        content = new ArrayList<>(height * width);
 
 
         // set border tiles
@@ -72,6 +42,57 @@ public class Board {
             }
         }*/
 
+    }
+
+    public void setBoard(Song song) {
+
+        //add chords to collect
+        content.addAll(song.getChordOrder());
+        //add specified number of random chords
+        content.addAll(getRandomChords((10)));
+        //add trash tile
+        content.add("T");
+        //add instrument tile
+        content.add("I");
+        //add snake head
+        content.add("SH");
+
+        int remainFieldsNum = width * height - content.size();
+        //fill up with empty fields
+        for (int i = 0; i < remainFieldsNum; i++) {
+            content.add("Z");
+        }
+
+
+        //randomize order
+        Collections.shuffle(content);
+/*
+        int counter = 0;
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                arrangement[i][j] = content.get((counter * (height - 1)) + j);
+                if (content.get((counter * (height - 1)) + j).equals("SH")) {
+                    currentSnake = new Snake(i, j);
+                }
+            }
+            counter = counter + 1;
+        }*/
+    }
+
+    public List<String> getChords() {
+        return content;
+    }
+
+    public String getOneChord(int chordIndex) {
+        return content.get(chordIndex);
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     //TODO updateArrangement (call ShiftSnake, check if snakeHead is on field with gameobject --> if yes calls ActOnEncouter)
