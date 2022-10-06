@@ -22,40 +22,26 @@ public class Controller {
     //radio button group for instrument selection
     @FXML
     private GridPane gridGame = new GridPane();
-    @FXML
-    private ToggleGroup instrumentGroup = new ToggleGroup();
-    @FXML
-    private RadioButton btnGuitar = new RadioButton();
-    @FXML
-    private RadioButton btnCello = new RadioButton();
-    @FXML
-    private RadioButton btnPiano = new RadioButton();
-    //radio button group for song selection
-    @FXML
-    private ToggleGroup songGroup = new ToggleGroup();
-    @FXML
-    private RadioButton btnSong1 = new RadioButton();
-    @FXML
-    private RadioButton btnSong2 = new RadioButton();
-    @FXML
-    private RadioButton btnSong3 = new RadioButton();
-    private Game gameModel;
+
     private Song songModel;
     private Board boardModel;
     private SingleGrid[][] board;
 
+    private Game gameInstance;
+
+    public Controller(Game gameInstance){
+        this.gameInstance = gameInstance;
+    }
+
     @FXML
     public void initialize() {
-        this.gameModel = new Game();
         this.boardModel = new Board();
-        this.songModel = new Song();
-        btnGuitar.setToggleGroup(instrumentGroup);
-        btnCello.setToggleGroup(instrumentGroup);
-        btnPiano.setToggleGroup(instrumentGroup);
-        btnSong1.setToggleGroup(songGroup);
-        btnSong2.setToggleGroup(songGroup);
-        btnSong3.setToggleGroup(songGroup);
+        this.songModel = new Song(gameInstance.getSongChosenID());
+
         board = new SingleGrid[boardModel.getWidth()][boardModel.getHeight()];
+
+        boardModel.setBoard(songModel);
+        initializeGrid();
     }
 
     public void initializeGrid() {
@@ -68,13 +54,7 @@ public class Controller {
         }
     }
 
-    @FXML
-    public void confirmInstrument() {
-        int toggleGroupValue = instrumentGroup.getToggles().indexOf(instrumentGroup.getSelectedToggle());
-        gameModel.setInstrumentChosenID(toggleGroupValue);
-        //turn to choosing song page
-        Main.setPane(2);
-    }
+
 
     //when pressing on whole grid detected
     /*
@@ -89,22 +69,7 @@ public class Controller {
         }
     }*/
 
-    @FXML
-    public void confirmSong() {
-        int toggleGroupValue = songGroup.getToggles().indexOf(songGroup.getSelectedToggle());
-        gameModel.setSongChosenID(toggleGroupValue);
-        songModel.setChordOrder(gameModel.getSongChosenID());
-        boardModel.setBoard(songModel);
-        //turn to game page
-        initializeGrid();
-        Main.setPane(3);
-    }
 
-    @FXML
-    public void startGame(MouseEvent event) {
-        //start from choosing instruments
-        Main.setPane(1);
-    }
 
     //single grid on gridpane; initialized with string value
     //TODO for different ones set to different icons/empty/chords

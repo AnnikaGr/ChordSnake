@@ -7,7 +7,8 @@ import java.util.List;
 public class Song {
     private final List<String> chordOrder = new ArrayList<>(); //TODO put proper songs
 
-    public Song() {
+    public Song(int songId) {
+        setChordOrder(songId);
     }
 
     public boolean checkCorrectOrder(Snake snake) { //TODO check if it works
@@ -19,7 +20,7 @@ public class Song {
         return chordOrder;
     }
 
-    public void setChordOrder(int songId) {
+    private void setChordOrder(int songId) {
         if (songId == 0) {
             Collections.addAll(chordOrder, "A", "B", "C");
         } else if (songId == 1) {
