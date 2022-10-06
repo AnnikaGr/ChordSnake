@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Snake {
     //chords in Snake
-    private ArrayList<String> collectedChords;
+    private ArrayList<String> collectedChords= new ArrayList<>();
     private int direction; // up=0, left=1, right=2, down=3
 
     //position of Snake
@@ -14,6 +14,7 @@ public class Snake {
     public Snake(int head_y, int head_x) {
         int[] coords = {head_x, head_y};
         snakePosition.add(coords);
+        collectedChords.add("SH");
     }
 
     public void removeElement(int index) {
@@ -40,7 +41,14 @@ public class Snake {
         }
         snakePosition.set(0, newHeadPosition);
         for (int i = 0; i < snakePosition.size(); i++) {
-            snakePosition.set(i + 1, tmp.get(i));
+            if(snakePosition.size()<=i){
+                snakePosition.set(i + 1, tmp.get(i));
+            }
+            else   {
+                //snakePosition.add(i + 1, tmp.get(i));
+                //TODO handle the case that no new chord was added
+            }
+
         }
     }
 

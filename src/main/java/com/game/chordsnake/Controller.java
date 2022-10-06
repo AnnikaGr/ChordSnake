@@ -86,12 +86,27 @@ public class Controller {
             if (event.getCode() == KeyCode.A) {
                 if(gameInstance.getGameStarted())
                     System.out.println("Scene: A key was pressed");
-                //delay(1000, () -> boardModel.updateArrangement());
+                //TODO make move each second
+                //while(true) {
+                    //delay(1000, () -> boardModel.updateArrangement());
+                    updateGrid();
+                //}
             }
-
-
     }
 
+    public void updateGrid() {
+        for (int i = 0; i < boardModel.getWidth(); i++) {
+            for (int j = 0; j < boardModel.getHeight(); j++) {
+
+
+                Node node = getNodeFromGridPane(gridGame,i,j);
+                
+
+                //boardModel.arrangement[i][j]
+
+            }
+        }
+    }
 
 
 
@@ -133,6 +148,15 @@ public class Controller {
         };
         sleeper.setOnSucceeded(event -> continuation.run());
         new Thread(sleeper).start();
+    }
+
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
     }
 
 }

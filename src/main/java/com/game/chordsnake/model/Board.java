@@ -7,7 +7,7 @@ import java.util.List;
 public class Board {
     private final int height = 15;
     private final int width = 15;
-    private String[][] arrangement;
+    public String[][] arrangement;
     private Song currentSong;
     private Snake currentSnake;
     private String[] savedChords;
@@ -70,7 +70,11 @@ public class Board {
         arrangement= new String[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                arrangement[i][j] = initialContent.get(width * i + j);
+                String current = initialContent.get(width * i + j);
+                arrangement[i][j] = current;
+                if(current.equals("SH")){
+                    currentSnake= new Snake(i,j);
+                }
             }
         }
 /*
@@ -106,6 +110,8 @@ public class Board {
         currentSnake.shiftSnake();
         List<String> collectedChords= currentSnake.getCollectedChords();
         List<int[]> snakePositions =currentSnake.getSnakePosition();
+
+        System.out.println(snakePositions.get(0));
 
         int counter=0;
         for (int[] position: snakePositions
