@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +24,7 @@ public class Main extends Application {
     static AnchorPane root;
     static List<BorderPane> listPane = new ArrayList<>(totalPaneNum);
     private static int idCurrentPane = 0;
+    private static Stage primaryStage;
 
     @FXML
     private ToggleGroup instrumentGroup = new ToggleGroup();
@@ -57,6 +59,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        setPrimaryStage(stage);
 
         root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("anchor.fxml")));
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("start-view.fxml"))));
@@ -78,6 +81,7 @@ public class Main extends Application {
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("ChordSnake");
         stage.setScene(scene);
+
         stage.show();
     }
 
@@ -102,5 +106,12 @@ public class Main extends Application {
         Main.setPane(1);
     }
 
+    private void setPrimaryStage(Stage stage) {
+        Main.primaryStage = stage;
+    }
+
+    static public Stage getPrimaryStage() {
+        return Main.primaryStage;
+    }
 
 }

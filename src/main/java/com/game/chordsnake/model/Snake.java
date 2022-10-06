@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Snake {
     //chords in Snake
-    private ArrayList<String> snake;
+    private ArrayList<String> collectedChords;
     private int direction; // up=0, left=1, right=2, down=3
 
     //position of Snake
@@ -17,11 +17,11 @@ public class Snake {
     }
 
     public void removeElement(int index) {
-        snake.remove(index);
+        collectedChords.remove(index);
     }
 
     public void appendElement(String chordName) {
-        snake.add(chordName);
+        collectedChords.add(chordName);
         //TODO play sound
     }
 
@@ -46,13 +46,16 @@ public class Snake {
 
     //clears snake and leaves only the snake head
     public void clearSnake() {
-        snake = new ArrayList<String>();
-        snake.add("SH");
+        collectedChords = new ArrayList<String>();
+        collectedChords.add("SH");
 
     }
 
-    public List<String> getSnake() {
-        return snake;
+    public List<String> getCollectedChords() {
+        return collectedChords;
+    }
+    public List<int[]> getSnakePosition() {
+        return snakePosition;
     }
 
     public void setSnakeDirectionRight() {

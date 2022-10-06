@@ -12,8 +12,8 @@ public class Song {
     }
 
     public boolean checkCorrectOrder(Snake snake) { //TODO check if it works
-        snake.getSnake().subList(1, snake.getSnake().size());
-        return chordOrder.equals(snake.getSnake());
+        snake.getCollectedChords().subList(1, snake.getCollectedChords().size());
+        return chordOrder.equals(snake.getCollectedChords());
     }
 
     public List<String> getChordOrder() {

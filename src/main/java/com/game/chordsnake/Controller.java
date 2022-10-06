@@ -3,9 +3,13 @@ package com.game.chordsnake;
 import com.game.chordsnake.model.Board;
 import com.game.chordsnake.model.Game;
 import com.game.chordsnake.model.Song;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -18,7 +22,7 @@ import javafx.scene.text.Text;
 
 public class Controller {
 
-    private final int singleGridWidth = 20;
+    private final int singleGridWidth = 27;
     //radio button group for instrument selection
     @FXML
     private GridPane gridGame = new GridPane();
@@ -42,6 +46,10 @@ public class Controller {
 
         boardModel.setBoard(songModel);
         initializeGrid();
+
+        //Main.getPrimaryStage().getScene();
+
+
     }
 
     public void initializeGrid() {
@@ -57,17 +65,33 @@ public class Controller {
 
 
     //when pressing on whole grid detected
-    /*
+
     @FXML
-    public void gridPressed(MouseEvent event) {
-        Node clickedNode = event.getPickResult().getIntersectedNode();
+    public void gridPressed(KeyEvent event) {
+        /*Node clickedNode = event.getPickResult().getIntersectedNode();
         if (clickedNode != gridGame) {
-            gameModel.setGameStarted(true);
+            //gameModel.setGameStarted(true);
             Integer colIndex = GridPane.getColumnIndex(clickedNode);
             Integer rowIndex = GridPane.getRowIndex(clickedNode);
             System.out.println("Mouse pressed cell: " + colIndex + " And: " + rowIndex);
-        }
-    }*/
+        }*/
+        System.out.println("Key pressed");
+    }
+
+
+    @FXML
+    public void startOnKeyPress (KeyEvent event){
+        gameInstance.setGameStarted(true);
+
+            if (event.getCode() == KeyCode.A) {
+                if(gameInstance.getGameStarted())
+                    System.out.println("Scene: A key was pressed");
+                //delay(1000, () -> boardModel.updateArrangement());
+            }
+
+
+    }
+
 
 
 
@@ -88,13 +112,27 @@ public class Controller {
             value = gridValue;
 
             recGrid.setStroke(Color.BLACK);
-            text.setFont(Font.font(18));
+            text.setFont(Font.font(15));
             text.setText(gridValue);
             text.setVisible(true);
             System.out.println("grid value: " + gridValue);
 
             getChildren().addAll(recGrid, text);
         }
+    }
+
+    // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
+    public static void delay(long millis, Runnable continuation) {
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try { Thread.sleep(millis); }
+                catch (InterruptedException e) { }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(event -> continuation.run());
+        new Thread(sleeper).start();
     }
 
 }

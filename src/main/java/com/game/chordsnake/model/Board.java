@@ -5,17 +5,17 @@ import java.util.Collections;
 import java.util.List;
 
 public class Board {
-    private final int height = 20;
-    private final int width = 20;
+    private final int height = 15;
+    private final int width = 15;
     private String[][] arrangement;
     private Song currentSong;
     private Snake currentSnake;
     private String[] savedChords;
     private boolean gameWon;
-    private List<String> content;
+    private List<String> initialContent;
 
     public Board() {
-        content = new ArrayList<>(height * width);
+        initialContent = new ArrayList<>(height * width);
 
 
         // set border tiles
@@ -47,30 +47,37 @@ public class Board {
     public void setBoard(Song song) {
 
         //add chords to collect
-        content.addAll(song.getChordOrder());
+        initialContent.addAll(song.getChordOrder());
         //add specified number of random chords
-        content.addAll(getRandomChords((10)));
+        initialContent.addAll(getRandomChords((10)));
         //add trash tile
-        content.add("T");
+        initialContent.add("T");
         //add instrument tile
-        content.add("I");
+        initialContent.add("I");
         //add snake head
-        content.add("SH");
+        initialContent.add("SH");
 
-        int remainFieldsNum = width * height - content.size();
+        int remainFieldsNum = width * height - initialContent.size();
         //fill up with empty fields
         for (int i = 0; i < remainFieldsNum; i++) {
-            content.add("Z");
+            initialContent.add("Z");
         }
 
 
         //randomize order
-        Collections.shuffle(content);
+        Collections.shuffle(initialContent);
+
+        arrangement= new String[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                arrangement[i][j] = initialContent.get(width * i + j);
+            }
+        }
 /*
         int counter = 0;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                arrangement[i][j] = content.get((counter * (height - 1)) + j);
+                arrangement[i][j] = initialContent.get((counter * (height - 1)) + j);
                 if (content.get((counter * (height - 1)) + j).equals("SH")) {
                     currentSnake = new Snake(i, j);
                 }
@@ -80,11 +87,11 @@ public class Board {
     }
 
     public List<String> getChords() {
-        return content;
+        return initialContent;
     }
 
     public String getOneChord(int chordIndex) {
-        return content.get(chordIndex);
+        return initialContent.get(chordIndex);
     }
 
     public int getHeight() {
@@ -95,9 +102,21 @@ public class Board {
         return width;
     }
 
-    //TODO updateArrangement (call ShiftSnake, check if snakeHead is on field with gameobject --> if yes calls ActOnEncouter)
-    //TODO actOnEncounter (x,y)
+    public void updateArrangement(){
+        currentSnake.shiftSnake();
+        List<String> collectedChords= currentSnake.getCollectedChords();
+        List<int[]> snakePositions =currentSnake.getSnakePosition();
 
+        int counter=0;
+        for (int[] position: snakePositions
+             ) {
+            arrangement[position[0]][position[1]]=collectedChords.get(counter);
+            counter++;
+            //TODO check if snakeHead is on field with gameobject --> if yes calls ActOnEncouter)
+        }
+    }
+
+    //TODO private actOnEncounter (x,y)
     //TODO EventListening
 
 
