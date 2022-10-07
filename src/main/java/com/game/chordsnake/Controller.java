@@ -6,6 +6,8 @@ import com.game.chordsnake.model.Song;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
@@ -60,6 +62,30 @@ public class Controller {
                 gridGame.add(board[i][j], i, j);
             }
         }
+
+        /*for (int i = 0; i< numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                Button button = createButton("");
+                String content="";
+                if(board.grid[i][j].hasMine){
+                    content= "mine";
+                }
+                else if (board.grid[i][j].hasWater){
+                    content = "water";
+                }
+                else if (board.grid[i][j].hasWell){
+                    content = "well";
+                }
+                else {
+                    content = Integer.toString(board.grid[i][j].numSurroundingMines);
+                }
+                //
+
+                Label label = createCellContent(content);
+                grid.add(label,j,i);
+                grid.add(button, j, i );
+            }
+        }*/
     }
 
 
@@ -100,7 +126,7 @@ public class Controller {
 
 
                 Node node = getNodeFromGridPane(gridGame,i,j);
-                
+
 
                 //boardModel.arrangement[i][j]
 
