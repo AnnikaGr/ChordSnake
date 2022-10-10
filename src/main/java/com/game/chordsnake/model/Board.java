@@ -135,4 +135,9 @@ public class Board {
         return selectedChords;
     }
 
+    public Snake getCurrentSnake() {
+        return currentSnake;
+    }
+
+
 }

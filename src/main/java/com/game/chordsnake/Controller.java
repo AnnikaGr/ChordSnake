@@ -6,6 +6,7 @@ import com.game.chordsnake.model.Song;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
@@ -33,6 +34,7 @@ public class Controller {
     private Label[][] labels;
 
     private Game gameInstance;
+    private boolean isInChordPopupState = false;
 
     public Controller(Game gameInstance){
         this.gameInstance = gameInstance;
@@ -57,6 +59,30 @@ public class Controller {
                 gridGame.add(labels[i][j], i, j);
             }
         }
+
+        /*for (int i = 0; i< numRows; i++) {
+            for (int j = 0; j < numColumns; j++) {
+                Button button = createButton("");
+                String content="";
+                if(board.grid[i][j].hasMine){
+                    content= "mine";
+                }
+                else if (board.grid[i][j].hasWater){
+                    content = "water";
+                }
+                else if (board.grid[i][j].hasWell){
+                    content = "well";
+                }
+                else {
+                    content = Integer.toString(board.grid[i][j].numSurroundingMines);
+                }
+                //
+
+                Label label = createCellContent(content);
+                grid.add(label,j,i);
+                grid.add(button, j, i );
+            }
+        }*/
     }
 
 
@@ -77,18 +103,39 @@ public class Controller {
 
 
     @FXML
-    public void startOnKeyPress (KeyEvent event){
-        gameInstance.setGameStarted(true);
+    public void handleKeyPress (KeyEvent event){
+
+        if(gameInstance.getGameStarted()==false){
+            gameInstance.setGameStarted(true);
 
             if (event.getCode() == KeyCode.A) {
                 if(gameInstance.getGameStarted())
                     System.out.println("Scene: A key was pressed");
                 //TODO make move each second
                 //while(true) {
-                    //delay(1000, () -> boardModel.updateArrangement());
-                    updateGrid();
+                //delay(1000, () -> boardModel.updateArrangement());
+                updateGrid();
                 //}
             }
+        }
+        else if (!isInChordPopupState){
+            if (event.getCode() == KeyCode.W) {
+                boardModel.getCurrentSnake().setSnakeDirectionUp();
+
+            }
+            else if (event.getCode() == KeyCode.D) {
+                boardModel.getCurrentSnake().setSnakeDirectionRight();
+
+            }
+            else if (event.getCode() == KeyCode.S) {
+                boardModel.getCurrentSnake().setSnakeDirectionDown();
+            }
+            else if (event.getCode() == KeyCode.A) {
+                boardModel.getCurrentSnake().setSnakeDirectionLeft();
+            }
+        }
+        //TODO handle presses from chordPopup
+
     }
 
     public void updateGrid() {
@@ -98,6 +145,8 @@ public class Controller {
                 if (boardModel.arrangement[i][j] == "SH") {
                     System.out.println(i + j);
                 }
+                //boardModel.arrangement[i][j]
+
             }
         }
     }
@@ -129,4 +178,5 @@ public class Controller {
         }
         return null;
     }
+
 }
