@@ -6,6 +6,7 @@ import com.game.chordsnake.model.Song;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
@@ -25,39 +26,35 @@ public class Controller {
     private final int singleGridWidth = 27;
     //radio button group for instrument selection
     @FXML
-    private GridPane gridGame = new GridPane();
+    private GridPane gridGame;
 
     private Song songModel;
     private Board boardModel;
-    private SingleGrid[][] board;
+    private Label[][] labels;
 
     private Game gameInstance;
 
     public Controller(Game gameInstance){
         this.gameInstance = gameInstance;
+
     }
 
     @FXML
     public void initialize() {
         this.boardModel = new Board();
         this.songModel = new Song(gameInstance.getSongChosenID());
-
-        board = new SingleGrid[boardModel.getWidth()][boardModel.getHeight()];
-
         boardModel.setBoard(songModel);
+        labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
         initializeGrid();
-
-        //Main.getPrimaryStage().getScene();
-
 
     }
 
     public void initializeGrid() {
+        //labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
-                SingleGrid singleGrid = new SingleGrid(i, j, boardModel.getOneChord(boardModel.getWidth() * i + j));//TODO  maybe it's better to have a 2d array??
-                board[i][j] = singleGrid;
-                gridGame.add(board[i][j], i, j);
+                labels[i][j] = new Label(boardModel.getOneChord(boardModel.getWidth() * i + j));
+                gridGame.add(labels[i][j], i, j);
             }
         }
     }
@@ -97,13 +94,10 @@ public class Controller {
     public void updateGrid() {
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
-
-
                 Node node = getNodeFromGridPane(gridGame,i,j);
-                
-
-                //boardModel.arrangement[i][j]
-
+                if (boardModel.arrangement[i][j] == "SH") {
+                    System.out.println(i + j);
+                }
             }
         }
     }
@@ -112,29 +106,6 @@ public class Controller {
 
     //single grid on gridpane; initialized with string value
     //TODO for different ones set to different icons/empty/chords
-    private class SingleGrid extends StackPane {
-
-        private final int col;
-        private final int row;
-        Rectangle recGrid = new Rectangle(singleGridWidth, singleGridWidth, Paint.valueOf("#ffe9c6"));
-        Text text = new Text();
-        private String value;
-
-        public SingleGrid(int x, int y, String gridValue) {
-
-            col = x;
-            row = y;
-            value = gridValue;
-
-            recGrid.setStroke(Color.BLACK);
-            text.setFont(Font.font(15));
-            text.setText(gridValue);
-            text.setVisible(true);
-            System.out.println("grid value: " + gridValue);
-
-            getChildren().addAll(recGrid, text);
-        }
-    }
 
     // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
     public static void delay(long millis, Runnable continuation) {
@@ -152,11 +123,10 @@ public class Controller {
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+            if (gridPane.getColumnIndex(node)!= null && gridPane.getRowIndex(node)!= null && gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
                 return node;
             }
         }
         return null;
     }
-
 }
