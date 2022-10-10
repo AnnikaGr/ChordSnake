@@ -7,14 +7,15 @@ public class Chord {
     private String[] notes;
 
     public Chord(String chordName) {
-        if (chordName.equals("C")) {
-            this.notes = new String[]{"C", "E", "G"};
-        } else if (chordName.equals("G")) {
-            this.notes = new String[]{"G", "B", "D"};
-        } else if (chordName.equals("F")) {
-            this.notes = new String[]{"F", "A", "C"};
-        } else {
-            System.out.println("chord name not found in chord constructor ");
+        switch (chordName) {
+            case "C" -> this.notes = new String[]{"C", "E", "G"};
+            case "G" -> this.notes = new String[]{"G", "B", "D"};
+            case "Em" -> this.notes = new String[]{"E", "G", "B"};
+            case "B" -> this.notes = new String[]{"B", "D#", "F#"};
+            case "D" -> this.notes = new String[]{"D", "F#", "A"};
+            case "Am" -> this.notes = new String[]{"A", "C", "E"};
+            case "A" -> this.notes = new String[]{"A", "C#", "E"};
+            default -> System.out.println("chord name not found in chord constructor ");
         }
 
     }
