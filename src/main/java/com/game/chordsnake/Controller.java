@@ -34,6 +34,7 @@ public class Controller {
     private SingleGrid[][] board;
 
     private Game gameInstance;
+    private boolean isInChordPopupState = false;
 
     public Controller(Game gameInstance){
         this.gameInstance = gameInstance;
@@ -106,18 +107,39 @@ public class Controller {
 
 
     @FXML
-    public void startOnKeyPress (KeyEvent event){
-        gameInstance.setGameStarted(true);
+    public void handleKeyPress (KeyEvent event){
+
+        if(gameInstance.getGameStarted()==false){
+            gameInstance.setGameStarted(true);
 
             if (event.getCode() == KeyCode.A) {
                 if(gameInstance.getGameStarted())
                     System.out.println("Scene: A key was pressed");
                 //TODO make move each second
                 //while(true) {
-                    //delay(1000, () -> boardModel.updateArrangement());
-                    updateGrid();
+                //delay(1000, () -> boardModel.updateArrangement());
+                updateGrid();
                 //}
             }
+        }
+        else if (!isInChordPopupState){
+            if (event.getCode() == KeyCode.W) {
+                boardModel.getCurrentSnake().setSnakeDirectionUp();
+
+            }
+            else if (event.getCode() == KeyCode.D) {
+                boardModel.getCurrentSnake().setSnakeDirectionRight();
+
+            }
+            else if (event.getCode() == KeyCode.S) {
+                boardModel.getCurrentSnake().setSnakeDirectionDown();
+            }
+            else if (event.getCode() == KeyCode.A) {
+                boardModel.getCurrentSnake().setSnakeDirectionLeft();
+            }
+        }
+        //TODO handle presses from chordPopup
+
     }
 
     public void updateGrid() {
@@ -184,5 +206,7 @@ public class Controller {
         }
         return null;
     }
+
+
 
 }
