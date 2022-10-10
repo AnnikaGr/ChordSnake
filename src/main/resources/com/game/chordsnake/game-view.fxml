@@ -22,7 +22,7 @@
     </top>
     <center>
         <GridPane fx:id="gridGame" alignment="CENTER" gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity"
-                  minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#gridPressed" prefHeight="400.0"
+                  minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
                   prefWidth="400.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>

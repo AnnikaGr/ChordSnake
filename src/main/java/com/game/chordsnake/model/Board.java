@@ -111,11 +111,8 @@ public class Board {
         List<String> collectedChords = currentSnake.getCollectedChords();
         List<int[]> snakePositions = currentSnake.getSnakePosition();
 
-        System.out.println(snakePositions.get(0));
-
         int counter = 0;
-        for (int[] position : snakePositions
-        ) {
+        for (int[] position : snakePositions) {
             arrangement[position[0]][position[1]] = collectedChords.get(counter);
             counter++;
             //TODO check if snakeHead is on field with gameobject --> if yes calls ActOnEncouter)

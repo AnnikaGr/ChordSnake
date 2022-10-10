@@ -40,14 +40,9 @@ public class Snake {
             newHeadPosition = new int[]{snakePosition.get(0)[0] - 1, snakePosition.get(0)[1]};
         }
         snakePosition.set(0, newHeadPosition);
-        for (int i = 0; i < snakePosition.size(); i++) {
-            if (snakePosition.size() <= i) {
-                snakePosition.set(i + 1, tmp.get(i));
-            } else {
-                //snakePosition.add(i + 1, tmp.get(i));
-                //TODO handle the case that no new chord was added
-            }
-
+        for (int i = 0; i < snakePosition.size() - 1; i++) {
+            snakePosition.set(i + 1, tmp.get(i));
+            //TODO handle the case that no new chord was added
         }
     }
 
@@ -84,6 +79,14 @@ public class Snake {
 
     public int getSnakeDirection() {
         return direction;
+    }
+
+    public int getSnakeHeadX() {
+        return snakePosition.get(0)[0];
+    }
+
+    public int getSnakeHeadY() {
+        return snakePosition.get(0)[1];
     }
 
 }

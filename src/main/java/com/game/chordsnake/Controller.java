@@ -95,35 +95,12 @@ public class Controller {
     }
 
     @FXML
-    public void gridPressed(KeyEvent event) {
-        /*Node clickedNode = event.getPickResult().getIntersectedNode();
-        if (clickedNode != gridGame) {
-            //gameModel.setGameStarted(true);
-            Integer colIndex = GridPane.getColumnIndex(clickedNode);
-            Integer rowIndex = GridPane.getRowIndex(clickedNode);
-            System.out.println("Mouse pressed cell: " + colIndex + " And: " + rowIndex);
-        }*/
-        System.out.println("Key pressed");
-    }
-
-    @FXML
     public void handleKeyPress(KeyEvent event) {
         System.out.println("key event");
         if (gameInstance.getGameStarted() == false) {
             gameInstance.setGameStarted(true);
-
-            if (event.getCode() == KeyCode.A) {
-                if (gameInstance.getGameStarted()) {
-                    System.out.println("Scene: A key was pressed; first move");
-                    //TODO make move each second
-                    //while(true) {
-                    //delay(1000, () -> boardModel.updateArrangement());
-                    updateGrid();
-                }
-
-
-            }
-        } else if (!isInChordPopupState) {
+        }
+        if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
                 boardModel.getCurrentSnake().setSnakeDirectionUp();
 
@@ -133,15 +110,22 @@ public class Controller {
             } else if (event.getCode() == KeyCode.S) {
                 boardModel.getCurrentSnake().setSnakeDirectionDown();
             } else if (event.getCode() == KeyCode.A) {
-                boardModel.getCurrentSnake().setSnakeDirectionLeft();
-                System.out.println("Scene: A key was pressed");
-                updateGrid();
+                //SNAKE NOT DIE
+                if (boardModel.getCurrentSnake().getSnakeHeadX() - 1 < boardModel.getWidth() && boardModel.getCurrentSnake().getSnakeHeadX() - 1 >= 0) {
+                    boardModel.getCurrentSnake().setSnakeDirectionLeft();
+                    boardModel.updateArrangement();
+                    System.out.println("SNAKE HEAD " + boardModel.getCurrentSnake().getSnakeHeadX() + " " + boardModel.getCurrentSnake().getSnakeHeadY());
+                    updateGrid();
+                    //while(true) {
+                    //    delay(3000, () -> boardModel.updateArrangement());
+                    //    updateGrid();
+                    //}
+                }
+
             }
         }
         //TODO handle presses from chordPopup
-
     }
-
 
     //single grid on gridpane; initialized with string value
     //TODO for different ones set to different icons/empty/chords
@@ -149,12 +133,8 @@ public class Controller {
     public void updateGrid() {
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
-                Node node = getNodeFromGridPane(gridGame, i, j);
-                if (boardModel.arrangement[i][j] == "SH") {
-                    System.out.println(i + j);
-                }
-                //boardModel.arrangement[i][j]
-
+                //Node node = getNodeFromGridPane(gridGame, i, j);
+                labels[i][j].setText(boardModel.arrangement[i][j]);
             }
         }
     }
@@ -167,5 +147,4 @@ public class Controller {
         }
         return null;
     }
-
 }
