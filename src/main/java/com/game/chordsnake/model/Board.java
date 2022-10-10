@@ -67,13 +67,13 @@ public class Board {
         //randomize order
         Collections.shuffle(initialContent);
 
-        arrangement= new String[width][height];
+        arrangement = new String[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 String current = initialContent.get(width * i + j);
                 arrangement[i][j] = current;
-                if(current.equals("SH")){
-                    currentSnake= new Snake(i,j);
+                if (current.equals("SH")) {
+                    currentSnake = new Snake(i, j);
                 }
             }
         }
@@ -106,17 +106,17 @@ public class Board {
         return width;
     }
 
-    public void updateArrangement(){
+    public void updateArrangement() {
         currentSnake.shiftSnake();
-        List<String> collectedChords= currentSnake.getCollectedChords();
-        List<int[]> snakePositions =currentSnake.getSnakePosition();
+        List<String> collectedChords = currentSnake.getCollectedChords();
+        List<int[]> snakePositions = currentSnake.getSnakePosition();
 
         System.out.println(snakePositions.get(0));
 
-        int counter=0;
-        for (int[] position: snakePositions
-             ) {
-            arrangement[position[0]][position[1]]=collectedChords.get(counter);
+        int counter = 0;
+        for (int[] position : snakePositions
+        ) {
+            arrangement[position[0]][position[1]] = collectedChords.get(counter);
             counter++;
             //TODO check if snakeHead is on field with gameobject --> if yes calls ActOnEncouter)
         }

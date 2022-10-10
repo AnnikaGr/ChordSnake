@@ -6,20 +6,10 @@ import com.game.chordsnake.model.Song;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 
 public class Controller {
@@ -36,9 +26,25 @@ public class Controller {
     private Game gameInstance;
     private boolean isInChordPopupState = false;
 
-    public Controller(Game gameInstance){
+    public Controller(Game gameInstance) {
         this.gameInstance = gameInstance;
 
+    }
+
+    // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
+    public static void delay(long millis, Runnable continuation) {
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Thread.sleep(millis);
+                } catch (InterruptedException e) {
+                }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(event -> continuation.run());
+        new Thread(sleeper).start();
     }
 
     @FXML
@@ -50,6 +56,9 @@ public class Controller {
         initializeGrid();
 
     }
+
+
+    //when pressing on whole grid detected
 
     public void initializeGrid() {
         //labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
@@ -85,10 +94,6 @@ public class Controller {
         }*/
     }
 
-
-
-    //when pressing on whole grid detected
-
     @FXML
     public void gridPressed(KeyEvent event) {
         /*Node clickedNode = event.getPickResult().getIntersectedNode();
@@ -101,47 +106,50 @@ public class Controller {
         System.out.println("Key pressed");
     }
 
-
     @FXML
-    public void handleKeyPress (KeyEvent event){
-
-        if(gameInstance.getGameStarted()==false){
+    public void handleKeyPress(KeyEvent event) {
+        System.out.println("key event");
+        if (gameInstance.getGameStarted() == false) {
             gameInstance.setGameStarted(true);
 
             if (event.getCode() == KeyCode.A) {
-                if(gameInstance.getGameStarted())
-                    System.out.println("Scene: A key was pressed");
-                //TODO make move each second
-                //while(true) {
-                //delay(1000, () -> boardModel.updateArrangement());
-                updateGrid();
-                //}
+                if (gameInstance.getGameStarted()) {
+                    System.out.println("Scene: A key was pressed; first move");
+                    //TODO make move each second
+                    //while(true) {
+                    //delay(1000, () -> boardModel.updateArrangement());
+                    updateGrid();
+                }
+
+
             }
-        }
-        else if (!isInChordPopupState){
+        } else if (!isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
                 boardModel.getCurrentSnake().setSnakeDirectionUp();
 
-            }
-            else if (event.getCode() == KeyCode.D) {
+            } else if (event.getCode() == KeyCode.D) {
                 boardModel.getCurrentSnake().setSnakeDirectionRight();
 
-            }
-            else if (event.getCode() == KeyCode.S) {
+            } else if (event.getCode() == KeyCode.S) {
                 boardModel.getCurrentSnake().setSnakeDirectionDown();
-            }
-            else if (event.getCode() == KeyCode.A) {
+            } else if (event.getCode() == KeyCode.A) {
                 boardModel.getCurrentSnake().setSnakeDirectionLeft();
+                System.out.println("Scene: A key was pressed");
+                updateGrid();
             }
         }
         //TODO handle presses from chordPopup
 
     }
 
+
+    //single grid on gridpane; initialized with string value
+    //TODO for different ones set to different icons/empty/chords
+
     public void updateGrid() {
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
-                Node node = getNodeFromGridPane(gridGame,i,j);
+                Node node = getNodeFromGridPane(gridGame, i, j);
                 if (boardModel.arrangement[i][j] == "SH") {
                     System.out.println(i + j);
                 }
@@ -151,28 +159,9 @@ public class Controller {
         }
     }
 
-
-
-    //single grid on gridpane; initialized with string value
-    //TODO for different ones set to different icons/empty/chords
-
-    // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
-    public static void delay(long millis, Runnable continuation) {
-        Task<Void> sleeper = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try { Thread.sleep(millis); }
-                catch (InterruptedException e) { }
-                return null;
-            }
-        };
-        sleeper.setOnSucceeded(event -> continuation.run());
-        new Thread(sleeper).start();
-    }
-
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
-            if (gridPane.getColumnIndex(node)!= null && gridPane.getRowIndex(node)!= null && gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
+            if (gridPane.getColumnIndex(node) != null && gridPane.getRowIndex(node) != null && gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
                 return node;
             }
         }

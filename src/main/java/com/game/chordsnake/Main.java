@@ -4,11 +4,9 @@ import com.game.chordsnake.model.Game;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -55,6 +53,14 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    static public Stage getPrimaryStage() {
+        return Main.primaryStage;
+    }
+
+    private void setPrimaryStage(Stage stage) {
+        Main.primaryStage = stage;
     }
 
     @Override
@@ -104,14 +110,6 @@ public class Main extends Application {
     public void startGame(MouseEvent event) {
         //start from choosing instruments
         Main.setPane(1);
-    }
-
-    private void setPrimaryStage(Stage stage) {
-        Main.primaryStage = stage;
-    }
-
-    static public Stage getPrimaryStage() {
-        return Main.primaryStage;
     }
 
 }
