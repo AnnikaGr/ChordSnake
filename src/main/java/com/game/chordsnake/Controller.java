@@ -103,17 +103,28 @@ public class Controller {
         if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
                 boardModel.getCurrentSnake().setSnakeDirectionUp();
+                if (boardModel.getCurrentSnake().getSnakeHeadY() +1 >=0) {
+                    boardModel.getCurrentSnake().setSnakeDirectionUp();
+                    updateGrid();
+                }
 
             } else if (event.getCode() == KeyCode.D) {
                 boardModel.getCurrentSnake().setSnakeDirectionRight();
+                if (boardModel.getCurrentSnake().getSnakeHeadX() +1 < boardModel.getWidth()) {
+                    boardModel.getCurrentSnake().setSnakeDirectionRight();
+                    updateGrid();
+                }
 
             } else if (event.getCode() == KeyCode.S) {
                 boardModel.getCurrentSnake().setSnakeDirectionDown();
+                if (boardModel.getCurrentSnake().getSnakeHeadY() - 1 <boardModel.getHeight()) {
+                    boardModel.getCurrentSnake().setSnakeDirectionDown();
+                    updateGrid();
+                }
             } else if (event.getCode() == KeyCode.A) {
                 //SNAKE NOT DIE
-                if (boardModel.getCurrentSnake().getSnakeHeadX() - 1 < boardModel.getWidth() && boardModel.getCurrentSnake().getSnakeHeadX() - 1 >= 0) {
+                if (boardModel.getCurrentSnake().getSnakeHeadX() - 1 >= 0) {
                     boardModel.getCurrentSnake().setSnakeDirectionLeft();
-                    boardModel.updateArrangement();
                     System.out.println("SNAKE HEAD " + boardModel.getCurrentSnake().getSnakeHeadX() + " " + boardModel.getCurrentSnake().getSnakeHeadY());
                     updateGrid();
                     //while(true) {
@@ -131,6 +142,7 @@ public class Controller {
     //TODO for different ones set to different icons/empty/chords
 
     public void updateGrid() {
+        boardModel.updateArrangement();
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
                 //Node node = getNodeFromGridPane(gridGame, i, j);

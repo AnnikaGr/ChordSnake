@@ -1,5 +1,7 @@
 package com.game.chordsnake.model;
 
+import javafx.scene.control.Label;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -107,11 +109,13 @@ public class Board {
     }
 
     public void updateArrangement() {
+        int[] tailPositions = currentSnake.getSnakePosition().get((currentSnake.getSnakePosition().size() - 1));
         currentSnake.shiftSnake();
         List<String> collectedChords = currentSnake.getCollectedChords();
         List<int[]> snakePositions = currentSnake.getSnakePosition();
 
         int counter = 0;
+        arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         for (int[] position : snakePositions) {
             arrangement[position[0]][position[1]] = collectedChords.get(counter);
             counter++;

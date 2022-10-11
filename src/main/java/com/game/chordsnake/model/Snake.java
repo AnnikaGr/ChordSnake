@@ -31,16 +31,17 @@ public class Snake {
         List<int[]> tmp = snakePosition;
         int[] newHeadPosition = null;
         if (direction == 0) { //up
-            newHeadPosition = new int[]{snakePosition.get(0)[0], snakePosition.get(0)[1] + 1};
-        } else if (direction == 3) { //down
             newHeadPosition = new int[]{snakePosition.get(0)[0], snakePosition.get(0)[1] - 1};
+        } else if (direction == 3) { //down
+            newHeadPosition = new int[]{snakePosition.get(0)[0], snakePosition.get(0)[1] + 1};
+
         } else if (direction == 2) { //right
             newHeadPosition = new int[]{snakePosition.get(0)[0] + 1, snakePosition.get(0)[1]};
         } else if (direction == 1) { //left
             newHeadPosition = new int[]{snakePosition.get(0)[0] - 1, snakePosition.get(0)[1]};
         }
         snakePosition.set(0, newHeadPosition);
-        for (int i = 0; i < snakePosition.size() - 1; i++) {
+        for (int i = 1; i < snakePosition.size() - 1; i++) {
             snakePosition.set(i + 1, tmp.get(i));
             //TODO handle the case that no new chord was added
         }
