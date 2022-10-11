@@ -44,7 +44,6 @@ public class Main extends Application {
 
     private Game gameInstance = new Game();
 
-
     public static void setPane(int idPane) {
         root.getChildren().remove(listPane.get(idCurrentPane));
         root.getChildren().add(listPane.get(idPane));

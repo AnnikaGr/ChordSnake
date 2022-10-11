@@ -8,6 +8,7 @@ public class Snake {
     private ArrayList<String> collectedChords = new ArrayList<>();
     private int direction; // up=0, left=1, right=2, down=3
 
+
     //position of Snake
     private List<int[]> snakePosition = new ArrayList<>();
 
@@ -21,8 +22,15 @@ public class Snake {
         collectedChords.remove(index);
     }
 
-    public void appendElement(String chordName) {
+    public void appendElement(int oldTailX, int oldTailY, String chordName) {
         collectedChords.add(chordName);
+        System.out.println("collectedChords "+collectedChords);
+        snakePosition.add(new int[]{oldTailX, oldTailY});
+        System.out.println("snakePosition.size() "+snakePosition.size());
+        for (int[]ele : snakePosition) {
+            System.out.println(ele[0]+" " + ele[1]);
+        }
+        //TODO Snake touch wall after append
         //TODO play sound
     }
 
@@ -40,11 +48,9 @@ public class Snake {
         } else if (direction == 1) { //left
             newHeadPosition = new int[]{snakePosition.get(0)[0] - 1, snakePosition.get(0)[1]};
         }
-        snakePosition.set(0, newHeadPosition);
-        for (int i = 1; i < snakePosition.size() - 1; i++) {
-            snakePosition.set(i + 1, tmp.get(i));
-            //TODO handle the case that no new chord was added
-        }
+        snakePosition.remove(snakePosition.size()-1);
+        snakePosition.add(0, newHeadPosition);
+
     }
 
     //clears snake and leaves only the snake head

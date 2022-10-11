@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Board {
     private final int height = 15;
@@ -15,7 +16,8 @@ public class Board {
     private String[] savedChords;
     private boolean gameWon;
     private List<String> initialContent;
-
+    private String encounteredElement;
+    private final String[] possibleChords = {"C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"};
     public Board() {
         initialContent = new ArrayList<>(height * width);
 
@@ -109,12 +111,29 @@ public class Board {
 
     public void updateArrangement() {
         int[] tailPositions = currentSnake.getSnakePosition().get((currentSnake.getSnakePosition().size() - 1));
+
         currentSnake.shiftSnake();
+
+        if(encounteredElement.equals("Z")) {
+            arrangement[tailPositions[0]][tailPositions[1]] = "Z";
+        } else if (encounteredElement.equals("T")) {
+            arrangement[tailPositions[0]][tailPositions[1]] = "Z";
+            //TODO trash; remove a chord
+        } else if (encounteredElement.equals("I")) {
+            //TODO instrument sign; drop collected chords
+            arrangement[tailPositions[0]][tailPositions[1]] = "Z";
+        }
+        for (String possibleChord : possibleChords) {
+            if (encounteredElement.equals(possibleChord)) {
+                System.out.println("chord");
+                currentSnake.appendElement(tailPositions[0], tailPositions[1], encounteredElement);
+            }
+        }
         List<String> collectedChords = currentSnake.getCollectedChords();
         List<int[]> snakePositions = currentSnake.getSnakePosition();
 
         int counter = 0;
-        arrangement[tailPositions[0]][tailPositions[1]] = "Z";
+
         for (int[] position : snakePositions) {
             arrangement[position[0]][position[1]] = collectedChords.get(counter);
             counter++;
@@ -127,7 +146,6 @@ public class Board {
 
 
     private List<String> getRandomChords(int number) {
-        String[] possibleChords = {"C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"};
         List<String> selectedChords = new ArrayList<>();
         for (int i = 0; i < number; i++) {
             selectedChords.add(possibleChords[(int) Math.floor(Math.random() * possibleChords.length)]);
@@ -139,5 +157,8 @@ public class Board {
         return currentSnake;
     }
 
+    public void setEncounter(int x, int y) {
+        encounteredElement = arrangement[x][y];
+    }
 
 }

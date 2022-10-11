@@ -22,13 +22,12 @@ public class Controller {
     private Song songModel;
     private Board boardModel;
     private Label[][] labels;
-
     private Game gameInstance;
     private boolean isInChordPopupState = false;
+    private String encounteredElement;
 
     public Controller(Game gameInstance) {
         this.gameInstance = gameInstance;
-
     }
 
     // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
@@ -93,36 +92,45 @@ public class Controller {
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
-        System.out.println("key event");
+        int headX = boardModel.getCurrentSnake().getSnakeHeadX() ;
+        int headY = boardModel.getCurrentSnake().getSnakeHeadY();
+        int newHeadX = headX;
+        int newHeadY = headY;
         if (gameInstance.getGameStarted() == false) {
             gameInstance.setGameStarted(true);
         }
         if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
                 boardModel.getCurrentSnake().setSnakeDirectionUp();
-                if (boardModel.getCurrentSnake().getSnakeHeadY() +1 >=0) {
+                if (headY -1 >=0) {
                     boardModel.getCurrentSnake().setSnakeDirectionUp();
+                    newHeadY = headY - 1;
+                    boardModel.setEncounter(newHeadX, newHeadY);
                     updateGrid();
                 } else Main.setPane(4); //fail page
 
             } else if (event.getCode() == KeyCode.D) {
                 boardModel.getCurrentSnake().setSnakeDirectionRight();
-                if (boardModel.getCurrentSnake().getSnakeHeadX() +1 < boardModel.getWidth()) {
+                if (headX +1 < boardModel.getWidth()) {
                     boardModel.getCurrentSnake().setSnakeDirectionRight();
+                    newHeadX = headX + 1;
+                    boardModel.setEncounter(newHeadX, newHeadY);
                     updateGrid();
                 } else Main.setPane(4); //fail page
 
             } else if (event.getCode() == KeyCode.S) {
                 boardModel.getCurrentSnake().setSnakeDirectionDown();
-                if (boardModel.getCurrentSnake().getSnakeHeadY() - 1 <boardModel.getHeight()) {
+                if (headY + 1 <boardModel.getHeight()) {
                     boardModel.getCurrentSnake().setSnakeDirectionDown();
+                    newHeadY = headY + 1;
+                    boardModel.setEncounter(newHeadX, newHeadY);
                     updateGrid();
                 } else Main.setPane(4); //fail page
             } else if (event.getCode() == KeyCode.A) {
-                //SNAKE NOT DIE
-                if (boardModel.getCurrentSnake().getSnakeHeadX() - 1 >= 0) {
+                if (headX - 1 >= 0) {
                     boardModel.getCurrentSnake().setSnakeDirectionLeft();
-                    System.out.println("SNAKE HEAD " + boardModel.getCurrentSnake().getSnakeHeadX() + " " + boardModel.getCurrentSnake().getSnakeHeadY());
+                    newHeadX = headX - 1;
+                    boardModel.setEncounter(newHeadX, newHeadY);
                     updateGrid();
                     //while(true) {
                     //    delay(3000, () -> boardModel.updateArrangement());
