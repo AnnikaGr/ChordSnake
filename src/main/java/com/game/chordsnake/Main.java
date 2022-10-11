@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
-    private final static int totalPaneNum = 4;
+    private final static int totalPaneNum = 6;
     static AnchorPane root;
     static List<BorderPane> listPane = new ArrayList<>(totalPaneNum);
     private static int idCurrentPane = 0;
@@ -68,10 +68,11 @@ public class Main extends Application {
         setPrimaryStage(stage);
 
         root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("anchor.fxml")));
-        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("start-view.fxml"))));
-        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("instrument-selection-view.fxml"))));
-        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("song-selection-view.fxml"))));
-
+        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("start-view.fxml")))); //page 0
+        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("instrument-selection-view.fxml")))); //page 1
+        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("song-selection-view.fxml")))); //page 2
+        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("success-view.fxml")))); //page 3
+        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("fail-view.fxml")))); //page 4
         btnGuitar.setToggleGroup(instrumentGroup);
         btnCello.setToggleGroup(instrumentGroup);
         btnPiano.setToggleGroup(instrumentGroup);
@@ -79,7 +80,7 @@ public class Main extends Application {
         btnSong2.setToggleGroup(songGroup);
         btnSong3.setToggleGroup(songGroup);
 
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml")); //page 5
         gameLoader.setController(new Controller(gameInstance));
         listPane.add(gameLoader.load());
 
@@ -103,13 +104,19 @@ public class Main extends Application {
     public void confirmSong() {
         int toggleGroupValue = songGroup.getToggles().indexOf(songGroup.getSelectedToggle());
         gameInstance.setSongChosenID(toggleGroupValue);
-        Main.setPane(3);
+        Main.setPane(5);
     }
 
     @FXML
     public void startGame(MouseEvent event) {
         //start from choosing instruments
         Main.setPane(1);
+    }
+
+    @FXML
+    public void tryAgain() {
+        //TODO select song again? or restart the game?
+        Main.setPane(5);
     }
 
 }

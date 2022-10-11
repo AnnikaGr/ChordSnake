@@ -65,7 +65,6 @@ public class Board {
             initialContent.add("Z");
         }
 
-
         //randomize order
         Collections.shuffle(initialContent);
 
@@ -96,8 +95,8 @@ public class Board {
         return initialContent;
     }
 
-    public String getOneChord(int chordIndex) {
-        return initialContent.get(chordIndex);
+    public String getOneChord(int x, int y) {
+        return arrangement[x][y];
     }
 
     public int getHeight() {

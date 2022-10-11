@@ -11,7 +11,7 @@ public class Snake {
     //position of Snake
     private List<int[]> snakePosition = new ArrayList<>();
 
-    public Snake(int head_y, int head_x) {
+    public Snake(int head_x, int head_y) {
         int[] coords = {head_x, head_y};
         snakePosition.add(coords);
         collectedChords.add("SH");

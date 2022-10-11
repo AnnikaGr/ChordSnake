@@ -54,17 +54,14 @@ public class Controller {
         boardModel.setBoard(songModel);
         labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
         initializeGrid();
-
     }
-
 
     //when pressing on whole grid detected
 
     public void initializeGrid() {
-        //labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
-                labels[i][j] = new Label(boardModel.getOneChord(boardModel.getWidth() * i + j));
+                labels[i][j] = new Label(boardModel.getOneChord(i,j));
                 gridGame.add(labels[i][j], i, j);
             }
         }
@@ -106,21 +103,21 @@ public class Controller {
                 if (boardModel.getCurrentSnake().getSnakeHeadY() +1 >=0) {
                     boardModel.getCurrentSnake().setSnakeDirectionUp();
                     updateGrid();
-                }
+                } else Main.setPane(4); //fail page
 
             } else if (event.getCode() == KeyCode.D) {
                 boardModel.getCurrentSnake().setSnakeDirectionRight();
                 if (boardModel.getCurrentSnake().getSnakeHeadX() +1 < boardModel.getWidth()) {
                     boardModel.getCurrentSnake().setSnakeDirectionRight();
                     updateGrid();
-                }
+                } else Main.setPane(4); //fail page
 
             } else if (event.getCode() == KeyCode.S) {
                 boardModel.getCurrentSnake().setSnakeDirectionDown();
                 if (boardModel.getCurrentSnake().getSnakeHeadY() - 1 <boardModel.getHeight()) {
                     boardModel.getCurrentSnake().setSnakeDirectionDown();
                     updateGrid();
-                }
+                } else Main.setPane(4); //fail page
             } else if (event.getCode() == KeyCode.A) {
                 //SNAKE NOT DIE
                 if (boardModel.getCurrentSnake().getSnakeHeadX() - 1 >= 0) {
@@ -131,7 +128,7 @@ public class Controller {
                     //    delay(3000, () -> boardModel.updateArrangement());
                     //    updateGrid();
                     //}
-                }
+                } else Main.setPane(4); //fail page
 
             }
         }
@@ -151,6 +148,9 @@ public class Controller {
         }
     }
 
+
+    //not using this atm
+    /*
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (gridPane.getColumnIndex(node) != null && gridPane.getRowIndex(node) != null && gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
@@ -158,5 +158,5 @@ public class Controller {
             }
         }
         return null;
-    }
+    }*/
 }
