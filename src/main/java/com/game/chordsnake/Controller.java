@@ -3,6 +3,9 @@ package com.game.chordsnake;
 import com.game.chordsnake.model.Board;
 import com.game.chordsnake.model.Game;
 import com.game.chordsnake.model.Song;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,6 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Controller {
@@ -25,6 +32,7 @@ public class Controller {
     private Game gameInstance;
     private boolean isInChordPopupState = false;
     private String encounteredElement;
+    int speed=3;
 
     public Controller(Game gameInstance) {
         this.gameInstance = gameInstance;
@@ -98,6 +106,24 @@ public class Controller {
         int newHeadY = headY;
         if (gameInstance.getGameStarted() == false) {
             gameInstance.setGameStarted(true);
+            // inspired by https://github.com/Gaspared/snake/blob/master/Main.java
+            new AnimationTimer() {
+                long lastTick = 0;
+
+                public void handle(long now) {
+                    if (lastTick == 0) {
+                        lastTick = now;
+                        updateGrid();
+                        return;
+                    }
+
+                    if (now - lastTick > 1000000000 / speed) {
+                        lastTick = now;
+                        updateGrid();
+                    }
+                }
+
+            }.start();
         }
         if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
