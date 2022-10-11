@@ -21,6 +21,9 @@ public class Snake {
     public void removeElement(int index) {
         collectedChords.remove(index);
     }
+    public void removeLastElement() {
+        collectedChords.remove(collectedChords.size()-1);
+    }
 
     public void appendElement(int oldTailX, int oldTailY, String chordName) {
         collectedChords.add(chordName);
@@ -60,6 +63,9 @@ public class Snake {
 
     }
 
+    public List<String> getCollectedChordsWithoutHead() {
+        return collectedChords.subList(1,collectedChords.size());
+    }
     public List<String> getCollectedChords() {
         return collectedChords;
     }
