@@ -1,11 +1,10 @@
 package com.game.chordsnake.model;
 
-import javafx.scene.control.Label;
+import com.game.chordsnake.Main;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class Board {
     private final int height = 15;
@@ -109,10 +108,17 @@ public class Board {
         return width;
     }
 
-    public void updateArrangement() {
+    public boolean updateArrangement() {
         int[] tailPositions = currentSnake.getSnakePosition().get((currentSnake.getSnakePosition().size() - 1));
 
         currentSnake.shiftSnake();
+        int[] newHeadPosition = currentSnake.getSnakePosition().get(0);
+        //if snakehead out of grid --> game failed
+        if (newHeadPosition[0]  <=-1 || newHeadPosition[1] <=-1 || newHeadPosition[0]>=getWidth() || newHeadPosition[1]>=getHeight()){
+            return false;
+        }
+
+        setEncounter(newHeadPosition[0], newHeadPosition[1]);
 
         if(encounteredElement.equals("Z")) {
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
@@ -139,6 +145,7 @@ public class Board {
             counter++;
             //TODO check if snakeHead is on field with gameobject --> if yes calls ActOnEncouter)
         }
+        return true;
     }
 
     //TODO private actOnEncounter (x,y)
@@ -159,6 +166,10 @@ public class Board {
 
     public void setEncounter(int x, int y) {
         encounteredElement = arrangement[x][y];
+    }
+
+    public String getEncounter() {
+        return encounteredElement;
     }
 
 }

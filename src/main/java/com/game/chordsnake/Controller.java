@@ -9,9 +9,12 @@ import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
@@ -69,7 +72,27 @@ public class Controller {
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
                 labels[i][j] = new Label(boardModel.getOneChord(i,j));
+
                 gridGame.add(labels[i][j], i, j);
+
+                Button button= new Button("");
+                button.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                button.setOnMouseClicked(e -> {
+                    if (e.getButton().equals(MouseButton.PRIMARY)) {
+//            if (event.getClickCount() == 2) {
+                        Node tmp = (Node) e.getSource();
+                        int row = gridGame.getRowIndex(tmp);
+                        int col = gridGame.getColumnIndex(tmp);
+
+                        if (labels[col][row].equals("T") && boardModel.getEncounter().equals("T")) { //TODO do to work for whole snake length
+                            System.out.println("Double click on T!");
+                            boardModel.getCurrentSnake().clearSnake();
+                            //}
+                        }
+
+                    }
+                });
+                gridGame.add(button, i, j);
             }
         }
 
@@ -97,6 +120,13 @@ public class Controller {
             }
         }*/
     }
+
+
+
+
+
+
+
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
@@ -128,52 +158,29 @@ public class Controller {
         if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
                 boardModel.getCurrentSnake().setSnakeDirectionUp();
-                if (headY -1 >=0) {
-                    boardModel.getCurrentSnake().setSnakeDirectionUp();
-                    newHeadY = headY - 1;
-                    boardModel.setEncounter(newHeadX, newHeadY);
-                    updateGrid();
-                } else Main.setPane(4); //fail page
-
             } else if (event.getCode() == KeyCode.D) {
                 boardModel.getCurrentSnake().setSnakeDirectionRight();
-                if (headX +1 < boardModel.getWidth()) {
-                    boardModel.getCurrentSnake().setSnakeDirectionRight();
-                    newHeadX = headX + 1;
-                    boardModel.setEncounter(newHeadX, newHeadY);
-                    updateGrid();
-                } else Main.setPane(4); //fail page
-
             } else if (event.getCode() == KeyCode.S) {
                 boardModel.getCurrentSnake().setSnakeDirectionDown();
-                if (headY + 1 <boardModel.getHeight()) {
-                    boardModel.getCurrentSnake().setSnakeDirectionDown();
-                    newHeadY = headY + 1;
-                    boardModel.setEncounter(newHeadX, newHeadY);
-                    updateGrid();
-                } else Main.setPane(4); //fail page
             } else if (event.getCode() == KeyCode.A) {
-                if (headX - 1 >= 0) {
-                    boardModel.getCurrentSnake().setSnakeDirectionLeft();
-                    newHeadX = headX - 1;
-                    boardModel.setEncounter(newHeadX, newHeadY);
-                    updateGrid();
-                    //while(true) {
-                    //    delay(3000, () -> boardModel.updateArrangement());
-                    //    updateGrid();
-                    //}
-                } else Main.setPane(4); //fail page
-
-            }
+                boardModel.getCurrentSnake().setSnakeDirectionLeft();
+                            }
         }
-        //TODO handle presses from chordPopup
+        else{
+            //TODO handle presses from chordPopup
+        }
+
     }
 
     //single grid on gridpane; initialized with string value
     //TODO for different ones set to different icons/empty/chords
 
     public void updateGrid() {
-        boardModel.updateArrangement();
+
+        boolean success =boardModel.updateArrangement();
+        if(!success){
+            Main.setPane(4); //fail page
+        }
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
                 //Node node = getNodeFromGridPane(gridGame, i, j);
@@ -184,13 +191,13 @@ public class Controller {
 
 
     //not using this atm
-    /*
+
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
-            if (gridPane.getColumnIndex(node) != null && gridPane.getRowIndex(node) != null && gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
+            if (gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
                 return node;
             }
         }
         return null;
-    }*/
+    }
 }
