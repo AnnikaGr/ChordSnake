@@ -85,13 +85,14 @@ public class Controller {
                         Node tmp = (Node) e.getSource();
                         int row = gridGame.getRowIndex(tmp);
                         int col = gridGame.getColumnIndex(tmp);
-                        System.out.println("Double click on T!");
 
                         boolean snakeOnTrash= containsArray(boardModel.getCurrentSnake().getSnakePosition(), boardModel.getTrashPosition());
                         boolean clickedOnTrash = boardModel.getTrashPosition()[0]==col && boardModel.getTrashPosition()[1]==row;
                         if (clickedOnTrash && snakeOnTrash) {
-                            System.out.println("Double click on T and snake on it!");
                             List<int[]> snakePositions = boardModel.getCurrentSnake().getSnakePosition();
+                            if(snakePositions.size()==1){ //only snake head exists
+                                e.consume();
+                            }
                             int[] lastElementPosition = snakePositions.get(boardModel.getCurrentSnake().getSnakePosition().size()-1);
                             boardModel.arrangement[lastElementPosition[0]][lastElementPosition[1]] = "Z";
                             boardModel.getCurrentSnake().removeLastElement();
