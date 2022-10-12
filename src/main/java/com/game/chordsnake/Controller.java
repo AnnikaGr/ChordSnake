@@ -4,24 +4,17 @@ import com.game.chordsnake.model.Board;
 import com.game.chordsnake.model.Game;
 import com.game.chordsnake.model.Song;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
-import javafx.util.Duration;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class Controller {
@@ -30,6 +23,8 @@ public class Controller {
     //radio button group for instrument selection
     @FXML
     private GridPane gridGame;
+    @FXML
+    private GridPane chordChunk;
 
     private Song songModel;
     private Board boardModel;
@@ -80,26 +75,10 @@ public class Controller {
                 Button button= new Button("");
                 button.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
                 button.setOnMouseClicked(e -> {
-                    if (e.getButton().equals(MouseButton.PRIMARY)) {
-            if (e.getClickCount() == 2) {
-                        Node tmp = (Node) e.getSource();
-                        int row = gridGame.getRowIndex(tmp);
-                        int col = gridGame.getColumnIndex(tmp);
-
-                        boolean snakeOnTrash= containsArray(boardModel.getCurrentSnake().getSnakePosition(), boardModel.getTrashPosition());
-                        boolean clickedOnTrash = boardModel.getTrashPosition()[0]==col && boardModel.getTrashPosition()[1]==row;
-                        if (clickedOnTrash && snakeOnTrash) {
-                            List<int[]> snakePositions = boardModel.getCurrentSnake().getSnakePosition();
-                            if(snakePositions.size()==1){ //only snake head exists
-                                e.consume();
-                            }
-                            int[] lastElementPosition = snakePositions.get(boardModel.getCurrentSnake().getSnakePosition().size()-1);
-                            boardModel.arrangement[lastElementPosition[0]][lastElementPosition[1]] = "Z";
-                            boardModel.getCurrentSnake().removeLastElement();
-                            }
-                        }
-
-                    }
+                    cellOnMouseClick(e);
+                });
+                button.setOnDragDetected( e ->{
+                    cellDragDetected(e);
                 });
                 gridGame.add(button, i, j);
             }
@@ -139,10 +118,37 @@ public class Controller {
         return false;
     }
 
+//single grid on gridpane; initialized with string value
+    //TODO for different ones set to different icons/empty/chords
+
+    public void updateGrid() {
+
+        boolean success =boardModel.updateArrangement();
+        if(!success){
+            Main.setPane(4); //fail page
+        }
+        for (int i = 0; i < boardModel.getWidth(); i++) {
+            for (int j = 0; j < boardModel.getHeight(); j++) {
+                //Node node = getNodeFromGridPane(gridGame, i, j);
+                labels[i][j].setText(boardModel.arrangement[i][j]);
+            }
+        }
+    }
 
 
+    //not using this atm
+
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
+    }
 
 
+// --- Event Handlers -------------------------------------------------------------------------------
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
@@ -188,32 +194,74 @@ public class Controller {
 
     }
 
-    //single grid on gridpane; initialized with string value
-    //TODO for different ones set to different icons/empty/chords
+    public void cellOnMouseClick(MouseEvent e){
+        if (e.getButton().equals(MouseButton.PRIMARY)) {
+            if (e.getClickCount() == 2) {
+                Node tmp = (Node) e.getSource();
+                int row = gridGame.getRowIndex(tmp);
+                int col = gridGame.getColumnIndex(tmp);
 
-    public void updateGrid() {
-
-        boolean success =boardModel.updateArrangement();
-        if(!success){
-            Main.setPane(4); //fail page
-        }
-        for (int i = 0; i < boardModel.getWidth(); i++) {
-            for (int j = 0; j < boardModel.getHeight(); j++) {
-                //Node node = getNodeFromGridPane(gridGame, i, j);
-                labels[i][j].setText(boardModel.arrangement[i][j]);
+                boolean snakeOnTrash= containsArray(boardModel.getCurrentSnake().getSnakePosition(), boardModel.getTrashPosition());
+                boolean clickedOnTrash = boardModel.getTrashPosition()[0]==col && boardModel.getTrashPosition()[1]==row;
+                if (clickedOnTrash && snakeOnTrash) {
+                    List<int[]> snakePositions = boardModel.getCurrentSnake().getSnakePosition();
+                    if(snakePositions.size()==1){ //only snake head exists
+                        e.consume();
+                    }
+                    int[] lastElementPosition = snakePositions.get(boardModel.getCurrentSnake().getSnakePosition().size()-1);
+                    boardModel.arrangement[lastElementPosition[0]][lastElementPosition[1]] = "Z";
+                    boardModel.getCurrentSnake().removeLastElement();
+                }
             }
         }
     }
 
 
-    //not using this atm
+    public void cellDragDetected(MouseEvent event){
+        Node tmp = (Node) event.getSource();
+        int row = gridGame.getRowIndex(tmp);
+        int col = gridGame.getColumnIndex(tmp);
 
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
-                return node;
-            }
+        boolean snakeOnInstrument= containsArray(boardModel.getCurrentSnake().getSnakePosition(), boardModel.getInstrumentPosition());
+        boolean clickedOnInstrument = boardModel.getInstrumentPosition()[0]==col && boardModel.getInstrumentPosition()[1]==row;
+        if (clickedOnInstrument && snakeOnInstrument) {
+            Dragboard db = gridGame.startDragAndDrop(TransferMode.ANY);
+            /* Put a string on a dragboard */
+            ClipboardContent content = new ClipboardContent();
+            content.putString("started");
+            db.setContent(content);
+            event.consume();
         }
-        return null;
-    }
+     }
+
+     @FXML
+    public void savingGridOnDragOver (DragEvent event){
+         if (event.getDragboard().hasString()) {
+             event.acceptTransferModes(TransferMode.ANY);
+         }
+     }
+
+     @FXML
+    public void savingGridOnDragDropped (DragEvent event){
+        List<String> collectedChords = boardModel.getCurrentSnake().getCollectedChordsWithoutHead();
+         if(collectedChords.size()==0){ //only snake head exists
+             event.consume();
+         }
+
+        int counter = 0;
+         for (String chord: collectedChords
+              ) {
+             chordChunk.add(new Label(chord), counter, 0);
+             counter++;
+         }
+         List<int[]> collectedChordsPositions = boardModel.getCurrentSnake().getSnakePosition().subList(1, boardModel.getCurrentSnake().getSnakePosition().size());
+         for (int[] position:collectedChordsPositions
+              ) {
+             boardModel.arrangement[position[0]][position[1]] = "Z";
+         }
+
+         boardModel.getCurrentSnake().clearSnake();
+     }
+
+
 }
