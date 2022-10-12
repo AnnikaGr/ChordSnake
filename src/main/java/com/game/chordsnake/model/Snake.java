@@ -64,11 +64,20 @@ public class Snake {
         collectedChords = new ArrayList<String>();
         collectedChords.add("SH");
 
+        List<int[]> oldPosition = snakePosition;
+        snakePosition= new ArrayList<>();
+        snakePosition.add(oldPosition.get(0));
+
     }
 
     public List<String> getCollectedChordsWithoutHead() {
         return collectedChords.subList(1,collectedChords.size());
     }
+
+    public List<int[]> getCollectedChordsPositions() {
+        return snakePosition.subList(1,snakePosition.size());
+    }
+
     public List<String> getCollectedChords() {
         return collectedChords;
     }
