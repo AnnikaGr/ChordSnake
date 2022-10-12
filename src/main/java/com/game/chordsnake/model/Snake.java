@@ -23,6 +23,7 @@ public class Snake {
     }
     public void removeLastElement() {
         collectedChords.remove(collectedChords.size()-1);
+        snakePosition.remove(collectedChords.size()-1);
     }
 
     public void appendElement(int oldTailX, int oldTailY, String chordName) {

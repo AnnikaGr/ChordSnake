@@ -18,6 +18,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,7 +37,7 @@ public class Controller {
     private Game gameInstance;
     private boolean isInChordPopupState = false;
     private String encounteredElement;
-    int speed=3;
+    int speed=1;
 
     public Controller(Game gameInstance) {
         this.gameInstance = gameInstance;
@@ -79,15 +81,21 @@ public class Controller {
                 button.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
                 button.setOnMouseClicked(e -> {
                     if (e.getButton().equals(MouseButton.PRIMARY)) {
-//            if (event.getClickCount() == 2) {
+            if (e.getClickCount() == 2) {
                         Node tmp = (Node) e.getSource();
                         int row = gridGame.getRowIndex(tmp);
                         int col = gridGame.getColumnIndex(tmp);
+                        System.out.println("Double click on T!");
 
-                        if (labels[col][row].equals("T") && boardModel.getEncounter().equals("T")) { //TODO do to work for whole snake length
-                            System.out.println("Double click on T!");
-                            boardModel.getCurrentSnake().clearSnake();
-                            //}
+                        boolean snakeOnTrash= containsArray(boardModel.getCurrentSnake().getSnakePosition(), boardModel.getTrashPosition());
+                        boolean clickedOnTrash = boardModel.getTrashPosition()[0]==col && boardModel.getTrashPosition()[1]==row;
+                        if (clickedOnTrash && snakeOnTrash) {
+                            System.out.println("Double click on T and snake on it!");
+                            List<int[]> snakePositions = boardModel.getCurrentSnake().getSnakePosition();
+                            int[] lastElementPosition = snakePositions.get(boardModel.getCurrentSnake().getSnakePosition().size()-1);
+                            boardModel.arrangement[lastElementPosition[0]][lastElementPosition[1]] = "Z";
+                            boardModel.getCurrentSnake().removeLastElement();
+                            }
                         }
 
                     }
@@ -121,7 +129,14 @@ public class Controller {
         }*/
     }
 
-
+    public static boolean containsArray(List<int[]> list, int[] probe) {
+        for (int[] element : list) {
+            if (Arrays.equals(element, probe)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 

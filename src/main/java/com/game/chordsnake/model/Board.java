@@ -12,11 +12,14 @@ public class Board {
     public String[][] arrangement;
     private Song currentSong;
     private Snake currentSnake;
+    private int[] trashPosition;
+    private int[] instrumentPosition;
+
     private String[] savedChords;
     private boolean gameWon;
     private List<String> initialContent;
     private String encounteredElement;
-    private final String[] possibleChords = {"C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"};
+    private final String[] possibleChords = {"C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"}; //TODO update possible Chords
     public Board() {
         initialContent = new ArrayList<>(height * width);
 
@@ -76,6 +79,12 @@ public class Board {
                 arrangement[i][j] = current;
                 if (current.equals("SH")) {
                     currentSnake = new Snake(i, j);
+                }
+                if (current.equals("T")) {
+                    trashPosition = new int[]{i, j};
+                }
+                if (current.equals("I")) {
+                    instrumentPosition = new int[]{i, j};
                 }
             }
         }
@@ -170,6 +179,14 @@ public class Board {
 
     public String getEncounter() {
         return encounteredElement;
+    }
+
+    public int[] getTrashPosition() {
+        return trashPosition;
+    }
+
+    public int[] getInstrumentPosition() {
+        return instrumentPosition;
     }
 
 }
