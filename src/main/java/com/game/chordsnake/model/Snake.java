@@ -1,7 +1,16 @@
 package com.game.chordsnake.model;
 
+
+import com.game.chordsnake.Main;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Snake {
     //chords in Snake
@@ -21,18 +30,27 @@ public class Snake {
     public void removeElement(int index) {
         collectedChords.remove(index);
     }
+
     public void removeLastElement() {
-        collectedChords.remove(collectedChords.size()-1);
-        snakePosition.remove(collectedChords.size()-1);
+        collectedChords.remove(collectedChords.size() - 1);
+        snakePosition.remove(collectedChords.size() - 1);
     }
 
     public void appendElement(int oldTailX, int oldTailY, String chordName) {
         collectedChords.add(chordName);
         snakePosition.add(new int[]{oldTailX, oldTailY});
-        for (int[]ele : snakePosition) {
-            System.out.println(ele[0]+" " + ele[1]);
+        for (int[] ele : snakePosition) {
+            System.out.println(ele[0] + " " + ele[1]);
         }
-        //TODO play sound
+
+        try {
+            Clip sound = AudioSystem.getClip();
+            sound.open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + chordName + ".wav"))));
+            sound.start();
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void setSnake(int head_x, int head_y) {
@@ -54,7 +72,7 @@ public class Snake {
         } else if (direction == 1) { //left
             newHeadPosition = new int[]{snakePosition.get(0)[0] - 1, snakePosition.get(0)[1]};
         }
-        snakePosition.remove(snakePosition.size()-1);
+        snakePosition.remove(snakePosition.size() - 1);
         snakePosition.add(0, newHeadPosition);
 
     }
@@ -65,17 +83,17 @@ public class Snake {
         collectedChords.add("SH");
 
         List<int[]> oldPosition = snakePosition;
-        snakePosition= new ArrayList<>();
+        snakePosition = new ArrayList<>();
         snakePosition.add(oldPosition.get(0));
 
     }
 
     public List<String> getCollectedChordsWithoutHead() {
-        return collectedChords.subList(1,collectedChords.size());
+        return collectedChords.subList(1, collectedChords.size());
     }
 
     public List<int[]> getCollectedChordsPositions() {
-        return snakePosition.subList(1,snakePosition.size());
+        return snakePosition.subList(1, snakePosition.size());
     }
 
     public List<String> getCollectedChords() {

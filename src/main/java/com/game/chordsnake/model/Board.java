@@ -1,23 +1,24 @@
 package com.game.chordsnake.model;
 
-import com.game.chordsnake.Main;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Board {
     private final int height = 15;
     private final int width = 15;
+    private final String[] possibleChords = {"C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"}; //TODO update possible Chords
     public String[][] arrangement;
     private Song currentSong;
     private Snake currentSnake;
     private int[] trashPosition;
     private int[] instrumentPosition;
-
     private String[] savedChords;
     private boolean gameWon;
     private List<String> initialContent;
     private String encounteredElement;
-    private final String[] possibleChords = {"C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"}; //TODO update possible Chords
+
     public Board() {
         initialContent = new ArrayList<>(height * width);
 
@@ -121,13 +122,13 @@ public class Board {
         currentSnake.shiftSnake();
         int[] newHeadPosition = currentSnake.getSnakePosition().get(0);
         //if snakehead out of grid --> game failed
-        if (newHeadPosition[0]  <=-1 || newHeadPosition[1] <=-1 || newHeadPosition[0]>=getWidth() || newHeadPosition[1]>=getHeight()){
+        if (newHeadPosition[0] <= -1 || newHeadPosition[1] <= -1 || newHeadPosition[0] >= getWidth() || newHeadPosition[1] >= getHeight()) {
             return false;
         }
 
         setEncounter(newHeadPosition[0], newHeadPosition[1]);
 
-        if(encounteredElement.equals("Z")) {
+        if (encounteredElement.equals("Z")) {
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         } else if (encounteredElement.equals("T")) {
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
@@ -179,7 +180,9 @@ public class Board {
         return encounteredElement;
     }
 
-    public int[] getTrashPosition() { return trashPosition; }
+    public int[] getTrashPosition() {
+        return trashPosition;
+    }
 
     public int[] getInstrumentPosition() {
         return instrumentPosition;
@@ -187,10 +190,9 @@ public class Board {
 
     public void shuffleBoard() {
         Collections.shuffle(Arrays.asList(arrangement));
-        for (int i = 0 ; i < width ; i++)
-            for(int j = 0 ; j < height ; j++)
-            {
-                if (arrangement[i][j].equals("SH")) getCurrentSnake().setSnake(i,j);
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++) {
+                if (arrangement[i][j].equals("SH")) getCurrentSnake().setSnake(i, j);
             }
     }
 
