@@ -2,9 +2,7 @@ package com.game.chordsnake.model;
 
 import com.game.chordsnake.Main;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Board {
     private final int height = 15;
@@ -181,12 +179,19 @@ public class Board {
         return encounteredElement;
     }
 
-    public int[] getTrashPosition() {
-        return trashPosition;
-    }
+    public int[] getTrashPosition() { return trashPosition; }
 
     public int[] getInstrumentPosition() {
         return instrumentPosition;
+    }
+
+    public void shuffleBoard() {
+        Collections.shuffle(Arrays.asList(arrangement));
+        for (int i = 0 ; i < width ; i++)
+            for(int j = 0 ; j < height ; j++)
+            {
+                if (arrangement[i][j].equals("SH")) getCurrentSnake().setSnake(i,j);
+            }
     }
 
 }

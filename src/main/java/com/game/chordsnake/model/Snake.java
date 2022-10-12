@@ -28,14 +28,16 @@ public class Snake {
 
     public void appendElement(int oldTailX, int oldTailY, String chordName) {
         collectedChords.add(chordName);
-        System.out.println("collectedChords "+collectedChords);
         snakePosition.add(new int[]{oldTailX, oldTailY});
-        System.out.println("snakePosition.size() "+snakePosition.size());
         for (int[]ele : snakePosition) {
             System.out.println(ele[0]+" " + ele[1]);
         }
-        //TODO Snake touch wall after append
         //TODO play sound
+    }
+
+    public void setSnake(int head_x, int head_y) {
+        int[] coords = {head_x, head_y};
+        snakePosition.set(0, coords);
     }
 
     //shifts snake forward one field

@@ -139,7 +139,11 @@ public class Controller {
         return false;
     }
 
-
+    @FXML
+    public void randomizeBoard() {
+        boardModel.shuffleBoard();
+        updateGridLayout();
+    }
 
 
 
@@ -180,7 +184,7 @@ public class Controller {
                 boardModel.getCurrentSnake().setSnakeDirectionDown();
             } else if (event.getCode() == KeyCode.A) {
                 boardModel.getCurrentSnake().setSnakeDirectionLeft();
-                            }
+            }
         }
         else{
             //TODO handle presses from chordPopup
@@ -192,11 +196,15 @@ public class Controller {
     //TODO for different ones set to different icons/empty/chords
 
     public void updateGrid() {
-
         boolean success =boardModel.updateArrangement();
         if(!success){
             Main.setPane(4); //fail page
         }
+        updateGridLayout();
+
+    }
+
+    public void updateGridLayout() {
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
                 //Node node = getNodeFromGridPane(gridGame, i, j);
