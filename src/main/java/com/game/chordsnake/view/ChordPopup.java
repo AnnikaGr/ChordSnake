@@ -3,6 +3,7 @@ package view;
 import com.game.chordsnake.Main;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -45,8 +46,9 @@ public class ChordPopup {
             subtitle.setText(subtitleText);
             this.subtitle=subtitle;
 
-
-            vbox.getChildren().addAll(title, subtitle, checkAndContinue);
+            HBox hbox= new HBox();
+            hbox.getChildren().addAll(note1,note2,note3 );
+            vbox.getChildren().addAll(title, subtitle, hbox, checkAndContinue);
             vbox.setStyle("-fx-background-color:#975C4E; -fx-border-width:2;-fx-border-radius:3;-fx-hgap:3;-fx-vgap:5;");
 
             popup.getContent().addAll(vbox);
