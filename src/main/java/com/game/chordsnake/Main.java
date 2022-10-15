@@ -5,18 +5,13 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,7 +25,7 @@ public class Main extends Application {
     static List<BorderPane> listPane = new ArrayList<>(totalPaneNum);
     private static int idCurrentPane = 0;
     private static Stage primaryStage;
-
+    private static int song = 0;
     @FXML
     private ToggleGroup instrumentGroup = new ToggleGroup();
     @FXML
@@ -52,8 +47,6 @@ public class Main extends Application {
     private Text titleInstrument = new Text();
     @FXML
     private Text titleSong = new Text();
-    private static int song = 0;
-
     private Game gameInstance = new Game();
     private Controller controller = new Controller(gameInstance);
 
@@ -61,14 +54,6 @@ public class Main extends Application {
         root.getChildren().remove(listPane.get(idCurrentPane));
         root.getChildren().add(listPane.get(idPane));
         idCurrentPane = idPane;
-    }
-
-    public int getSong() {
-        return song;
-    }
-
-    public static void setSong(int songSet) {
-        song = songSet;
     }
 
     public static void main(String[] args) {
@@ -81,6 +66,14 @@ public class Main extends Application {
 
     private void setPrimaryStage(Stage stage) {
         Main.primaryStage = stage;
+    }
+
+    public int getSong() {
+        return song;
+    }
+
+    public static void setSong(int songSet) {
+        song = songSet;
     }
 
     @Override

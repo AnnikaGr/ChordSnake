@@ -20,33 +20,23 @@ public class Board {
     private String encounteredElement;
     private String chordToCheck;
     private String[] noteText = {"", "", ""};
-    class chordTriad {
-        String name = "";
-        List<String> notes = new ArrayList<>(3) ;
-        public chordTriad (String name, List<String> notes){
-            this.name = name;
-            this.notes.addAll(notes);
-        }
-    }
-    private List<chordTriad> chordTriadRef= new ArrayList<>(13) ;
-
-
+    private List<chordTriad> chordTriadRef = new ArrayList<>(13);
 
     public Board() {
         initialContent = new ArrayList<>(height * width);
-        chordTriadRef.add(new chordTriad("C", Arrays.asList("C","E","G")));
-        chordTriadRef.add(new chordTriad("Cm", Arrays.asList("C","D#","G")));
-        chordTriadRef.add(new chordTriad("D", Arrays.asList("C","F#","A")));
-        chordTriadRef.add(new chordTriad("E", Arrays.asList("E","G#","B")));
-        chordTriadRef.add(new chordTriad("Em", Arrays.asList("E","G","B")));
-        chordTriadRef.add(new chordTriad("F", Arrays.asList("F","A","C")));
-        chordTriadRef.add(new chordTriad("Fm", Arrays.asList("F#","G#","C")));
-        chordTriadRef.add(new chordTriad("G", Arrays.asList("G","B","D")));
-        chordTriadRef.add(new chordTriad("Gm", Arrays.asList("G","A#","D")));
-        chordTriadRef.add(new chordTriad("A", Arrays.asList("A","C#","E")));
-        chordTriadRef.add(new chordTriad("Am", Arrays.asList("A","C","E")));
-        chordTriadRef.add(new chordTriad("B", Arrays.asList("B","D#","F#")));
-        chordTriadRef.add(new chordTriad("Bm", Arrays.asList("B","D","F#")));
+        chordTriadRef.add(new chordTriad("C", Arrays.asList("C", "E", "G")));
+        chordTriadRef.add(new chordTriad("Cm", Arrays.asList("C", "D#", "G")));
+        chordTriadRef.add(new chordTriad("D", Arrays.asList("C", "F#", "A")));
+        chordTriadRef.add(new chordTriad("E", Arrays.asList("E", "G#", "B")));
+        chordTriadRef.add(new chordTriad("Em", Arrays.asList("E", "G", "B")));
+        chordTriadRef.add(new chordTriad("F", Arrays.asList("F", "A", "C")));
+        chordTriadRef.add(new chordTriad("Fm", Arrays.asList("F#", "G#", "C")));
+        chordTriadRef.add(new chordTriad("G", Arrays.asList("G", "B", "D")));
+        chordTriadRef.add(new chordTriad("Gm", Arrays.asList("G", "A#", "D")));
+        chordTriadRef.add(new chordTriad("A", Arrays.asList("A", "C#", "E")));
+        chordTriadRef.add(new chordTriad("Am", Arrays.asList("A", "C", "E")));
+        chordTriadRef.add(new chordTriad("B", Arrays.asList("B", "D#", "F#")));
+        chordTriadRef.add(new chordTriad("Bm", Arrays.asList("B", "D", "F#")));
 
 
         // set border tiles
@@ -143,13 +133,13 @@ public class Board {
     }
 
     public int updateArrangement() {
-        boolean appended=false;
+        boolean appended = false;
         int[] tailPositions = currentSnake.getSnakePosition().get((currentSnake.getSnakePosition().size() - 1));
         List<int[]> bodyPositions = List.copyOf(currentSnake.getSnakePosition());
         currentSnake.shiftSnake();
         int[] newHeadPosition = currentSnake.getSnakePosition().get(0);
-        for(int[] bodyPosition : bodyPositions) {
-            if(bodyPosition[0] == newHeadPosition[0] && bodyPosition[1] == newHeadPosition[1]) {
+        for (int[] bodyPosition : bodyPositions) {
+            if (bodyPosition[0] == newHeadPosition[0] && bodyPosition[1] == newHeadPosition[1]) {
                 return 0;
             }
         }
@@ -171,7 +161,7 @@ public class Board {
             if (encounteredElement.equals(possibleChord)) {
                 chordToCheck = encounteredElement;
                 currentSnake.appendElement(tailPositions[0], tailPositions[1], encounteredElement);
-                appended=true;
+                appended = true;
             }
         }
         List<String> collectedChords = currentSnake.getCollectedChords();
@@ -184,14 +174,12 @@ public class Board {
             counter++;
         }
 
-        if(appended){
+        if (appended) {
             return 2;
-        }
-        else {
+        } else {
             return 1;
         }
     }
-
 
     private List<String> getRandomChords(int number) {
         List<String> selectedChords = new ArrayList<>();
@@ -239,18 +227,32 @@ public class Board {
         noteText[2] = "";
     }
 
+    public String getChordToCheck() {
+        return chordToCheck;
+    }
+
     public boolean checkNotes() {
-        System.out.println("user put "+noteText[0]+noteText[1]+noteText[2]);
-        System.out.println("encounteredElement "+chordToCheck);
+        System.out.println("user put " + noteText[0] + noteText[1] + noteText[2]);
+        System.out.println("encounteredElement " + chordToCheck);
         for (chordTriad chord : chordTriadRef) {
             if (chord.name.equals(chordToCheck)) {
-                System.out.println("set notes "+chord.notes.get(0)+chord.notes.get(1)+chord.notes.get(2));
-                if(noteText[0].equalsIgnoreCase(chord.notes.get(0)) && noteText[1].equalsIgnoreCase(chord.notes.get(1)) &&noteText[2].equalsIgnoreCase(chord.notes.get(2))) {
+                System.out.println("set notes " + chord.notes.get(0) + chord.notes.get(1) + chord.notes.get(2));
+                if (noteText[0].equalsIgnoreCase(chord.notes.get(0)) && noteText[1].equalsIgnoreCase(chord.notes.get(1)) && noteText[2].equalsIgnoreCase(chord.notes.get(2))) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    class chordTriad {
+        String name = "";
+        List<String> notes = new ArrayList<>(3);
+
+        public chordTriad(String name, List<String> notes) {
+            this.name = name;
+            this.notes.addAll(notes);
+        }
     }
 
 }

@@ -1,8 +1,9 @@
 package com.game.chordsnake;
-import com.game.chordsnake.view.ChordPopup;
+
 import com.game.chordsnake.model.Board;
 import com.game.chordsnake.model.Game;
 import com.game.chordsnake.model.Song;
+import com.game.chordsnake.view.ChordPopup;
 import javafx.animation.AnimationTimer;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -13,7 +14,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +26,7 @@ public class Controller {
     int speed = 1;
     //radio button group for instrument selection
     @FXML
-    private GridPane gridGame= new GridPane();
+    private GridPane gridGame = new GridPane();
     @FXML
     private GridPane chordChunk;
     @FXML
@@ -40,7 +40,9 @@ public class Controller {
     private int noteCounter;
     private ChordPopup popup;
 
-    AnimationTimer animationTimer= new AnimationTimer() {
+    public Controller(Game gameInstance) {
+        this.gameInstance = gameInstance;
+    }    AnimationTimer animationTimer = new AnimationTimer() {
         long lastTick = 0;
 
         public void handle(long now) {
@@ -57,10 +59,6 @@ public class Controller {
         }
 
     };
-
-    public Controller(Game gameInstance) {
-        this.gameInstance = gameInstance;
-    }
 
     // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
     public static void delay(long millis, Runnable continuation) {
@@ -103,11 +101,11 @@ public class Controller {
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
                 labels[i][j] = new Label(boardModel.getOneChord(i, j));
-
+                if (boardModel.getOneChord(i, j) == "SH") labels[i][j].setStyle("-fx-background-color: blue");
                 gridGame.add(labels[i][j], i, j);
 
                 Button button = new Button("");
-                button.setStyle("-fx-background-color: #00000000; -fx-border-color: #FFFFFF;");
+                button.setStyle("-fx-background-color: transparent");
                 button.setOnMouseClicked(e -> {
                     cellOnMouseClick(e);
                 });
@@ -142,56 +140,55 @@ public class Controller {
         }*/
     }
 
-//single grid on gridpane; initialized with string value
-    //TODO for different ones set to different icons/empty/chords
-
     public void updateGrid() {
-        if (success==0) {
+        if (success == 0) {
             //success = false;
             Main.setPane(4); //fail page
-        } else if (success==2){ //chord was appended
+        } else if (success == 2) { //chord was appended
             success = boardModel.updateArrangement();
-            this.popup = new ChordPopup("Select the notes of the chord!", "Insert Chord Name here");
+            this.popup = new ChordPopup("Select the notes of " + boardModel.getChordToCheck(), "Insert Chord Name here");
             stopAnimation();
-            isInChordPopupState=true;
+            isInChordPopupState = true;
             noteCounter = 0;
             popup.resetNoteText();
             boardModel.resetNoteText();
             popup.getPopup().show(Main.getPrimaryStage());
 
-            popup.getCheckAndContinue().setOnMouseClicked(e->{
+            popup.getCheckAndContinue().setOnMouseClicked(e -> {
+                this.boardModel.setNoteText(0, popup.getTextInput(0));
+                this.boardModel.setNoteText(1, popup.getTextInput(1));
+                this.boardModel.setNoteText(2, popup.getTextInput(2));
                 if (boardModel.checkNotes()) {
                     continueGame();
-                }
-                else {
-                    success= 0;
+                } else {
+                    success = 0;
                     Main.setPane(4); //fail
                 }
-                isInChordPopupState= false;
+                isInChordPopupState = false;
                 popup.getPopup().hide();
             });
 
             updateGridLayout();
-        }
-     else if (success==1){ //no chord was appended
-        success = boardModel.updateArrangement();
-        updateGridLayout();
-    }
-     else throw new IllegalStateException("Integer Success doesn´t hold any of the values 1,2,3");
+        } else if (success == 1) { //no chord was appended
+            success = boardModel.updateArrangement();
+            updateGridLayout();
+        } else throw new IllegalStateException("Integer Success doesn´t hold any of the values 1,2,3");
 
     }
+
+//single grid on gridpane; initialized with string value
+    //TODO for different ones set to different icons/empty/chords
 
     public void updateGridLayout() {
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
                 //Node node = getNodeFromGridPane(gridGame, i, j);
                 labels[i][j].setText(boardModel.arrangement[i][j]);
+                if (boardModel.getOneChord(i, j) == "SH") labels[i][j].setStyle("-fx-background-color: blue");
+                else labels[i][j].setStyle("-fx-background-color: transparent");
             }
         }
     }
-
-
-    //not using this atm
 
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
@@ -203,7 +200,7 @@ public class Controller {
     }
 
 
-// --- Event Handlers -------------------------------------------------------------------------------
+    //not using this atm
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
@@ -228,17 +225,12 @@ public class Controller {
             } else if (event.getCode() == KeyCode.A) {
                 boardModel.getCurrentSnake().setSnakeDirectionLeft();
             }
-        } else if (isInChordPopupState){
-
-
-            if (event.getCode() != KeyCode.S) {
-                this.popup.setNoteText(noteCounter, event.getText());
-                this.boardModel.setNoteText(noteCounter, event.getText());
-            } else noteCounter++;
-        }
-        else throw new IllegalStateException("Illegal Game State");
+        } else throw new IllegalStateException("Illegal Game State");
 
     }
+
+
+// --- Event Handlers -------------------------------------------------------------------------------
 
     public void cellOnMouseClick(MouseEvent e) {
         if (e.getButton().equals(MouseButton.PRIMARY)) {
@@ -261,7 +253,6 @@ public class Controller {
             }
         }
     }
-
 
     public void cellDragDetected(MouseEvent event) {
         Node tmp = (Node) event.getSource();
@@ -315,20 +306,22 @@ public class Controller {
         boardModel.getCurrentSnake().clearSnake();
     }
 
-
-    // -- Animation start and stop ----------------------------------------------
-
-    public void startAnimation(){
+    public void startAnimation() {
         animationTimer.start();
     }
 
-    public void stopAnimation(){
+
+    // -- Animation start and stop ----------------------------------------------
+
+    public void stopAnimation() {
         animationTimer.stop();
     }
 
-    public void continueGame(){
+    public void continueGame() {
         startAnimation();
     }
+
+
 
 
 }

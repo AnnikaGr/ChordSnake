@@ -1,8 +1,8 @@
 package com.game.chordsnake.view;
 
-import com.game.chordsnake.Main;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -16,23 +16,21 @@ public class ChordPopup {
     private final Button checkAndContinue;
     private final Text title;
     private final Text subtitle;
-
-
-    private final Text[] notes = new Text[3];
+    private final int width = 600;
+    private final int height = 300;
+    private final TextField[] notes = new TextField[3];
     private String[] noteText = {"", "", ""};
 
     public ChordPopup(String titleText, String subtitleText) {
         this.popup = new Popup();
-        VBox vbox = new VBox();
-        vbox.setSpacing(10);
+        VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
         vbox.setFillWidth(true);
-        vbox.prefWidthProperty().bind(Main.getPrimaryStage().getScene().widthProperty());
-        vbox.prefHeightProperty().bind(Main.getPrimaryStage().getScene().heightProperty());
+        vbox.setPrefSize(width, height);
 
-        Button checkAndContinue = new Button("Check entry and continue");
+        Button checkAndContinue = new Button("Check and continue");
         this.checkAndContinue = checkAndContinue;
-        checkAndContinue.setFont(Font.font("Bauhaus 93", 36));
+        checkAndContinue.setFont(Font.font("Bauhaus 93", 20));
         checkAndContinue.setStyle("-fx-text-fill:#FFFFFF; -fx-background-color:  #975C4E; -fx-effect:  dropshadow( gaussian , rgba(0,0,0,0.4) , 10,0,0,1 )");
 
         Text title = new Text();
@@ -47,23 +45,9 @@ public class ChordPopup {
         subtitle.setText(subtitleText);
         this.subtitle = subtitle;
 
-        /*Text note1 = new Text("----");
-        note1.setFont(Font.font("Bauhaus 93", 24));
-        note1.setStyle("-fx-fill:#FFFFFF");
-        this.note1 = note1;
-
-        Text note2 = new Text("----");
-        note2.setFont(Font.font("Bauhaus 93", 24));
-        note2.setStyle("-fx-fill:#FFFFFF");
-        this.note2 = note2;
-
-        Text note3 = new Text("----");
-        note3.setFont(Font.font("Bauhaus 93", 24));
-        note3.setStyle("-fx-fill:#FFFFFF");
-        this.note3 = note3;*/
-
-        for(int i = 0; i<3;i++) {
-            notes[i] = new Text("----");
+        for (int i = 0; i < 3; i++) {
+            notes[i] = new TextField("");
+            notes[i].setPrefWidth(80);
             notes[i].setFont(Font.font("Bauhaus 93", 24));
             notes[i].setStyle("-fx-fill:#FFFFFF");
         }
@@ -95,11 +79,7 @@ public class ChordPopup {
         this.title.setText(title);
     }
 
-
-    public void setNoteText(int counter, String note) {
-        noteText[counter] += note;
-        this.notes[counter].setText(noteText[counter]);
-    }
+    public String getTextInput(int index) { return this.notes[index].getText(); }
 
     public void resetNoteText() {
         noteText[0] = "";
