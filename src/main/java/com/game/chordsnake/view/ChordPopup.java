@@ -16,8 +16,9 @@ public class ChordPopup {
         private Button checkAndContinue;
         private Text title;
         private Text subtitle;
-    private Text note1;
-    private Text note2;
+
+    private Text note1 ;
+    private Text note2 ;
     private Text note3;
 
         public ChordPopup(String titleText, String subtitleText){
@@ -46,8 +47,26 @@ public class ChordPopup {
             subtitle.setText(subtitleText);
             this.subtitle=subtitle;
 
+            Text note1 =new Text("----");
+            note1.setFont(Font.font("Bauhaus 93", 24));
+            note1.setStyle("-fx-fill:#FFFFFF");
+            this.note1= note1;
+
+            Text note2 =new Text("----");
+            note2.setFont(Font.font("Bauhaus 93", 24));
+            note2.setStyle("-fx-fill:#FFFFFF");
+            this.note2= note2;
+
+            Text note3 =new Text("----");
+            note3.setFont(Font.font("Bauhaus 93", 24));
+            note3.setStyle("-fx-fill:#FFFFFF");
+            this.note3= note3;
+
             HBox hbox= new HBox();
-            hbox.getChildren().addAll(note1,note2,note3 );
+            hbox.setSpacing(10);
+            hbox.setAlignment(Pos.CENTER);
+            hbox.getChildren().addAll(note1,note2, note3);
+
             vbox.getChildren().addAll(title, subtitle, hbox, checkAndContinue);
             vbox.setStyle("-fx-background-color:#975C4E; -fx-border-width:2;-fx-border-radius:3;-fx-hgap:3;-fx-vgap:5;");
 
@@ -69,6 +88,30 @@ public class ChordPopup {
         public void setTitle(String title) {
             this.title.setText(title);
         }
+
+    public void setNote1(Text note1) {
+        this.note1 = note1;
+    }
+
+    public void setNote2(Text note2) {
+        this.note2 = note2;
+    }
+
+    public void setNote3(Text note3) {
+        this.note3 = note3;
+    }
+
+    public boolean isNote1Empty() {
+        return note1.getText().equals("----");
+    }
+
+    public boolean isNote2Empty() {
+        return note2.getText().equals("----");
+    }
+
+    public boolean isNote3Empty() {
+        return note3.getText().equals("----");
+    }
 
 
 }

@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,7 @@ public class Controller {
     private Game gameInstance;
     private boolean isInChordPopupState = false;
     private int success = 1;
+    private view.ChordPopup popup;
 
     AnimationTimer animationTimer= new AnimationTimer() {
         long lastTick = 0;
@@ -148,12 +150,13 @@ public class Controller {
             Main.setPane(4); //fail page
         } else if (success==2){ //chord was appended
             success = boardModel.updateArrangement();
-            view.ChordPopup popup = new view.ChordPopup("Select the notes of the chord!", "Insert Chord Name here");
+            this.popup = new view.ChordPopup("Select the notes of the chord!", "Insert Chord Name here");
             stopAnimation();
-
+            isInChordPopupState=true;
             popup.getPopup().show(Main.getPrimaryStage());
             popup.getCheckAndContinue().setOnMouseClicked(e->{
                 continueGame();
+                isInChordPopupState= false;
                 popup.getPopup().hide();
             });
 
@@ -203,7 +206,7 @@ public class Controller {
             // inspired by https://github.com/Gaspared/snake/blob/master/Main.java
             startAnimation();
         }
-        if (gameInstance.getGameStarted() && !isInChordPopupState) {
+        else if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
                 boardModel.getCurrentSnake().setSnakeDirectionUp();
             } else if (event.getCode() == KeyCode.D) {
@@ -213,9 +216,18 @@ public class Controller {
             } else if (event.getCode() == KeyCode.A) {
                 boardModel.getCurrentSnake().setSnakeDirectionLeft();
             }
-        } else {
-            //TODO handle presses from chordPopup
+        } else if (isInChordPopupState){
+            if (this.popup.isNote1Empty()){
+                this.popup.setNote1(new Text("works"));
+            }
+            else if (this.popup.isNote2Empty()){
+                this.popup.setNote2(new Text(event.getCode().toString()));
+            }
+            else if (this.popup.isNote3Empty()){
+                this.popup.setNote3(new Text(event.getCode().toString()));
+            }
         }
+        else throw new IllegalStateException("Illegal Game State");
 
     }
 
