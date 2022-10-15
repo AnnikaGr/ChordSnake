@@ -5,11 +5,16 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -41,6 +46,10 @@ public class Main extends Application {
     private RadioButton btnSong2 = new RadioButton();
     @FXML
     private RadioButton btnSong3 = new RadioButton();
+    @FXML
+    private Text titleInstrument = new Text();
+    @FXML
+    private Text titleSong = new Text();
 
     private Game gameInstance = new Game();
 
@@ -94,16 +103,27 @@ public class Main extends Application {
     @FXML
     public void confirmInstrument() {
         int toggleGroupValue = instrumentGroup.getToggles().indexOf(instrumentGroup.getSelectedToggle());
-        gameInstance.setInstrumentChosenID(toggleGroupValue);
-        //turn to choosing song page
-        Main.setPane(2);
+        if (toggleGroupValue < 0) {
+            titleInstrument.setText("Please select an instrument to proceed!");
+            titleInstrument.setFill(Color.RED);
+        } else {
+            gameInstance.setInstrumentChosenID(toggleGroupValue);
+            Main.setPane(2); //turn to choosing song page
+        }
+
     }
 
     @FXML
     public void confirmSong() {
         int toggleGroupValue = songGroup.getToggles().indexOf(songGroup.getSelectedToggle());
-        gameInstance.setSongChosenID(toggleGroupValue);
-        Main.setPane(5);
+        if (toggleGroupValue < 0) {
+            titleSong.setText("Please select a song to proceed!");
+            titleSong.setFill(Color.RED);
+        } else {
+            gameInstance.setSongChosenID(toggleGroupValue);
+            Main.setPane(5); //turn to game page
+        }
+
     }
 
     @FXML

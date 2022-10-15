@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx"
-            fx:controller="com.game.chordsnake.Main">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.game.chordsnake.Main">
     <bottom>
         <Button mnemonicParsing="false" onMouseClicked="#confirmSong" text="Confirm" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Regular" size="24.0"/>
+                <Font name="Open Sans Regular" size="24.0" />
             </font>
             <BorderPane.margin>
-                <Insets bottom="20.0" top="20.0"/>
+                <Insets bottom="20.0" top="20.0" />
             </BorderPane.margin>
         </Button>
     </bottom>
@@ -25,56 +27,53 @@
             <children>
                 <RadioButton fx:id="btnSong1" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false">
                     <graphic>
-                        <ImageView fx:id="songCover1" fitHeight="126.0" fitWidth="129.0" nodeOrientation="INHERIT"
-                                   pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="songCover1" fitHeight="126.0" fitWidth="129.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@assets/album1.jpg"/>
+                                <Image url="@assets/album1.jpg" />
                             </image>
                         </ImageView>
                     </graphic>
                     <HBox.margin>
-                        <Insets left="20.0" right="20.0"/>
+                        <Insets left="20.0" right="20.0" />
                     </HBox.margin>
                     <toggleGroup>
-                        <ToggleGroup fx:id="songGroup"/>
+                        <ToggleGroup fx:id="songGroup" />
                     </toggleGroup>
                 </RadioButton>
                 <RadioButton fx:id="btnSong2" mnemonicParsing="false" toggleGroup="$songGroup">
                     <graphic>
-                        <ImageView fx:id="songCover2" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fx:id="songCover2" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@assets/album2.jpg"/>
+                                <Image url="@assets/album2.jpg" />
                             </image>
                         </ImageView>
                     </graphic>
                     <HBox.margin>
-                        <Insets left="20.0" right="20.0"/>
+                        <Insets left="20.0" right="20.0" />
                     </HBox.margin>
                 </RadioButton>
                 <RadioButton fx:id="btnSong3" mnemonicParsing="false" toggleGroup="$songGroup">
                     <graphic>
-                        <ImageView fx:id="songCover3" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fx:id="songCover3" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@assets/album1.jpg"/>
+                                <Image url="@assets/album1.jpg" />
                             </image>
                         </ImageView>
                     </graphic>
                     <HBox.margin>
-                        <Insets left="20.0" right="20.0"/>
+                        <Insets left="20.0" right="20.0" />
                     </HBox.margin>
                 </RadioButton>
             </children>
         </HBox>
     </center>
     <top>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please select your song" BorderPane.alignment="CENTER">
+        <Text fx:id="titleSong" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select your song" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets top="30.0"/>
+                <Insets top="30.0" />
             </BorderPane.margin>
             <font>
-                <Font name="Open Sans Regular" size="36.0"/>
+                <Font name="Open Sans Regular" size="36.0" />
             </font>
         </Text>
     </top>
