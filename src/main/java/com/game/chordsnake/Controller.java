@@ -30,7 +30,25 @@ public class Controller {
     private Label[][] labels;
     private Game gameInstance;
     private boolean isInChordPopupState = false;
-    private boolean success = true;
+    private int success = 1;
+
+    AnimationTimer animationTimer= new AnimationTimer() {
+        long lastTick = 0;
+
+        public void handle(long now) {
+            if (lastTick == 0) {
+                lastTick = now;
+                updateGrid();
+                return;
+            }
+
+            if (now - lastTick > 1000000000 / speed) {
+                lastTick = now;
+                updateGrid();
+            }
+        }
+
+    };
 
     public Controller(Game gameInstance) {
         this.gameInstance = gameInstance;
@@ -68,7 +86,6 @@ public class Controller {
     public void initializeGrid() {
         this.boardModel = new Board();
         this.songModel = new Song(gameInstance.getSongChosenID());
-        success = true;
         boardModel.setBoard(songModel);
         labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
 
@@ -118,14 +135,27 @@ public class Controller {
     //TODO for different ones set to different icons/empty/chords
 
     public void updateGrid() {
-        if (success) {
-            success = boardModel.updateArrangement();
-            updateGridLayout();
-
-        } else {
-            success = false;
+        if (success==0) {
+            //success = false;
             Main.setPane(4); //fail page
+        } else if (success==2){ //chord was appended
+            success = boardModel.updateArrangement();
+            view.ChordPopup popup = new view.ChordPopup("Select the notes of the chord!", "Insert Chord Name here");
+            stopAnimation();
+
+            popup.getPopup().show(Main.getPrimaryStage());
+            popup.getCheckAndContinue().setOnMouseClicked(e->{
+                continueGame();
+                popup.getPopup().hide();
+            });
+
+            updateGridLayout();
         }
+     else if (success==1){ //no chord was appended
+        success = boardModel.updateArrangement();
+        updateGridLayout();
+    }
+     else throw new IllegalStateException("Integer Success doesn´t hold any of the values 1,2,3");
 
     }
 
@@ -163,23 +193,7 @@ public class Controller {
         if (gameInstance.getGameStarted() == false) {
             gameInstance.setGameStarted(true);
             // inspired by https://github.com/Gaspared/snake/blob/master/Main.java
-            new AnimationTimer() {
-                long lastTick = 0;
-
-                public void handle(long now) {
-                    if (lastTick == 0) {
-                        lastTick = now;
-                        updateGrid();
-                        return;
-                    }
-
-                    if (now - lastTick > 1000000000 / speed) {
-                        lastTick = now;
-                        updateGrid();
-                    }
-                }
-
-            }.start();
+            startAnimation();
         }
         if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
@@ -270,6 +284,21 @@ public class Controller {
         }
 
         boardModel.getCurrentSnake().clearSnake();
+    }
+
+
+    // -- Animation start and stop ----------------------------------------------
+
+    public void startAnimation(){
+        animationTimer.start();
+    }
+
+    public void stopAnimation(){
+        animationTimer.stop();
+    }
+
+    public void continueGame(){
+        startAnimation();
     }
 
 

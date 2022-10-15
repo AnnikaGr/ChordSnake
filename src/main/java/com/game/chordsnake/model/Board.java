@@ -116,24 +116,23 @@ public class Board {
         return width;
     }
 
-    public boolean updateArrangement() {
+    public int updateArrangement() {
+        boolean appended=false;
         int[] tailPositions = currentSnake.getSnakePosition().get((currentSnake.getSnakePosition().size() - 1));
         List<int[]> bodyPositions = List.copyOf(currentSnake.getSnakePosition());
         currentSnake.shiftSnake();
 
 
-
         int[] newHeadPosition = currentSnake.getSnakePosition().get(0);
         for(int[] bodyPosition : bodyPositions) {
             if(bodyPosition[0] == newHeadPosition[0] && bodyPosition[1] == newHeadPosition[1]) {
-                return false;
+                return 0;
             }
         }
         //if snakehead out of grid --> game failed
         if (newHeadPosition[0] <= -1 || newHeadPosition[1] <= -1 || newHeadPosition[0] >= getWidth() || newHeadPosition[1] >= getHeight()) {
-            return false;
+            return 0;
         }
-
 
         setEncounter(newHeadPosition[0], newHeadPosition[1]);
 
@@ -141,15 +140,13 @@ public class Board {
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         } else if (encounteredElement.equals("T")) {
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
-            //TODO trash; remove a chord
         } else if (encounteredElement.equals("I")) {
-            //TODO instrument sign; drop collected chords
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         }
         for (String possibleChord : possibleChords) {
             if (encounteredElement.equals(possibleChord)) {
-                System.out.println("chord");
                 currentSnake.appendElement(tailPositions[0], tailPositions[1], encounteredElement);
+                appended=true;
             }
         }
         List<String> collectedChords = currentSnake.getCollectedChords();
@@ -160,13 +157,15 @@ public class Board {
         for (int[] position : snakePositions) {
             arrangement[position[0]][position[1]] = collectedChords.get(counter);
             counter++;
-            //TODO check if snakeHead is on field with gameobject --> if yes calls ActOnEncouter)
         }
-        return true;
-    }
 
-    //TODO private actOnEncounter (x,y)
-    //TODO EventListening
+        if(appended==true){
+            return 2;
+        }
+        else {
+            return 1;
+        }
+    }
 
 
     private List<String> getRandomChords(int number) {
