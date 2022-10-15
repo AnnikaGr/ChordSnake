@@ -18,10 +18,35 @@ public class Board {
     private boolean gameWon;
     private List<String> initialContent;
     private String encounteredElement;
+    private String chordToCheck;
+    private String[] noteText = {"", "", ""};
+    class chordTriad {
+        String name = "";
+        List<String> notes = new ArrayList<>(3) ;
+        public chordTriad (String name, List<String> notes){
+            this.name = name;
+            this.notes.addAll(notes);
+        }
+    }
+    private List<chordTriad> chordTriadRef= new ArrayList<>(13) ;
+
 
 
     public Board() {
         initialContent = new ArrayList<>(height * width);
+        chordTriadRef.add(new chordTriad("C", Arrays.asList("C","E","G")));
+        chordTriadRef.add(new chordTriad("Cm", Arrays.asList("C","D#","G")));
+        chordTriadRef.add(new chordTriad("D", Arrays.asList("C","F#","A")));
+        chordTriadRef.add(new chordTriad("E", Arrays.asList("E","G#","B")));
+        chordTriadRef.add(new chordTriad("Em", Arrays.asList("E","G","B")));
+        chordTriadRef.add(new chordTriad("F", Arrays.asList("F","A","C")));
+        chordTriadRef.add(new chordTriad("Fm", Arrays.asList("F#","G#","C")));
+        chordTriadRef.add(new chordTriad("G", Arrays.asList("G","B","D")));
+        chordTriadRef.add(new chordTriad("Gm", Arrays.asList("G","A#","D")));
+        chordTriadRef.add(new chordTriad("A", Arrays.asList("A","C#","E")));
+        chordTriadRef.add(new chordTriad("Am", Arrays.asList("A","C","E")));
+        chordTriadRef.add(new chordTriad("B", Arrays.asList("B","D#","F#")));
+        chordTriadRef.add(new chordTriad("Bm", Arrays.asList("B","D","F#")));
 
 
         // set border tiles
@@ -144,6 +169,7 @@ public class Board {
         }
         for (String possibleChord : possibleChords) {
             if (encounteredElement.equals(possibleChord)) {
+                chordToCheck = encounteredElement;
                 currentSnake.appendElement(tailPositions[0], tailPositions[1], encounteredElement);
                 appended=true;
             }
@@ -158,7 +184,7 @@ public class Board {
             counter++;
         }
 
-        if(appended==true){
+        if(appended){
             return 2;
         }
         else {
@@ -201,6 +227,30 @@ public class Board {
             for (int j = 0; j < height; j++) {
                 if (arrangement[i][j].equals("SH")) getCurrentSnake().setSnake(i, j);
             }
+    }
+
+    public void setNoteText(int counter, String note) {
+        noteText[counter] += note;
+    }
+
+    public void resetNoteText() {
+        noteText[0] = "";
+        noteText[1] = "";
+        noteText[2] = "";
+    }
+
+    public boolean checkNotes() {
+        System.out.println("user put "+noteText[0]+noteText[1]+noteText[2]);
+        System.out.println("encounteredElement "+chordToCheck);
+        for (chordTriad chord : chordTriadRef) {
+            if (chord.name.equals(chordToCheck)) {
+                System.out.println("set notes "+chord.notes.get(0)+chord.notes.get(1)+chord.notes.get(2));
+                if(noteText[0].equalsIgnoreCase(chord.notes.get(0)) && noteText[1].equalsIgnoreCase(chord.notes.get(1)) &&noteText[2].equalsIgnoreCase(chord.notes.get(2))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

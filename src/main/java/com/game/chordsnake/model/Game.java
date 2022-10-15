@@ -8,7 +8,8 @@ public class Game {
     private int songChosenID;
     private int instrumentChosenID;
     private boolean gameStart;
-    //private ArrayList<String>[] songChords = (ArrayList<String>[]) new ArrayList[3];
+
+
     private List<String> songChords = new ArrayList<>();
 
     public void setInstrumentChosenID(int instrumentChosenID) {

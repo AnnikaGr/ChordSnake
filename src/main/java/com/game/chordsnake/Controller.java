@@ -1,5 +1,5 @@
 package com.game.chordsnake;
-
+import com.game.chordsnake.view.ChordPopup;
 import com.game.chordsnake.model.Board;
 import com.game.chordsnake.model.Game;
 import com.game.chordsnake.model.Song;
@@ -37,7 +37,8 @@ public class Controller {
     private Game gameInstance;
     private boolean isInChordPopupState = false;
     private int success = 1;
-    private view.ChordPopup popup;
+    private int noteCounter;
+    private ChordPopup popup;
 
     AnimationTimer animationTimer= new AnimationTimer() {
         long lastTick = 0;
@@ -150,12 +151,22 @@ public class Controller {
             Main.setPane(4); //fail page
         } else if (success==2){ //chord was appended
             success = boardModel.updateArrangement();
-            this.popup = new view.ChordPopup("Select the notes of the chord!", "Insert Chord Name here");
+            this.popup = new ChordPopup("Select the notes of the chord!", "Insert Chord Name here");
             stopAnimation();
             isInChordPopupState=true;
+            noteCounter = 0;
+            popup.resetNoteText();
+            boardModel.resetNoteText();
             popup.getPopup().show(Main.getPrimaryStage());
+
             popup.getCheckAndContinue().setOnMouseClicked(e->{
-                continueGame();
+                if (boardModel.checkNotes()) {
+                    continueGame();
+                }
+                else {
+                    success= 0;
+                    Main.setPane(4); //fail
+                }
                 isInChordPopupState= false;
                 popup.getPopup().hide();
             });
@@ -201,12 +212,13 @@ public class Controller {
         int headY = boardModel.getCurrentSnake().getSnakeHeadY();
         int newHeadX = headX;
         int newHeadY = headY;
+
         if (gameInstance.getGameStarted() == false) {
             gameInstance.setGameStarted(true);
             // inspired by https://github.com/Gaspared/snake/blob/master/Main.java
             startAnimation();
         }
-        else if (gameInstance.getGameStarted() && !isInChordPopupState) {
+        if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
                 boardModel.getCurrentSnake().setSnakeDirectionUp();
             } else if (event.getCode() == KeyCode.D) {
@@ -217,15 +229,12 @@ public class Controller {
                 boardModel.getCurrentSnake().setSnakeDirectionLeft();
             }
         } else if (isInChordPopupState){
-            if (this.popup.isNote1Empty()){
-                this.popup.setNote1(new Text("works"));
-            }
-            else if (this.popup.isNote2Empty()){
-                this.popup.setNote2(new Text(event.getCode().toString()));
-            }
-            else if (this.popup.isNote3Empty()){
-                this.popup.setNote3(new Text(event.getCode().toString()));
-            }
+
+
+            if (event.getCode() != KeyCode.S) {
+                this.popup.setNoteText(noteCounter, event.getText());
+                this.boardModel.setNoteText(noteCounter, event.getText());
+            } else noteCounter++;
         }
         else throw new IllegalStateException("Illegal Game State");
 
