@@ -39,9 +39,6 @@ public class Snake {
     public void appendElement(int oldTailX, int oldTailY, String chordName) {
         collectedChords.add(chordName);
         snakePosition.add(new int[]{oldTailX, oldTailY});
-        for (int[] ele : snakePosition) {
-            System.out.println(ele[0] + " " + ele[1]);
-        }
         //ref: https://stackoverflow.com/questions/39085830/how-to-play-a-wav-file-using-java
         try {
             Clip sound = AudioSystem.getClip();
@@ -72,6 +69,7 @@ public class Snake {
         } else if (direction == 1) { //left
             newHeadPosition = new int[]{snakePosition.get(0)[0] - 1, snakePosition.get(0)[1]};
         }
+
         snakePosition.remove(snakePosition.size() - 1);
         snakePosition.add(0, newHeadPosition);
 

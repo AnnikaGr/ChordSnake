@@ -52,6 +52,7 @@ public class Main extends Application {
     private Text titleSong = new Text();
 
     private Game gameInstance = new Game();
+    private Controller controller = new Controller(gameInstance);
 
     public static void setPane(int idPane) {
         root.getChildren().remove(listPane.get(idCurrentPane));
@@ -89,8 +90,9 @@ public class Main extends Application {
         btnSong3.setToggleGroup(songGroup);
 
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml")); //page 5
-        gameLoader.setController(new Controller(gameInstance));
+        gameLoader.setController(controller);
         listPane.add(gameLoader.load());
+        controller.initializeGrid();
 
         root.getChildren().add(listPane.get(0));
         Scene scene = new Scene(root, 800, 600);
@@ -133,9 +135,14 @@ public class Main extends Application {
     }
 
     @FXML
-    public void tryAgain() {
+    public void tryAgain() throws IOException {
         //TODO select song again? or restart the game?
-        Main.setPane(5);
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
+        gameLoader.setController(controller);
+        controller.initializeGrid();
+        listPane.set(5, gameLoader.load());
+        Main.setPane(1);
+
     }
 
 }

@@ -118,13 +118,22 @@ public class Board {
 
     public boolean updateArrangement() {
         int[] tailPositions = currentSnake.getSnakePosition().get((currentSnake.getSnakePosition().size() - 1));
-
+        List<int[]> bodyPositions = List.copyOf(currentSnake.getSnakePosition());
         currentSnake.shiftSnake();
+
+
+
         int[] newHeadPosition = currentSnake.getSnakePosition().get(0);
+        for(int[] bodyPosition : bodyPositions) {
+            if(bodyPosition[0] == newHeadPosition[0] && bodyPosition[1] == newHeadPosition[1]) {
+                return false;
+            }
+        }
         //if snakehead out of grid --> game failed
         if (newHeadPosition[0] <= -1 || newHeadPosition[1] <= -1 || newHeadPosition[0] >= getWidth() || newHeadPosition[1] >= getHeight()) {
             return false;
         }
+
 
         setEncounter(newHeadPosition[0], newHeadPosition[1]);
 

@@ -22,7 +22,7 @@ public class Controller {
     int speed = 1;
     //radio button group for instrument selection
     @FXML
-    private GridPane gridGame;
+    private GridPane gridGame= new GridPane();
     @FXML
     private GridPane chordChunk;
     private Song songModel;
@@ -30,7 +30,7 @@ public class Controller {
     private Label[][] labels;
     private Game gameInstance;
     private boolean isInChordPopupState = false;
-    private String encounteredElement;
+    private boolean success = true;
 
     public Controller(Game gameInstance) {
         this.gameInstance = gameInstance;
@@ -61,18 +61,17 @@ public class Controller {
         return false;
     }
 
-    //when pressing on whole grid detected
-
-    @FXML
     public void initialize() {
-        this.boardModel = new Board();
-        this.songModel = new Song(gameInstance.getSongChosenID());
-        boardModel.setBoard(songModel);
-        labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
-        initializeGrid();
+
     }
 
     public void initializeGrid() {
+        this.boardModel = new Board();
+        this.songModel = new Song(gameInstance.getSongChosenID());
+        success = true;
+        boardModel.setBoard(songModel);
+        labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
+
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
                 labels[i][j] = new Label(boardModel.getOneChord(i, j));
@@ -119,12 +118,15 @@ public class Controller {
     //TODO for different ones set to different icons/empty/chords
 
     public void updateGrid() {
+        if (success) {
+            success = boardModel.updateArrangement();
+            updateGridLayout();
 
-        boolean success = boardModel.updateArrangement();
-        if (!success) {
+        } else {
+            success = false;
             Main.setPane(4); //fail page
         }
-        updateGridLayout();
+
     }
 
     public void updateGridLayout() {
@@ -153,6 +155,7 @@ public class Controller {
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
+        System.out.println("handle key press");
         int headX = boardModel.getCurrentSnake().getSnakeHeadX();
         int headY = boardModel.getCurrentSnake().getSnakeHeadY();
         int newHeadX = headX;
