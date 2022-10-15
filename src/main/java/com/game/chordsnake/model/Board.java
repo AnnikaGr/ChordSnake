@@ -19,6 +19,7 @@ public class Board {
     private List<String> initialContent;
     private String encounteredElement;
 
+
     public Board() {
         initialContent = new ArrayList<>(height * width);
 
@@ -120,8 +121,6 @@ public class Board {
         int[] tailPositions = currentSnake.getSnakePosition().get((currentSnake.getSnakePosition().size() - 1));
         List<int[]> bodyPositions = List.copyOf(currentSnake.getSnakePosition());
         currentSnake.shiftSnake();
-
-
 
         int[] newHeadPosition = currentSnake.getSnakePosition().get(0);
         for(int[] bodyPosition : bodyPositions) {

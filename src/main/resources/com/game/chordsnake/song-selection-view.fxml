@@ -29,7 +29,7 @@
                     <graphic>
                         <ImageView fx:id="songCover1" fitHeight="126.0" fitWidth="129.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@assets/album1.jpg" />
+                                <Image url="@assets/album0.jpg" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -44,7 +44,7 @@
                     <graphic>
                         <ImageView fx:id="songCover2" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@assets/album2.jpg" />
+                                <Image url="@assets/album1.jpg" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -56,7 +56,7 @@
                     <graphic>
                         <ImageView fx:id="songCover3" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@assets/album1.jpg" />
+                                <Image url="@assets/album2.jpg" />
                             </image>
                         </ImageView>
                     </graphic>

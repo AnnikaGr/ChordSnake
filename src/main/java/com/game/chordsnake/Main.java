@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -50,6 +52,7 @@ public class Main extends Application {
     private Text titleInstrument = new Text();
     @FXML
     private Text titleSong = new Text();
+    private static int song = 0;
 
     private Game gameInstance = new Game();
     private Controller controller = new Controller(gameInstance);
@@ -58,6 +61,14 @@ public class Main extends Application {
         root.getChildren().remove(listPane.get(idCurrentPane));
         root.getChildren().add(listPane.get(idPane));
         idCurrentPane = idPane;
+    }
+
+    public int getSong() {
+        return song;
+    }
+
+    public static void setSong(int songSet) {
+        song = songSet;
     }
 
     public static void main(String[] args) {
@@ -89,11 +100,6 @@ public class Main extends Application {
         btnSong2.setToggleGroup(songGroup);
         btnSong3.setToggleGroup(songGroup);
 
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml")); //page 5
-        gameLoader.setController(controller);
-        listPane.add(gameLoader.load());
-        controller.initializeGrid();
-
         root.getChildren().add(listPane.get(0));
         Scene scene = new Scene(root, 800, 600);
         stage.setTitle("ChordSnake");
@@ -116,13 +122,18 @@ public class Main extends Application {
     }
 
     @FXML
-    public void confirmSong() {
+    public void confirmSong() throws IOException {
         int toggleGroupValue = songGroup.getToggles().indexOf(songGroup.getSelectedToggle());
         if (toggleGroupValue < 0) {
             titleSong.setText("Please select a song to proceed!");
             titleSong.setFill(Color.RED);
         } else {
             gameInstance.setSongChosenID(toggleGroupValue);
+            setSong(song);
+            FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
+            gameLoader.setController(controller);
+            listPane.add(5, gameLoader.load());
+            controller.initializeGrid();
             Main.setPane(5); //turn to game page
         }
 
@@ -130,7 +141,7 @@ public class Main extends Application {
 
     @FXML
     public void startGame(MouseEvent event) {
-        //start from choosing instruments
+
         Main.setPane(1);
     }
 
@@ -141,7 +152,7 @@ public class Main extends Application {
         gameLoader.setController(controller);
         controller.initializeGrid();
         listPane.set(5, gameLoader.load());
-        Main.setPane(1);
+        Main.setPane(5);
 
     }
 

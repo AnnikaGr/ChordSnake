@@ -9,11 +9,14 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Controller {
@@ -25,6 +28,8 @@ public class Controller {
     private GridPane gridGame= new GridPane();
     @FXML
     private GridPane chordChunk;
+    @FXML
+    private ImageView albumCover = new ImageView();
     private Song songModel;
     private Board boardModel;
     private Label[][] labels;
@@ -71,6 +76,9 @@ public class Controller {
         success = true;
         boardModel.setBoard(songModel);
         labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
+        System.out.println("song id: " + gameInstance.getSongChosenID());
+        Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/album" + gameInstance.getSongChosenID() + ".jpg")).toString());
+        albumCover.setImage(image);
 
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
