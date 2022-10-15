@@ -8,7 +8,7 @@ import java.util.List;
 public class Board {
     private final int height = 15;
     private final int width = 15;
-    private final String[] possibleChords = {"C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"}; //TODO update possible Chords
+    private final String[] possibleChords = {"E", "Em", "D", "C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"}; //TODO update possible Chords
     public String[][] arrangement;
     private Song currentSong;
     private Snake currentSnake;
