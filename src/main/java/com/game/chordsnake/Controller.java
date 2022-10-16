@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +40,9 @@ public class Controller {
     private int success = 1;
     private int noteCounter;
     private ChordPopup popup;
+
+    @FXML
+    private Text message;
 
     public Controller(Game gameInstance) {
         this.gameInstance = gameInstance;
@@ -145,9 +149,9 @@ public class Controller {
             //success = false;
             Main.setPane(4); //fail page
         } else if (success == 2) { //chord was appended
+            stopAnimation();
             success = boardModel.updateArrangement();
             this.popup = new ChordPopup("Select the notes of " + boardModel.getChordToCheck(), "Insert Chord Name here");
-            stopAnimation();
             isInChordPopupState = true;
             noteCounter = 0;
             popup.resetNoteText();
@@ -286,24 +290,73 @@ public class Controller {
 
     @FXML
     public void savingGridOnDragDropped(DragEvent event) {
+
         List<String> collectedChords = boardModel.getCurrentSnake().getCollectedChordsWithoutHead();
         if (collectedChords.size() == 0) { //only snake head exists
             event.consume();
         }
 
-        int counter = 0;
+        else if(collectedChords.size()>10){
+            this.message.setText("Your snake is already too long to save it!");
+            event.consume();
+        }
+    else {
+            int counter = 0;
+            for (String chord : collectedChords
+            ) {
+                chordChunk.add(new Label(chord), counter, 0);
+                counter++;
+            }
+            List<int[]> collectedChordsPositions = boardModel.getCurrentSnake().getSnakePosition().subList(1, boardModel.getCurrentSnake().getSnakePosition().size());
+            for (int[] position : collectedChordsPositions
+            ) {
+                boardModel.arrangement[position[0]][position[1]] = "Z";
+            }
+
+            boardModel.getCurrentSnake().clearSnake();
+        }
+
+
+        /*int counter = 0;
         for (String chord : collectedChords
         ) {
             chordChunk.add(new Label(chord), counter, 0);
             counter++;
+            //stop if there are more than 10 chords to save
+            if(counter >=10){
+                break;
+            }
         }
         List<int[]> collectedChordsPositions = boardModel.getCurrentSnake().getSnakePosition().subList(1, boardModel.getCurrentSnake().getSnakePosition().size());
+        if (counter <10){
+            for (int[] position : collectedChordsPositions
+            ) {
+                boardModel.arrangement[position[0]][position[1]] = "Z";
+            }
+            boardModel.getCurrentSnake().clearSnake();
+        }
+        else{
+
+        }*/
+
+       /* //keep remaining chords if there are more than 10 chords to save
+        List<String> unsavedChords = boardModel.getCurrentSnake().getCollectedChordsFromIndex(4);
+
+        int counter2= 0;
         for (int[] position : collectedChordsPositions
         ) {
-            boardModel.arrangement[position[0]][position[1]] = "Z";
+            if(!unsavedChords.isEmpty()){
+                boardModel.arrangement[position[0]][position[1]] = unsavedChords.get(counter2);
+                unsavedChords.remove(counter2);
+                counter2++;
+            }
+            else{
+                boardModel.arrangement[position[0]][position[1]] = "Z";
+            }
         }
 
-        boardModel.getCurrentSnake().clearSnake();
+        boardModel.getCurrentSnake().clearSnakeKeepUnsavedChords();*/
+
     }
 
     public void startAnimation() {

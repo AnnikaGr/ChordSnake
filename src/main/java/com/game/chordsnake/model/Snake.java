@@ -75,7 +75,7 @@ public class Snake {
 
     }
 
-    //clears snake and leaves only the snake head
+    //clears snake and leaves only the snake head with unsaved chords
     public void clearSnake() {
         collectedChords = new ArrayList<String>();
         collectedChords.add("SH");
@@ -83,11 +83,35 @@ public class Snake {
         List<int[]> oldPosition = snakePosition;
         snakePosition = new ArrayList<>();
         snakePosition.add(oldPosition.get(0));
-
     }
+
+//    public void clearSnakeKeepUnsavedChords(){
+//        List<String> unsavedChords = getCollectedChordsFromIndex(4);
+//
+//        //add head
+//        collectedChords = new ArrayList<String>();
+//        collectedChords.add("SH");
+//
+//        List<int[]> oldPosition = snakePosition;
+//        snakePosition = new ArrayList<>();
+//        snakePosition.add(oldPosition.get(0));
+//
+//        //add unsavedChords if they exist
+//        if(unsavedChords!=null){
+//            collectedChords.addAll(unsavedChords);
+//
+//            int numberOfUnsavedChords= unsavedChords.size();
+//            for (int i =1; i<= numberOfUnsavedChords; i++) {
+//                snakePosition.add(oldPosition.get(i));
+//            }
+//        }
+//    }
 
     public List<String> getCollectedChordsWithoutHead() {
         return collectedChords.subList(1, collectedChords.size());
+    }
+    public List<String> getCollectedChordsFromIndex(int index) {
+        return collectedChords.subList(index, collectedChords.size());
     }
 
     public List<int[]> getCollectedChordsPositions() {
