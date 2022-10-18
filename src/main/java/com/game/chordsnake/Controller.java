@@ -46,6 +46,22 @@ public class Controller {
 
     public Controller(Game gameInstance) {
         this.gameInstance = gameInstance;
+    }
+
+    // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
+    public static void delay(long millis, Runnable continuation) {
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Thread.sleep(millis);
+                } catch (InterruptedException e) {
+                }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(event -> continuation.run());
+        new Thread(sleeper).start();
     }    AnimationTimer animationTimer = new AnimationTimer() {
         long lastTick = 0;
 
@@ -64,22 +80,6 @@ public class Controller {
 
     };
 
-    // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
-    public static void delay(long millis, Runnable continuation) {
-        Task<Void> sleeper = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try {
-                    Thread.sleep(millis);
-                } catch (InterruptedException e) {
-                }
-                return null;
-            }
-        };
-        sleeper.setOnSucceeded(event -> continuation.run());
-        new Thread(sleeper).start();
-    }
-
     public static boolean containsArray(List<int[]> list, int[] probe) {
         for (int[] element : list) {
             if (Arrays.equals(element, probe)) {
@@ -94,11 +94,11 @@ public class Controller {
     }
 
     public void initializeGrid() {
+        success = 1;
         this.boardModel = new Board();
         this.songModel = new Song(gameInstance.getSongChosenID());
         boardModel.setBoard(songModel);
         labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
-        System.out.println("song id: " + gameInstance.getSongChosenID());
         Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/album" + gameInstance.getSongChosenID() + ".jpg")).toString());
         albumCover.setImage(image);
 
@@ -145,8 +145,9 @@ public class Controller {
     }
 
     public void updateGrid() {
-        if (success == 0) {
-            //success = false;
+        if (success == 0) { //success = false;
+            stopAnimation();
+            gameInstance.setGameStarted(false);
             Main.setPane(4); //fail page
         } else if (success == 2) { //chord was appended
             stopAnimation();
@@ -166,6 +167,7 @@ public class Controller {
                     continueGame();
                 } else {
                     success = 0;
+                    gameInstance.setGameStarted(false);
                     Main.setPane(4); //fail
                 }
                 isInChordPopupState = false;
@@ -174,14 +176,12 @@ public class Controller {
 
             updateGridLayout();
         } else if (success == 1) { //no chord was appended
+            startAnimation();
             success = boardModel.updateArrangement();
             updateGridLayout();
         } else throw new IllegalStateException("Integer Success doesn´t hold any of the values 1,2,3");
 
     }
-
-//single grid on gridpane; initialized with string value
-    //TODO for different ones set to different icons/empty/chords
 
     public void updateGridLayout() {
         for (int i = 0; i < boardModel.getWidth(); i++) {
@@ -194,6 +194,9 @@ public class Controller {
         }
     }
 
+//single grid on gridpane; initialized with string value
+    //TODO for different ones set to different icons/empty/chords
+
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
@@ -203,21 +206,20 @@ public class Controller {
         return null;
     }
 
-
-    //not using this atm
-
     @FXML
     public void handleKeyPress(KeyEvent event) {
-        System.out.println("handle key press");
         int headX = boardModel.getCurrentSnake().getSnakeHeadX();
         int headY = boardModel.getCurrentSnake().getSnakeHeadY();
         int newHeadX = headX;
         int newHeadY = headY;
 
         if (gameInstance.getGameStarted() == false) {
-            gameInstance.setGameStarted(true);
-            // inspired by https://github.com/Gaspared/snake/blob/master/Main.java
-            startAnimation();
+            if (success == 1) {
+                gameInstance.setGameStarted(true);
+                // inspired by https://github.com/Gaspared/snake/blob/master/Main.java
+                startAnimation();
+            }
+
         }
         if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
@@ -234,7 +236,7 @@ public class Controller {
     }
 
 
-// --- Event Handlers -------------------------------------------------------------------------------
+    //not using this atm
 
     public void cellOnMouseClick(MouseEvent e) {
         if (e.getButton().equals(MouseButton.PRIMARY)) {
@@ -257,6 +259,9 @@ public class Controller {
             }
         }
     }
+
+
+// --- Event Handlers -------------------------------------------------------------------------------
 
     public void cellDragDetected(MouseEvent event) {
         Node tmp = (Node) event.getSource();
@@ -294,13 +299,10 @@ public class Controller {
         List<String> collectedChords = boardModel.getCurrentSnake().getCollectedChordsWithoutHead();
         if (collectedChords.size() == 0) { //only snake head exists
             event.consume();
-        }
-
-        else if(collectedChords.size()>10){
+        } else if (collectedChords.size() > 10) {
             this.message.setText("Your snake is already too long to save it!");
             event.consume();
-        }
-    else {
+        } else {
             int counter = 0;
             for (String chord : collectedChords
             ) {
@@ -363,12 +365,12 @@ public class Controller {
         animationTimer.start();
     }
 
-
-    // -- Animation start and stop ----------------------------------------------
-
     public void stopAnimation() {
         animationTimer.stop();
     }
+
+
+    // -- Animation start and stop ----------------------------------------------
 
     public void continueGame() {
         startAnimation();

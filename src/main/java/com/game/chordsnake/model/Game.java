@@ -39,8 +39,8 @@ public class Game {
     }
 
     public void setSongChosenID(int songChosenID) {
+        System.out.println("song id: " + songChosenID);
         this.songChosenID = songChosenID;
-        System.out.println("song id: " + this.songChosenID);
     }
 
     public List<String> getSongChords() {

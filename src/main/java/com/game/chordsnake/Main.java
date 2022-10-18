@@ -134,18 +134,16 @@ public class Main extends Application {
 
     @FXML
     public void startGame(MouseEvent event) {
-
         Main.setPane(1);
     }
 
     @FXML
     public void tryAgain() throws IOException {
-        //TODO select song again? or restart the game?
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         gameLoader.setController(controller);
         controller.initializeGrid();
         listPane.set(5, gameLoader.load());
-        Main.setPane(5);
+        Main.setPane(0); // restart from beginning
 
     }
 

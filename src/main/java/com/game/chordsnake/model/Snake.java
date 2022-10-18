@@ -110,6 +110,7 @@ public class Snake {
     public List<String> getCollectedChordsWithoutHead() {
         return collectedChords.subList(1, collectedChords.size());
     }
+
     public List<String> getCollectedChordsFromIndex(int index) {
         return collectedChords.subList(index, collectedChords.size());
     }
