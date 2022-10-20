@@ -20,24 +20,10 @@ public class Board {
     private String encounteredElement;
     private String chordToCheck;
     private String[] noteText = {"", "", ""};
-    private List<chordTriad> chordTriadRef = new ArrayList<>(13);
+    //private List<chordTriad> chordTriadRef = new ArrayList<>(13);
 
     public Board() {
         initialContent = new ArrayList<>(height * width);
-        chordTriadRef.add(new chordTriad("C", Arrays.asList("C", "E", "G")));
-        chordTriadRef.add(new chordTriad("Cm", Arrays.asList("C", "D#", "G")));
-        chordTriadRef.add(new chordTriad("D", Arrays.asList("C", "F#", "A")));
-        chordTriadRef.add(new chordTriad("E", Arrays.asList("E", "G#", "B")));
-        chordTriadRef.add(new chordTriad("Em", Arrays.asList("E", "G", "B")));
-        chordTriadRef.add(new chordTriad("F", Arrays.asList("F", "A", "C")));
-        chordTriadRef.add(new chordTriad("Fm", Arrays.asList("F#", "G#", "C")));
-        chordTriadRef.add(new chordTriad("G", Arrays.asList("G", "B", "D")));
-        chordTriadRef.add(new chordTriad("Gm", Arrays.asList("G", "A#", "D")));
-        chordTriadRef.add(new chordTriad("A", Arrays.asList("A", "C#", "E")));
-        chordTriadRef.add(new chordTriad("Am", Arrays.asList("A", "C", "E")));
-        chordTriadRef.add(new chordTriad("B", Arrays.asList("B", "D#", "F#")));
-        chordTriadRef.add(new chordTriad("Bm", Arrays.asList("B", "D", "F#")));
-
 
         // set border tiles
         //arrangement= new String[height+2][width+2];
@@ -234,15 +220,8 @@ public class Board {
     public boolean checkNotes() {
         System.out.println("user put " + noteText[0] + noteText[1] + noteText[2]);
         System.out.println("encounteredElement " + chordToCheck);
-        for (chordTriad chord : chordTriadRef) {
-            if (chord.name.equals(chordToCheck)) {
-                System.out.println("set notes " + chord.notes.get(0) + chord.notes.get(1) + chord.notes.get(2));
-                if (noteText[0].equalsIgnoreCase(chord.notes.get(0)) && noteText[1].equalsIgnoreCase(chord.notes.get(1)) && noteText[2].equalsIgnoreCase(chord.notes.get(2))) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        Chord currentChord= new Chord(chordToCheck);
+       return currentChord.isSameOrder(new String[]{noteText[0], noteText[1] , noteText[2]});
     }
 
     class chordTriad {
