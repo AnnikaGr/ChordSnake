@@ -151,7 +151,6 @@ public class Controller {
     public void updateGridLayout() {
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
-                //Node node = getNodeFromGridPane(gridGame, i, j);
                 labels[i][j].setText(boardModel.arrangement[i][j]);
                 if (boardModel.getOneChord(i, j) == "SH") labels[i][j].setStyle("-fx-background-color: blue");
                 else labels[i][j].setStyle("-fx-background-color: transparent");

@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -14,13 +16,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
-    private final static int totalPaneNum = 7;
+    private final static int totalPaneNum = 8;
     static AnchorPane root;
     static List<BorderPane> listPane = new ArrayList<>(totalPaneNum);
     private static int idCurrentPane = 0;
@@ -47,6 +51,9 @@ public class Main extends Application {
     private Text titleInstrument = new Text();
     @FXML
     private Text titleSong = new Text();
+    @FXML
+    private ImageView studyImg = new ImageView() ;
+
     private Game gameInstance = new Game();
     private Controller controller = new Controller(gameInstance);
 
@@ -87,6 +94,7 @@ public class Main extends Application {
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("success-view.fxml")))); //page 3
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("fail-view.fxml")))); //page 4
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("win-view.fxml")))); //page 5
+        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("study-view.fxml")))); //page 6
         btnGuitar.setToggleGroup(instrumentGroup);
         btnCello.setToggleGroup(instrumentGroup);
         btnPiano.setToggleGroup(instrumentGroup);
@@ -124,13 +132,25 @@ public class Main extends Application {
         } else {
             gameInstance.setSongChosenID(toggleGroupValue);
             setSong(song);
-            FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
-            gameLoader.setController(controller);
-            listPane.add(6, gameLoader.load());
-            controller.initializeGrid();
-            Main.setPane(6); //turn to game page
+            Main.setPane(6);
+
         }
 
+    }
+
+    @FXML
+    public void showImage(){
+        Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/album" + gameInstance.getSongChosenID() + ".jpg")).toString());
+        studyImg.setImage(image);
+    }
+
+    @FXML
+    public void doneStudying() throws IOException{
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
+        gameLoader.setController(controller);
+        listPane.add(7, gameLoader.load());
+        controller.initializeGrid();
+        Main.setPane(7); //turn to game page
     }
 
     @FXML
@@ -143,7 +163,7 @@ public class Main extends Application {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         gameLoader.setController(controller);
         controller.initializeGrid();
-        listPane.set(6, gameLoader.load());
+        listPane.set(7, gameLoader.load());
         Main.setPane(0); // restart from beginning
 
     }
