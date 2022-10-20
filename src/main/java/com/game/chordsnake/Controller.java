@@ -16,6 +16,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -40,6 +41,7 @@ public class Controller {
     private int success = 1;
     private int noteCounter;
     private ChordPopup popup;
+    private List<String> savedChords = new ArrayList<>();
 
     @FXML
     private Text message;
@@ -95,6 +97,13 @@ public class Controller {
     }
 
     public void updateGrid() {
+        if(success!= 2 && checkWon()){ //check won if chord wasnt appended this tick
+            System.out.println("You won");
+            stopAnimation();
+            gameInstance.setGameStarted(false);
+            Main.setPane(5);
+        }
+
         if (success == 0) { //success = false;
             stopAnimation();
             gameInstance.setGameStarted(false);
@@ -114,6 +123,11 @@ public class Controller {
                 this.boardModel.setNoteText(1, popup.getTextInput(1));
                 this.boardModel.setNoteText(2, popup.getTextInput(2));
                 if (boardModel.checkNotes()) {
+                    if(checkWon()){
+                        stopAnimation();
+                        gameInstance.setGameStarted(false);
+                        Main.setPane(5);
+                    }
                     continueGame();
                 } else {
                     success = 0;
@@ -130,6 +144,8 @@ public class Controller {
             success = boardModel.updateArrangement();
             updateGridLayout();
         } else throw new IllegalStateException("Integer Success doesn´t hold any of the values 1,2,3");
+
+
     }
 
     public void updateGridLayout() {
@@ -147,6 +163,18 @@ public class Controller {
     public void randomizeBoard() {
         boardModel.shuffleBoard();
         updateGridLayout();
+    }
+
+    public boolean checkWon(){
+        if(!savedChords.isEmpty()){
+            List<String> fullCollectedChords= new ArrayList<>();
+            fullCollectedChords.addAll(savedChords);
+            fullCollectedChords.addAll(boardModel.getCurrentSnake().getCollectedChordsWithoutHead());
+            return songModel.checkCorrectOrder(fullCollectedChords);
+        }
+        else {
+         return songModel.checkCorrectOrder(boardModel.getCurrentSnake().getCollectedChordsWithoutHead());
+        }
     }
 
     // --- Event Handlers -------------------------------------------------------------------------------
@@ -237,6 +265,7 @@ public class Controller {
             event.consume();
         } else {
             int counter = 0;
+            savedChords.addAll(collectedChords);
             for (String chord : collectedChords
             ) {
                 chordChunk.add(new Label(chord), counter, 0);

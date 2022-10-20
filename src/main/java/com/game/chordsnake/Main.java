@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
-    private final static int totalPaneNum = 6;
+    private final static int totalPaneNum = 7;
     static AnchorPane root;
     static List<BorderPane> listPane = new ArrayList<>(totalPaneNum);
     private static int idCurrentPane = 0;
@@ -86,6 +86,7 @@ public class Main extends Application {
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("song-selection-view.fxml")))); //page 2
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("success-view.fxml")))); //page 3
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("fail-view.fxml")))); //page 4
+        listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("win-view.fxml")))); //page 5
         btnGuitar.setToggleGroup(instrumentGroup);
         btnCello.setToggleGroup(instrumentGroup);
         btnPiano.setToggleGroup(instrumentGroup);
@@ -125,9 +126,9 @@ public class Main extends Application {
             setSong(song);
             FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
             gameLoader.setController(controller);
-            listPane.add(5, gameLoader.load());
+            listPane.add(6, gameLoader.load());
             controller.initializeGrid();
-            Main.setPane(5); //turn to game page
+            Main.setPane(6); //turn to game page
         }
 
     }
@@ -142,7 +143,7 @@ public class Main extends Application {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         gameLoader.setController(controller);
         controller.initializeGrid();
-        listPane.set(5, gameLoader.load());
+        listPane.set(6, gameLoader.load());
         Main.setPane(0); // restart from beginning
 
     }
