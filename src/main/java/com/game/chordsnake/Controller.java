@@ -44,25 +44,7 @@ public class Controller {
     @FXML
     private Text message;
 
-    public Controller(Game gameInstance) {
-        this.gameInstance = gameInstance;
-    }
-
-    // code from https://stackoverflow.com/questions/26454149/make-javafx-wait-and-continue-with-code
-    public static void delay(long millis, Runnable continuation) {
-        Task<Void> sleeper = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try {
-                    Thread.sleep(millis);
-                } catch (InterruptedException e) {
-                }
-                return null;
-            }
-        };
-        sleeper.setOnSucceeded(event -> continuation.run());
-        new Thread(sleeper).start();
-    }    AnimationTimer animationTimer = new AnimationTimer() {
+    AnimationTimer animationTimer = new AnimationTimer() {
         long lastTick = 0;
 
         public void handle(long now) {
@@ -80,17 +62,8 @@ public class Controller {
 
     };
 
-    public static boolean containsArray(List<int[]> list, int[] probe) {
-        for (int[] element : list) {
-            if (Arrays.equals(element, probe)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void initialize() {
-
+    public Controller(Game gameInstance) {
+        this.gameInstance = gameInstance;
     }
 
     public void initializeGrid() {
@@ -119,29 +92,6 @@ public class Controller {
                 gridGame.add(button, i, j);
             }
         }
-
-        /*for (int i = 0; i< numRows; i++) {
-            for (int j = 0; j < numColumns; j++) {
-                Button button = createButton("");
-                String content="";
-                if(board.grid[i][j].hasMine){
-                    content= "mine";
-                }
-                else if (board.grid[i][j].hasWater){
-                    content = "water";
-                }
-                else if (board.grid[i][j].hasWell){
-                    content = "well";
-                }
-                else {
-                    content = Integer.toString(board.grid[i][j].numSurroundingMines);
-                }
-                //
-                Label label = createCellContent(content);
-                grid.add(label,j,i);
-                grid.add(button, j, i );
-            }
-        }*/
     }
 
     public void updateGrid() {
@@ -180,7 +130,6 @@ public class Controller {
             success = boardModel.updateArrangement();
             updateGridLayout();
         } else throw new IllegalStateException("Integer Success doesn´t hold any of the values 1,2,3");
-
     }
 
     public void updateGridLayout() {
@@ -194,17 +143,13 @@ public class Controller {
         }
     }
 
-//single grid on gridpane; initialized with string value
-    //TODO for different ones set to different icons/empty/chords
-
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
-                return node;
-            }
-        }
-        return null;
+    @FXML
+    public void randomizeBoard() {
+        boardModel.shuffleBoard();
+        updateGridLayout();
     }
+
+    // --- Event Handlers -------------------------------------------------------------------------------
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
@@ -235,9 +180,6 @@ public class Controller {
 
     }
 
-
-    //not using this atm
-
     public void cellOnMouseClick(MouseEvent e) {
         if (e.getButton().equals(MouseButton.PRIMARY)) {
             if (e.getClickCount() == 2) {
@@ -260,9 +202,6 @@ public class Controller {
         }
     }
 
-
-// --- Event Handlers -------------------------------------------------------------------------------
-
     public void cellDragDetected(MouseEvent event) {
         Node tmp = (Node) event.getSource();
         int row = gridGame.getRowIndex(tmp);
@@ -278,12 +217,6 @@ public class Controller {
             db.setContent(content);
             event.consume();
         }
-    }
-
-    @FXML
-    public void randomizeBoard() {
-        boardModel.shuffleBoard();
-        updateGridLayout();
     }
 
     @FXML
@@ -361,6 +294,13 @@ public class Controller {
 
     }
 
+
+    // -- Animation start and stop ----------------------------------------------
+
+    public void continueGame() {
+        startAnimation();
+    }
+
     public void startAnimation() {
         animationTimer.start();
     }
@@ -369,14 +309,13 @@ public class Controller {
         animationTimer.stop();
     }
 
-
-    // -- Animation start and stop ----------------------------------------------
-
-    public void continueGame() {
-        startAnimation();
+    // -- Util ------------------------------------------------------------------
+    public static boolean containsArray(List<int[]> list, int[] probe) {
+        for (int[] element : list) {
+            if (Arrays.equals(element, probe)) {
+                return true;
+            }
+        }
+        return false;
     }
-
-
-
-
 }
