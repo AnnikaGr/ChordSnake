@@ -143,12 +143,12 @@ public class Board {
         } else if (encounteredElement.equals("I")) {
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         }
-        for (String possibleChord : possibleChords) {
-            if (encounteredElement.equals(possibleChord)) {
+
+            if (new Chord(encounteredElement).getNotes()!= null) {
                 chordToCheck = encounteredElement;
                 currentSnake.appendElement(tailPositions[0], tailPositions[1], encounteredElement);
                 appended = true;
-            }
+
         }
         List<String> collectedChords = currentSnake.getCollectedChords();
         List<int[]> snakePositions = currentSnake.getSnakePosition();

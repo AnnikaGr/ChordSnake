@@ -36,4 +36,8 @@ public class Chord {
             return false;
         }
     }
+
+    public String[] getNotes (){
+        return notes;
+    }
 }

@@ -57,7 +57,6 @@ public class Snake {
 
     //shifts snake forward one field
     public void shiftSnake() {
-        List<int[]> tmp = snakePosition;
         int[] newHeadPosition = null;
         if (direction == 0) { //up
             newHeadPosition = new int[]{snakePosition.get(0)[0], snakePosition.get(0)[1] - 1};
