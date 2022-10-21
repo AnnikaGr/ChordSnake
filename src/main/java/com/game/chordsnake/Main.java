@@ -30,6 +30,7 @@ public class Main extends Application {
     private static int idCurrentPane = 0;
     private static Stage primaryStage;
     private static int song = 0;
+    private static int instrument = 0;
     @FXML
     private ToggleGroup instrumentGroup = new ToggleGroup();
     @FXML
@@ -75,13 +76,13 @@ public class Main extends Application {
         Main.primaryStage = stage;
     }
 
-    public int getSong() {
-        return song;
-    }
+    public int getSong() { return song; }
 
-    public static void setSong(int songSet) {
-        song = songSet;
-    }
+    public static void setSong(int songSet) { song = songSet; }
+
+    public int getInstrument() { return instrument; }
+
+    public static void setInstrument(int instrumentSet) { instrument = instrumentSet; }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -117,7 +118,7 @@ public class Main extends Application {
             titleInstrument.setText("Please select an instrument to proceed!");
             titleInstrument.setFill(Color.RED);
         } else {
-            gameInstance.setInstrumentChosenID(toggleGroupValue);
+            setInstrument(toggleGroupValue);
             Main.setPane(2); //turn to choosing song page
         }
 
@@ -130,10 +131,8 @@ public class Main extends Application {
             titleSong.setText("Please select a song to proceed!");
             titleSong.setFill(Color.RED);
         } else {
-            gameInstance.setSongChosenID(toggleGroupValue);
-            setSong(song);
+            setSong(toggleGroupValue);
             Main.setPane(6);
-
         }
 
     }
@@ -146,6 +145,8 @@ public class Main extends Application {
 
     @FXML
     public void doneStudying() throws IOException{
+        gameInstance.setSongChosenID(getSong());
+        gameInstance.setInstrumentChosenID(getInstrument());
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         gameLoader.setController(controller);
         listPane.add(7, gameLoader.load());
