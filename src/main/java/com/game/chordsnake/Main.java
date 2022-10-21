@@ -139,7 +139,7 @@ public class Main extends Application {
 
     @FXML
     public void showImage(){
-        Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/album" + gameInstance.getSongChosenID() + ".jpg")).toString());
+        Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/chords" + gameInstance.getSongChosenID() + ".jpg")).toString());
         studyImg.setImage(image);
     }
 

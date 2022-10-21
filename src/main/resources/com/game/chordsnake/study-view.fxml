@@ -18,14 +18,14 @@
         </Button>
     </bottom>
     <center>
-        <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" >
-            <Text text="Click to review chords">
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Text layoutX="234.0" layoutY="264.0" text="Click here to review the chords!">
                 <font>
                     <Font name="Open Sans Regular" size="24.0" />
                 </font>
             </Text>
-            <ImageView fx:id="studyImg" fitHeight="369.0" fitWidth="529.0" onMouseClicked="#showImage" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-        </Pane>
+            <ImageView fx:id="studyImg" fitHeight="369.0" fitWidth="529.0" layoutX="136.0" layoutY="86.0" onMouseClicked="#showImage" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+        </AnchorPane>
 
     </center>
 
@@ -33,4 +33,7 @@
    <left>
 
    </left>
+   <right>
+
+   </right>
 </BorderPane>
