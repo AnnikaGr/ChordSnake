@@ -73,6 +73,7 @@ public class Controller {
         this.boardModel = new Board();
         this.songModel = new Song(gameInstance.getSongChosenID());
         boardModel.setBoard(songModel);
+        boardModel.getCurrentSnake().setInsId(gameInstance.getInstrumentChosenID());
         labels = new Label[boardModel.getWidth()][boardModel.getHeight()];
         Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/album" + gameInstance.getSongChosenID() + ".jpg")).toString());
         albumCover.setImage(image);

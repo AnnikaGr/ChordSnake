@@ -21,6 +21,7 @@ public class Chord {
             case "Fm" -> this.notes = new String[]{"F#", "G#", "C"};
             case "Gm" -> this.notes= new String[]{"G", "A#", "D"};
             case "Bm" -> this.notes = new String[]{"B", "D", "F#"};
+            case "Z" -> {}
             default -> System.out.println("chord name not found in chord constructor ");
         }
 

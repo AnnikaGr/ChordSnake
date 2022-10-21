@@ -16,6 +16,7 @@ public class Snake {
     //chords in Snake
     private ArrayList<String> collectedChords = new ArrayList<>();
     private int direction; // up=0, left=1, right=2, down=3
+    private int insId;
 
 
     //position of Snake
@@ -42,7 +43,7 @@ public class Snake {
         //ref: https://stackoverflow.com/questions/39085830/how-to-play-a-wav-file-using-java
         try {
             Clip sound = AudioSystem.getClip();
-            sound.open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + chordName + ".wav"))));
+            sound.open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + getInsId() +"/" + chordName + ".wav"))));
             sound.start();
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
@@ -153,5 +154,8 @@ public class Snake {
     public int getSnakeHeadY() {
         return snakePosition.get(0)[1];
     }
+
+    public void setInsId(int insId) { this.insId = insId; }
+    public int getInsId() { return insId; }
 
 }

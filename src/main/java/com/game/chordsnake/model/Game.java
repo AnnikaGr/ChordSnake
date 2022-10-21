@@ -17,6 +17,10 @@ public class Game {
         System.out.println("instrument id: " + this.instrumentChosenID);
     }
 
+    public int getInstrumentChosenID() {
+        return instrumentChosenID;
+    }
+
     public boolean getGameStarted() {
         return gameStart;
     }

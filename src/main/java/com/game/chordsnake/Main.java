@@ -147,6 +147,7 @@ public class Main extends Application {
     public void doneStudying() throws IOException{
         gameInstance.setSongChosenID(getSong());
         gameInstance.setInstrumentChosenID(getInstrument());
+
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         gameLoader.setController(controller);
         listPane.add(7, gameLoader.load());
