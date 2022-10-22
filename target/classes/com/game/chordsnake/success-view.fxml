@@ -6,14 +6,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-<BorderPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx"
-            fx:controller="com.game.chordsnake.Main">
+<BorderPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: add182;"
+            xmlns="http://javafx.com/javafx" fx:controller="com.game.chordsnake.Main">
     <bottom>
         <Button fx:id="backHome" mnemonicParsing="false" text="Back Home" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Regular" size="24.0"/>
+                <Font name="Open Sans Medium" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>
@@ -21,10 +20,10 @@
         </Button>
     </bottom>
     <center>
-        <ImageView fitHeight="369.0" fitWidth="529.0" pickOnBounds="true" preserveRatio="true"
+        <ImageView fitHeight="512.0" fitWidth="682.0" pickOnBounds="true" preserveRatio="true"
                    BorderPane.alignment="CENTER">
             <image>
-                <Image url="@assets/logo.png"/>
+                <Image url="@assets/win.png"/>
             </image>
         </ImageView>
     </center>

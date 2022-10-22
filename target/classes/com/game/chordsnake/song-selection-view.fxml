@@ -7,12 +7,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx"
-            fx:controller="com.game.chordsnake.Main">
+            prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: add182;"
+            xmlns="http://javafx.com/javafx" fx:controller="com.game.chordsnake.Main">
     <bottom>
         <Button mnemonicParsing="false" onMouseClicked="#confirmSong" text="Confirm" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Regular" size="24.0"/>
+                <Font name="Open Sans Medium" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>
@@ -24,7 +24,7 @@
             <children>
                 <RadioButton fx:id="btnSong1" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false">
                     <graphic>
-                        <ImageView fx:id="songCover1" fitHeight="126.0" fitWidth="129.0" nodeOrientation="INHERIT"
+                        <ImageView fx:id="songCover1" fitHeight="200.0" fitWidth="200.0" nodeOrientation="INHERIT"
                                    pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@assets/album0.jpg"/>
@@ -40,7 +40,7 @@
                 </RadioButton>
                 <RadioButton fx:id="btnSong2" mnemonicParsing="false" toggleGroup="$songGroup">
                     <graphic>
-                        <ImageView fx:id="songCover2" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true"
+                        <ImageView fx:id="songCover2" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true"
                                    preserveRatio="true">
                             <image>
                                 <Image url="@assets/album1.jpg"/>
@@ -53,7 +53,7 @@
                 </RadioButton>
                 <RadioButton fx:id="btnSong3" mnemonicParsing="false" toggleGroup="$songGroup">
                     <graphic>
-                        <ImageView fx:id="songCover3" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true"
+                        <ImageView fx:id="songCover3" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true"
                                    preserveRatio="true">
                             <image>
                                 <Image url="@assets/album2.jpg"/>
@@ -71,10 +71,10 @@
         <Text fx:id="titleSong" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select your song"
               BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets top="30.0"/>
+                <Insets top="100.0"/>
             </BorderPane.margin>
             <font>
-                <Font name="Open Sans Regular" size="36.0"/>
+                <Font name="Open Sans SemiBold" size="36.0"/>
             </font>
         </Text>
     </top>

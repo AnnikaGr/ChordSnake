@@ -5,8 +5,8 @@ import com.game.chordsnake.model.Game;
 import com.game.chordsnake.model.Song;
 import com.game.chordsnake.view.ChordPopup;
 import javafx.animation.AnimationTimer;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +16,11 @@ import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,9 +29,10 @@ import java.util.Objects;
 
 public class Controller {
 
-    private final int singleGridWidth = 27;
+    private final int singleGridWidth = 40;
     int speed = 1;
     //radio button group for instrument selection
+
     @FXML
     private GridPane gridGame = new GridPane();
     @FXML
@@ -69,6 +75,7 @@ public class Controller {
     }
 
     public void initializeGrid() {
+
         success = 1;
         this.boardModel = new Board();
         this.songModel = new Song(gameInstance.getSongChosenID());
@@ -80,8 +87,23 @@ public class Controller {
 
         for (int i = 0; i < boardModel.getWidth(); i++) {
             for (int j = 0; j < boardModel.getHeight(); j++) {
-                labels[i][j] = new Label(boardModel.getOneChord(i, j));
-                if (boardModel.getOneChord(i, j) == "SH") labels[i][j].setStyle("-fx-background-color: blue");
+                labels[i][j] = new Label();
+                labels[i][j].setAlignment(Pos.CENTER);
+                labels[i][j].setPrefWidth(singleGridWidth);
+                labels[i][j].setPrefHeight(singleGridWidth);
+
+                if (boardModel.getOneChord(i, j) == "T") {
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/Rb2bK5q/trash.png\");"+ "-fx-background-size: 40 40; ");
+                } else if (boardModel.getOneChord(i, j) == "Z") {
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #709255");
+                } else if (boardModel.getOneChord(i, j) == "I") {
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/thfw3R8/music-note.png\");"+ "-fx-background-size: 40 40; ");
+                } else if (boardModel.getOneChord(i, j) != "SH"){ //chords
+                    labels[i][j].setText(boardModel.arrangement[i][j]);
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #dda15e");
+                } else {
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #fbec88");
+                }
                 gridGame.add(labels[i][j], i, j);
 
                 Button button = new Button("");
@@ -96,6 +118,32 @@ public class Controller {
             }
         }
     }
+
+    public void updateGridLayout() {
+        for (int i = 0; i < boardModel.getWidth(); i++) {
+            for (int j = 0; j < boardModel.getHeight(); j++) {
+                labels[i][j].setText(null);
+                if (boardModel.getOneChord(i, j) == "T") {
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/Rb2bK5q/trash.png\");"+ "-fx-background-size: 40 40; ");
+                } else if (boardModel.getOneChord(i, j) == "Z") {
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #709255");
+                } else if (boardModel.getOneChord(i, j) == "I") {
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/thfw3R8/music-note.png\");"+ "-fx-background-size: 40 40; ");
+                } else if (boardModel.getOneChord(i, j) != "SH"){ //chords
+                    labels[i][j].setText(boardModel.arrangement[i][j]);
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #dda15e");
+                }
+                for (int[] position : boardModel.getCurrentSnake().getSnakePosition()) {
+                    if(position[0] == i && position[1] == j) {
+                        if (boardModel.getOneChord(i, j) != "SH") labels[i][j].setText(boardModel.arrangement[i][j]);
+                        labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #fbec88");
+                    }
+                }
+
+            }
+        }
+    }
+
 
     public void updateGrid() {
         if(success!= 2 && checkWon()){ //check won if chord wasnt appended this tick
@@ -149,15 +197,6 @@ public class Controller {
 
     }
 
-    public void updateGridLayout() {
-        for (int i = 0; i < boardModel.getWidth(); i++) {
-            for (int j = 0; j < boardModel.getHeight(); j++) {
-                labels[i][j].setText(boardModel.arrangement[i][j]);
-                if (boardModel.getOneChord(i, j) == "SH") labels[i][j].setStyle("-fx-background-color: blue");
-                else labels[i][j].setStyle("-fx-background-color: transparent");
-            }
-        }
-    }
 
     @FXML
     public void randomizeBoard() {
@@ -279,48 +318,19 @@ public class Controller {
 
             boardModel.getCurrentSnake().clearSnake();
         }
+    }
 
-
-        /*int counter = 0;
-        for (String chord : collectedChords
-        ) {
-            chordChunk.add(new Label(chord), counter, 0);
-            counter++;
-            //stop if there are more than 10 chords to save
-            if(counter >=10){
-                break;
+    @FXML
+    public void playSong() {
+        for (String chord : savedChords) {
+            try {
+                Clip sound = AudioSystem.getClip();
+                sound.open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + gameInstance.getInstrumentChosenID() +"/" + chord + ".wav"))));
+                sound.start();
+            } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+                e.printStackTrace();
             }
         }
-        List<int[]> collectedChordsPositions = boardModel.getCurrentSnake().getSnakePosition().subList(1, boardModel.getCurrentSnake().getSnakePosition().size());
-        if (counter <10){
-            for (int[] position : collectedChordsPositions
-            ) {
-                boardModel.arrangement[position[0]][position[1]] = "Z";
-            }
-            boardModel.getCurrentSnake().clearSnake();
-        }
-        else{
-
-        }*/
-
-       /* //keep remaining chords if there are more than 10 chords to save
-        List<String> unsavedChords = boardModel.getCurrentSnake().getCollectedChordsFromIndex(4);
-
-        int counter2= 0;
-        for (int[] position : collectedChordsPositions
-        ) {
-            if(!unsavedChords.isEmpty()){
-                boardModel.arrangement[position[0]][position[1]] = unsavedChords.get(counter2);
-                unsavedChords.remove(counter2);
-                counter2++;
-            }
-            else{
-                boardModel.arrangement[position[0]][position[1]] = "Z";
-            }
-        }
-
-        boardModel.getCurrentSnake().clearSnakeKeepUnsavedChords();*/
-
     }
 
 

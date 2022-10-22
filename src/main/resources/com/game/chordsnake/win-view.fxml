@@ -2,48 +2,43 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-
+<?import javafx.scene.text.Font?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx"
+            prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx"
             fx:controller="com.game.chordsnake.Main">
     <bottom>
 
 
-            <Button mnemonicParsing="false" onMouseClicked="#tryAgain" text="Back to Start" BorderPane.alignment="CENTER">
-                <font>
-                    <Font name="Open Sans Regular" size="24.0"/>
-                </font>
-                <BorderPane.margin>
-                    <Insets bottom="20.0" top="20.0"/>
-                </BorderPane.margin>
-            </Button>
-
-    </bottom>
-    <center>
-    <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <ImageView fitHeight="369.0" fitWidth="529.0" pickOnBounds="true" preserveRatio="true"
-                   BorderPane.alignment="CENTER">
-            <image>
-                <Image url="@assets/logo.png"/>
-
-            </image>
-
-        </ImageView>
-        <Label text="Correct! You won!" >
+        <Button mnemonicParsing="false" onMouseClicked="#tryAgain" text="Back to Start" BorderPane.alignment="CENTER">
             <font>
                 <Font name="Open Sans Regular" size="24.0"/>
             </font>
-        </Label>
-    </VBox>
+            <BorderPane.margin>
+                <Insets bottom="20.0" top="20.0"/>
+            </BorderPane.margin>
+        </Button>
+
+    </bottom>
+    <center>
+        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <ImageView fitHeight="369.0" fitWidth="529.0" pickOnBounds="true" preserveRatio="true"
+                       BorderPane.alignment="CENTER">
+                <image>
+                    <Image url="@assets/logo.png"/>
+
+                </image>
+
+            </ImageView>
+            <Label text="Correct! You won!">
+                <font>
+                    <Font name="Open Sans Regular" size="24.0"/>
+                </font>
+            </Label>
+        </VBox>
     </center>
 </BorderPane>

@@ -58,7 +58,7 @@ public class ChordPopup {
         hbox.getChildren().addAll(notes[0], notes[1], notes[2]);
 
         vbox.getChildren().addAll(title, subtitle, hbox, checkAndContinue);
-        vbox.setStyle("-fx-background-color:#975C4E; -fx-border-width:2;-fx-border-radius:3;-fx-hgap:3;-fx-vgap:5;");
+        vbox.setStyle("-fx-background-color:#bd5923; -fx-border-width:2;-fx-border-radius:3;-fx-hgap:3;-fx-vgap:5;");
 
         popup.getContent().addAll(vbox);
     }

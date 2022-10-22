@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx"
-            fx:controller="com.game.chordsnake.Main">
+            prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: add182;"
+            xmlns="http://javafx.com/javafx" fx:controller="com.game.chordsnake.Main">
     <bottom>
         <Button fx:id="btnConfirmIns" mnemonicParsing="false" onMouseClicked="#confirmInstrument" text="Confirm"
                 BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Regular" size="24.0"/>
+                <Font name="Open Sans Medium" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>
@@ -28,7 +31,7 @@
                         <ToggleGroup fx:id="instrumentGroup"/>
                     </toggleGroup>
                     <graphic>
-                        <ImageView fx:id="guitar" fitHeight="126.0" fitWidth="129.0" nodeOrientation="INHERIT"
+                        <ImageView fx:id="guitar" fitHeight="200.0" fitWidth="200.0" nodeOrientation="INHERIT"
                                    pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@assets/guitar.png"/>
@@ -39,22 +42,9 @@
                         <Insets left="20.0" right="20.0"/>
                     </HBox.margin>
                 </RadioButton>
-                <RadioButton fx:id="btnCello" mnemonicParsing="false" toggleGroup="$instrumentGroup">
-                    <graphic>
-                        <ImageView fx:id="cello" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true"
-                                   preserveRatio="true">
-                            <image>
-                                <Image url="@assets/cello.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <HBox.margin>
-                        <Insets left="20.0" right="20.0"/>
-                    </HBox.margin>
-                </RadioButton>
                 <RadioButton fx:id="btnPiano" mnemonicParsing="false" toggleGroup="$instrumentGroup">
                     <graphic>
-                        <ImageView fx:id="piano" fitHeight="126.0" fitWidth="129.0" pickOnBounds="true"
+                        <ImageView fx:id="piano" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true"
                                    preserveRatio="true">
                             <image>
                                 <Image url="@assets/piano.png"/>
@@ -70,12 +60,12 @@
     </center>
     <top>
         <Text fx:id="titleInstrument" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select your instrument"
-              BorderPane.alignment="CENTER">
+              textAlignment="CENTER" wrappingWidth="745.5323613286018" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets top="30.0"/>
+                <Insets top="100.0"/>
             </BorderPane.margin>
             <font>
-                <Font name="Open Sans Regular" size="36.0"/>
+                <Font name="Open Sans SemiBold" size="36.0"/>
             </font>
         </Text>
     </top>

@@ -1,7 +1,5 @@
 package com.game.chordsnake.model;
 
-import java.util.Arrays;
-
 public class Chord {
 
     private String[] notes;

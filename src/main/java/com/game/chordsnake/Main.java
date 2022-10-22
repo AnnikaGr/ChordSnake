@@ -16,9 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -54,6 +52,8 @@ public class Main extends Application {
     private Text titleSong = new Text();
     @FXML
     private ImageView studyImg = new ImageView() ;
+    @FXML
+    private BorderPane borderPane = new BorderPane();
 
     private Game gameInstance = new Game();
     private Controller controller = new Controller(gameInstance);
@@ -86,7 +86,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        setPrimaryStage(stage);
+       setPrimaryStage(stage);
 
         root = FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("anchor.fxml")));
         listPane.add(FXMLLoader.load(Objects.requireNonNull(Main.class.getResource("start-view.fxml")))); //page 0
@@ -104,7 +104,7 @@ public class Main extends Application {
         btnSong3.setToggleGroup(songGroup);
 
         root.getChildren().add(listPane.get(0));
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1200, 800);
         stage.setTitle("ChordSnake");
         stage.setScene(scene);
 

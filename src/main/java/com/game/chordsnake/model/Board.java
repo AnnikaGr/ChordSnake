@@ -141,7 +141,7 @@ public class Board {
         } else if (encounteredElement.equals("T")) {
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         } else if (encounteredElement.equals("I")) {
-            arrangement[tailPositions[0]][tailPositions[1]] = "Z";
+                arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         }
 
             if (new Chord(encounteredElement).getNotes()!= null) {
