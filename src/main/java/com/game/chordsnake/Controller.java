@@ -28,17 +28,14 @@ import java.util.Objects;
 
 
 public class Controller {
-
-    private final int singleGridWidth = 40;
-    int speed = 1;
-    //radio button group for instrument selection
-
     @FXML
     private GridPane gridGame = new GridPane();
     @FXML
     private GridPane chordChunk;
     @FXML
     private ImageView albumCover = new ImageView();
+    @FXML
+    private Text message;
     private Song songModel;
     private Board boardModel;
     private Label[][] labels;
@@ -46,11 +43,10 @@ public class Controller {
     private boolean isInChordPopupState = false;
     private int success = 1;
     private int noteCounter;
+    private final int singleGridWidth = 40;
+    private int speed = 1;
     private ChordPopup popup;
     private List<String> savedChords = new ArrayList<>();
-
-    @FXML
-    private Text message;
 
     AnimationTimer animationTimer = new AnimationTimer() {
         long lastTick = 0;
@@ -75,7 +71,6 @@ public class Controller {
     }
 
     public void initializeGrid() {
-
         success = 1;
         this.boardModel = new Board();
         this.songModel = new Song(gameInstance.getSongChosenID());
@@ -197,13 +192,6 @@ public class Controller {
 
     }
 
-
-    @FXML
-    public void randomizeBoard() {
-        boardModel.shuffleBoard();
-        updateGridLayout();
-    }
-
     public boolean checkWon(){
         if(!savedChords.isEmpty()){
             List<String> fullCollectedChords= new ArrayList<>();
@@ -217,6 +205,11 @@ public class Controller {
     }
 
     // --- Event Handlers -------------------------------------------------------------------------------
+    @FXML
+    public void randomizeBoard() {
+        boardModel.shuffleBoard();
+        updateGridLayout();
+    }
 
     @FXML
     public void handleKeyPress(KeyEvent event) {

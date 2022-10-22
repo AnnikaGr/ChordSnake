@@ -28,10 +28,6 @@ public class Snake {
         collectedChords.add("SH");
     }
 
-    public void removeElement(int index) {
-        collectedChords.remove(index);
-    }
-
     public void removeLastElement() {
         collectedChords.remove(collectedChords.size() - 1);
         snakePosition.remove(collectedChords.size() - 1);
@@ -43,7 +39,7 @@ public class Snake {
         //ref: https://stackoverflow.com/questions/39085830/how-to-play-a-wav-file-using-java
         try {
             Clip sound = AudioSystem.getClip();
-            sound.open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + getInsId() +"/" + chordName + ".wav"))));
+            sound.open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + getInsId() + "/" + chordName + ".wav"))));
             sound.start();
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
@@ -85,38 +81,8 @@ public class Snake {
         snakePosition.add(oldPosition.get(0));
     }
 
-//    public void clearSnakeKeepUnsavedChords(){
-//        List<String> unsavedChords = getCollectedChordsFromIndex(4);
-//
-//        //add head
-//        collectedChords = new ArrayList<String>();
-//        collectedChords.add("SH");
-//
-//        List<int[]> oldPosition = snakePosition;
-//        snakePosition = new ArrayList<>();
-//        snakePosition.add(oldPosition.get(0));
-//
-//        //add unsavedChords if they exist
-//        if(unsavedChords!=null){
-//            collectedChords.addAll(unsavedChords);
-//
-//            int numberOfUnsavedChords= unsavedChords.size();
-//            for (int i =1; i<= numberOfUnsavedChords; i++) {
-//                snakePosition.add(oldPosition.get(i));
-//            }
-//        }
-//    }
-
     public List<String> getCollectedChordsWithoutHead() {
         return collectedChords.subList(1, collectedChords.size());
-    }
-
-    public List<String> getCollectedChordsFromIndex(int index) {
-        return collectedChords.subList(index, collectedChords.size());
-    }
-
-    public List<int[]> getCollectedChordsPositions() {
-        return snakePosition.subList(1, snakePosition.size());
     }
 
     public List<String> getCollectedChords() {
@@ -143,10 +109,6 @@ public class Snake {
         direction = 1;
     }
 
-    public int getSnakeDirection() {
-        return direction;
-    }
-
     public int getSnakeHeadX() {
         return snakePosition.get(0)[0];
     }
@@ -155,7 +117,8 @@ public class Snake {
         return snakePosition.get(0)[1];
     }
 
-    public void setInsId(int insId) { this.insId = insId; }
     public int getInsId() { return insId; }
+
+    public void setInsId(int insId) { this.insId = insId; }
 
 }

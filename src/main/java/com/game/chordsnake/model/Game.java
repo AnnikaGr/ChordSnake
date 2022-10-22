@@ -4,22 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    private Board board;
     private int songChosenID;
     private int instrumentChosenID;
     private boolean gameStart;
 
-
-    private List<String> songChords = new ArrayList<>();
-
-    public void setInstrumentChosenID(int instrumentChosenID) {
-        this.instrumentChosenID = instrumentChosenID;
-        System.out.println("instrument id: " + this.instrumentChosenID);
-    }
-
     public int getInstrumentChosenID() {
         return instrumentChosenID;
     }
+
+    public void setInstrumentChosenID(int instrumentChosenID) { this.instrumentChosenID = instrumentChosenID; }
 
     public boolean getGameStarted() {
         return gameStart;
@@ -29,25 +22,10 @@ public class Game {
         this.gameStart = gameStart;
     }
 
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public void setGameStart(boolean gameStart) {
-        this.gameStart = gameStart;
-    }
-
     public int getSongChosenID() {
         return songChosenID;
     }
 
-    public void setSongChosenID(int songChosenID) {
-        System.out.println("song id: " + songChosenID);
-        this.songChosenID = songChosenID;
-    }
+    public void setSongChosenID(int songChosenID) { this.songChosenID = songChosenID; }
 
-    public List<String> getSongChords() {
-        return songChords;
-    }
 }

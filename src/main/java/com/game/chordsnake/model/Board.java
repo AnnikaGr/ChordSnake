@@ -10,46 +10,15 @@ public class Board {
     private final int width = 15;
     private final String[] possibleChords = {"E", "Em", "D", "C", "G", "Am", "F", "Bm", "B", "Cm", "Gm", "Fm"}; //TODO update possible Chords
     public String[][] arrangement;
-    private Song currentSong;
     private Snake currentSnake;
     private int[] trashPosition;
     private int[] instrumentPosition;
-    private String[] savedChords;
-    private boolean gameWon;
-    private List<String> initialContent;
+    private final List<String> initialContent;
     private String encounteredElement;
     private String chordToCheck;
-    private String[] noteText = {"", "", ""};
-    //private List<chordTriad> chordTriadRef = new ArrayList<>(13);
+    private final String[] noteText = {"", "", ""};
 
-    public Board() {
-        initialContent = new ArrayList<>(height * width);
-
-        // set border tiles
-        //arrangement= new String[height+2][width+2];
-
-        /*for (int i= height +2; i < height+2; i++){
-            for (int j = width +2; j<width+2; j++){
-                //set borders if in border area
-                if( i==0){
-                    arrangement[i][j] = "X";
-                }
-                else if (i==height-1){
-                    arrangement[i][j] = "X";
-                }
-                else if (j==0){
-                    arrangement[i][j] = "X";
-                }
-                else if (j==width-1){
-                    arrangement[i][j] = "X";
-                }
-                else {
-                    content.get(i-1+j-1);
-                }
-            }
-        }*/
-
-    }
+    public Board() { initialContent = new ArrayList<>(height * width); }
 
     public void setBoard(Song song) {
 
@@ -89,21 +58,6 @@ public class Board {
                 }
             }
         }
-/*
-        int counter = 0;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                arrangement[i][j] = initialContent.get((counter * (height - 1)) + j);
-                if (content.get((counter * (height - 1)) + j).equals("SH")) {
-                    currentSnake = new Snake(i, j);
-                }
-            }
-            counter = counter + 1;
-        }*/
-    }
-
-    public List<String> getChords() {
-        return initialContent;
     }
 
     public String getOneChord(int x, int y) {
@@ -139,15 +93,16 @@ public class Board {
         if (encounteredElement.equals("Z")) {
             arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         } else if (encounteredElement.equals("T")) {
-            arrangement[tailPositions[0]][tailPositions[1]] = "Z";
+            if(currentSnake.getSnakePosition().size() != 1) arrangement[tailPositions[0]][tailPositions[1]] = "Z";
+            else return 0; //Snake with only one head encounters trash -> failed
         } else if (encounteredElement.equals("I")) {
-                arrangement[tailPositions[0]][tailPositions[1]] = "Z";
+            arrangement[tailPositions[0]][tailPositions[1]] = "Z";
         }
 
-            if (new Chord(encounteredElement).getNotes()!= null) {
-                chordToCheck = encounteredElement;
-                currentSnake.appendElement(tailPositions[0], tailPositions[1], encounteredElement);
-                appended = true;
+        if (new Chord(encounteredElement).getNotes() != null) {
+            chordToCheck = encounteredElement;
+            currentSnake.appendElement(tailPositions[0], tailPositions[1], encounteredElement);
+            appended = true;
 
         }
         List<String> collectedChords = currentSnake.getCollectedChords();
@@ -183,10 +138,6 @@ public class Board {
         encounteredElement = arrangement[x][y];
     }
 
-    public String getEncounter() {
-        return encounteredElement;
-    }
-
     public int[] getTrashPosition() {
         return trashPosition;
     }
@@ -220,8 +171,8 @@ public class Board {
     public boolean checkNotes() {
         System.out.println("user put " + noteText[0] + noteText[1] + noteText[2]);
         System.out.println("encounteredElement " + chordToCheck);
-        Chord currentChord= new Chord(chordToCheck);
-       return currentChord.isSameOrder(new String[]{noteText[0], noteText[1] , noteText[2]});
+        Chord currentChord = new Chord(chordToCheck);
+        return currentChord.isSameOrder(new String[]{noteText[0], noteText[1], noteText[2]});
     }
 
     class chordTriad {
