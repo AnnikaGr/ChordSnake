@@ -16,7 +16,7 @@
 
         <Button mnemonicParsing="false" onMouseClicked="#tryAgain" text="Back to Start" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Regular" size="24.0"/>
+                <Font name="Bauhaus 93" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>
@@ -36,7 +36,7 @@
             </ImageView>
             <Label text="Correct! You won!">
                 <font>
-                    <Font name="Open Sans Regular" size="24.0"/>
+                    <Font name="Bauhaus 93" size="24.0"/>
                 </font>
             </Label>
         </VBox>

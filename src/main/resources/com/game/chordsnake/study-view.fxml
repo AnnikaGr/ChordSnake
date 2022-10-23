@@ -12,7 +12,7 @@
     <bottom>
         <Button mnemonicParsing="false" onMouseClicked="#doneStudying" text="Start" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Medium" size="24.0"/>
+                <Font name="Bauhaus 93" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>
@@ -24,12 +24,12 @@
             <Text layoutX="218.0" layoutY="86.0" text="Click               to review the chords!"
                   wrappingWidth="727.9022827148438">
                 <font>
-                    <Font name="Open Sans SemiBold" size="44.0"/>
+                    <Font name="Bauhaus 93" size="44.0"/>
                 </font>
             </Text>
             <Text layoutX="330.0" layoutY="90.0" text="HERE" wrappingWidth="148.56906127929688">
                 <font>
-                    <Font name="Open Sans Bold" size="55.0"/>
+                    <Font name="Bauhaus 93" size="55.0"/>
                 </font>
             </Text>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="525.0" layoutY="283.0" pickOnBounds="true"
