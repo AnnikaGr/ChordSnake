@@ -147,6 +147,8 @@ public class Main extends Application {
         gameInstance.setSongChosenID(getSong());
         gameInstance.setInstrumentChosenID(getInstrument());
 
+        studyImg.setImage(null);
+
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("game-view.fxml"));
         gameLoader.setController(controller);
         listPane.add(7, gameLoader.load());
