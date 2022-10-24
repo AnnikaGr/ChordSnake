@@ -22,7 +22,7 @@ public class ChordPopup {
     private final Button checkAndContinue;
     private final Text title;
     private final Text subtitle;
-    private final int STARTTIME = 5;
+    private final int STARTTIME = 10;
     private final int width = 600;
     private final int height = 300;
     private final TextField[] notes = new TextField[3];
@@ -30,11 +30,11 @@ public class ChordPopup {
     private Timeline timeline;
     private Integer timeSeconds;
     private Label timerLabel = new Label();
-    private int success;
+    private boolean inTime;
 
 
     public ChordPopup(String titleText, String subtitleText) {
-        success = 1;
+        inTime = true;
         this.popup = new Popup();
         VBox vbox = new VBox(10);
         vbox.setAlignment(Pos.CENTER);
@@ -83,7 +83,8 @@ public class ChordPopup {
                 timerLabel.setText(timeSeconds.toString());
 
                 if (timeSeconds <= 0) {
-                    success = 0;
+                    checkAndContinue.setText("Too slow... Play again!");
+                    inTime = false;
                     timeline.stop();
                 }
             }
@@ -102,7 +103,7 @@ public class ChordPopup {
         popup.getContent().addAll(vbox);
     }
 
-    public int getSuccess() { return success; }
+    public boolean wasInTime() { return inTime; }
 
     public Button getCheckAndContinue() {
         return checkAndContinue;
