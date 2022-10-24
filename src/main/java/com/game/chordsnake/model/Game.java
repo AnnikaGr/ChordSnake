@@ -1,8 +1,5 @@
 package com.game.chordsnake.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Game {
     private int songChosenID;
     private int instrumentChosenID;

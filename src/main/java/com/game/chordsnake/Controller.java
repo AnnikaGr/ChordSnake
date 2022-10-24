@@ -139,7 +139,6 @@ public class Controller {
 
     public void updateGrid() {
         if(success!= 2 && checkWon()){ //check won if chord wasnt appended this tick
-            System.out.println("You won");
             stopAnimation();
             gameInstance.setGameStarted(false);
             Main.setPane(5);

@@ -137,7 +137,6 @@ public class Main extends Application {
 
     @FXML
     public void showImage(){
-        System.out.println("stu"+gameInstance.getSongChosenID());
         Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/chord" + getSong() + ".JPG")).toString());
         studyImg.setImage(image);
     }

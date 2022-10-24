@@ -169,8 +169,6 @@ public class Board {
     }
 
     public boolean checkNotes() {
-        System.out.println("user put " + noteText[0] + noteText[1] + noteText[2]);
-        System.out.println("encounteredElement " + chordToCheck);
         Chord currentChord = new Chord(chordToCheck);
         return currentChord.isSameOrder(new String[]{noteText[0], noteText[1], noteText[2]});
     }
