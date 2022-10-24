@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javafx.concurrent.Task;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -137,6 +138,21 @@ public class Controller {
 
             }
         }
+    }
+
+    public static void delay(long millis, Runnable continuation) {
+        Task<Void> sleeper = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                try {
+                    Thread.sleep(millis);
+                } catch (InterruptedException e) {
+                }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(event -> continuation.run());
+        new Thread(sleeper).start();
     }
 
 
@@ -313,14 +329,21 @@ public class Controller {
 
     @FXML
     public void playSong() {
+        List<Clip> sound = new ArrayList<>(savedChords.size());
+        int counter = 0;
         for (String chord : savedChords) {
             try {
-                Clip sound = AudioSystem.getClip();
-                sound.open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + gameInstance.getInstrumentChosenID() +"/" + chord + ".wav"))));
-                sound.start();
+                sound.add(AudioSystem.getClip());
+                //AudioClip buzzer = new AudioClip(getClass().getResource("/audio/buzzer.mp3").toExternalForm());
+            final int c = counter;
+                //Clip sound = AudioSystem.getClip();
+                sound.get(c).open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + gameInstance.getInstrumentChosenID() +"/" + chord + ".wav"))));
+                sound.get(c).start();
+                //delay(500, () -> sound.get(c).start());
             } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
                 e.printStackTrace();
             }
+            counter ++;
         }
     }
 
