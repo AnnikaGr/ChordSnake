@@ -104,7 +104,7 @@ public class Main extends Application {
         btnSong3.setToggleGroup(songGroup);
 
         root.getChildren().add(listPane.get(0));
-        Scene scene = new Scene(root, 1200, 800);
+        Scene scene = new Scene(root, 800, 600);
         stage.setTitle("ChordSnake");
         stage.setScene(scene);
 

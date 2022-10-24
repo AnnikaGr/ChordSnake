@@ -6,22 +6,25 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
-
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: add182;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.game.chordsnake.Main">
+<BorderPane xmlns:fx="http://javafx.com/fxml" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx"
+            fx:controller="com.game.chordsnake.Main">
     <bottom>
         <Button mnemonicParsing="false" onMouseClicked="#tryAgain" text="Try Again?" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Medium" size="24.0" />
+                <Font name="Open Sans Regular" size="24.0"/>
             </font>
             <BorderPane.margin>
-                <Insets bottom="20.0" top="20.0" />
+                <Insets bottom="20.0" top="20.0"/>
             </BorderPane.margin>
         </Button>
     </bottom>
     <center>
-        <ImageView fitHeight="445.0" fitWidth="684.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+        <ImageView fitHeight="369.0" fitWidth="529.0" pickOnBounds="true" preserveRatio="true"
+                   BorderPane.alignment="CENTER">
             <image>
-                <Image url="@assets/crash.png" />
+                <Image url="@assets/logo.png"/>
             </image>
         </ImageView>
     </center>

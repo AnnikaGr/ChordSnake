@@ -43,7 +43,7 @@ public class Controller {
     private boolean isInChordPopupState = false;
     private int success = 1;
     private int noteCounter;
-    private final int singleGridWidth = 40;
+    private final int singleGridWidth = 30;
     private int speed = 1;
     private ChordPopup popup;
     private List<String> savedChords = new ArrayList<>();
@@ -88,11 +88,11 @@ public class Controller {
                 labels[i][j].setPrefHeight(singleGridWidth);
 
                 if (boardModel.getOneChord(i, j) == "T") {
-                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/Rb2bK5q/trash.png\");"+ "-fx-background-size: 40 40; ");
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/Rb2bK5q/trash.png\");"+ "-fx-background-size: 30 30; ");
                 } else if (boardModel.getOneChord(i, j) == "Z") {
                     labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #709255");
                 } else if (boardModel.getOneChord(i, j) == "I") {
-                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/thfw3R8/music-note.png\");"+ "-fx-background-size: 40 40; ");
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/thfw3R8/music-note.png\");"+ "-fx-background-size: 30 30; ");
                 } else if (boardModel.getOneChord(i, j) != "SH"){ //chords
                     labels[i][j].setText(boardModel.arrangement[i][j]);
                     labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #dda15e");
@@ -119,11 +119,11 @@ public class Controller {
             for (int j = 0; j < boardModel.getHeight(); j++) {
                 labels[i][j].setText(null);
                 if (boardModel.getOneChord(i, j) == "T") {
-                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/Rb2bK5q/trash.png\");"+ "-fx-background-size: 40 40; ");
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/Rb2bK5q/trash.png\");"+ "-fx-background-size: 30 30; ");
                 } else if (boardModel.getOneChord(i, j) == "Z") {
                     labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #709255");
                 } else if (boardModel.getOneChord(i, j) == "I") {
-                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/thfw3R8/music-note.png\");"+ "-fx-background-size: 40 40; ");
+                    labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-image:url(\"https://i.ibb.co/thfw3R8/music-note.png\");"+ "-fx-background-size: 30 30; ");
                 } else if (boardModel.getOneChord(i, j) != "SH"){ //chords
                     labels[i][j].setText(boardModel.arrangement[i][j]);
                     labels[i][j].setStyle("-fx-border-color: black;" + "-fx-background-color: #dda15e");
@@ -181,15 +181,14 @@ public class Controller {
                 isInChordPopupState = false;
                 popup.getPopup().hide();
             });
-
             updateGridLayout();
+            success = popup.getSuccess();
+            System.out.println(success);
         } else if (success == 1) { //no chord was appended
             startAnimation();
             success = boardModel.updateArrangement();
             updateGridLayout();
         } else throw new IllegalStateException("Integer Success doesn´t hold any of the values 1,2,3");
-
-
     }
 
     public boolean checkWon(){
@@ -224,7 +223,6 @@ public class Controller {
                 // inspired by https://github.com/Gaspared/snake/blob/master/Main.java
                 startAnimation();
             }
-
         }
         if (gameInstance.getGameStarted() && !isInChordPopupState) {
             if (event.getCode() == KeyCode.W) {
