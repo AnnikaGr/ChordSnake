@@ -167,7 +167,11 @@ public class Controller {
                 this.boardModel.setNoteText(1, popup.getTextInput(1));
                 this.boardModel.setNoteText(2, popup.getTextInput(2));
                 if (boardModel.checkNotes()) {
-                    if(checkWon()){
+                    if(!popup.wasInTime()){
+                        success = 0;
+                        gameInstance.setGameStarted(false);
+                    }
+                    else if(checkWon()){
                         stopAnimation();
                         gameInstance.setGameStarted(false);
                         Main.setPane(5);
@@ -182,8 +186,7 @@ public class Controller {
                 popup.getPopup().hide();
             });
             updateGridLayout();
-            success = popup.getSuccess();
-            System.out.println(success);
+
         } else if (success == 1) { //no chord was appended
             startAnimation();
             success = boardModel.updateArrangement();
