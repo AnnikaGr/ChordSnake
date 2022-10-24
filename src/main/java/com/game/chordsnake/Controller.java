@@ -15,12 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.concurrent.Task;
 
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -138,21 +134,6 @@ public class Controller {
 
             }
         }
-    }
-
-    public static void delay(long millis, Runnable continuation) {
-        Task<Void> sleeper = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                try {
-                    Thread.sleep(millis);
-                } catch (InterruptedException e) {
-                }
-                return null;
-            }
-        };
-        sleeper.setOnSucceeded(event -> continuation.run());
-        new Thread(sleeper).start();
     }
 
 
@@ -327,26 +308,6 @@ public class Controller {
             }
 
             boardModel.getCurrentSnake().clearSnake();
-        }
-    }
-
-    @FXML
-    public void playSong() {
-        List<Clip> sound = new ArrayList<>(savedChords.size());
-        int counter = 0;
-        for (String chord : savedChords) {
-            try {
-                sound.add(AudioSystem.getClip());
-                //AudioClip buzzer = new AudioClip(getClass().getResource("/audio/buzzer.mp3").toExternalForm());
-            final int c = counter;
-                //Clip sound = AudioSystem.getClip();
-                sound.get(c).open(AudioSystem.getAudioInputStream(Objects.requireNonNull(Main.class.getResource("music/" + gameInstance.getInstrumentChosenID() +"/" + chord + ".wav"))));
-                sound.get(c).start();
-                //delay(500, () -> sound.get(c).start());
-            } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-                e.printStackTrace();
-            }
-            counter ++;
         }
     }
 
