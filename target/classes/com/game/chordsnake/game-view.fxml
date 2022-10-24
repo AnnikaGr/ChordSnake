@@ -10,11 +10,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: add182;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: f2ce7d;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
     <top>
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ChordSnake" textAlignment="CENTER" wrappingWidth="306.8970947265625" BorderPane.alignment="TOP_CENTER">
             <BorderPane.margin>
-                <Insets bottom="30.0" top="10.0" />
+                <Insets bottom="40.0" top="10.0" />
             </BorderPane.margin>
             <font>
                 <Font name="Bauhaus 93" size="51.0" />
@@ -63,16 +63,16 @@
         </GridPane>
     </center>
     <bottom>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" prefHeight="58.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fx:id="albumCover" fitHeight="90.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="albumCover" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                     <HBox.margin>
-                        <Insets left="20.0" right="20.0" />
+                        <Insets left="20.0" right="20.0" bottom="10.0" />
                     </HBox.margin>
                 </ImageView>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Chords">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Saved Chords:">
                     <font>
-                        <Font name="Bauhaus 93" size="12.0" />
+                        <Font name="System Bold" size="12.0" />
                     </font>
                 </Text>
                 <GridPane fx:id="chordChunk" gridLinesVisible="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#savingGridOnDragDropped" onDragOver="#savingGridOnDragOver" prefHeight="30.0" prefWidth="300.0">
@@ -97,6 +97,12 @@
                 </GridPane>
                 <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="                                                        " />
             </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
         </HBox>
     </bottom>
 </BorderPane>

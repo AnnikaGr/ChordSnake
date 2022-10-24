@@ -52,8 +52,6 @@ public class Main extends Application {
     private Text titleSong = new Text();
     @FXML
     private ImageView studyImg = new ImageView() ;
-    @FXML
-    private BorderPane borderPane = new BorderPane();
 
     private Game gameInstance = new Game();
     private Controller controller = new Controller(gameInstance);
@@ -139,7 +137,8 @@ public class Main extends Application {
 
     @FXML
     public void showImage(){
-        Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/chords" + gameInstance.getSongChosenID() + ".jpg")).toString());
+        System.out.println("stu"+gameInstance.getSongChosenID());
+        Image image = new Image(Objects.requireNonNull(Main.class.getResource("assets/chord" + getSong() + ".JPG")).toString());
         studyImg.setImage(image);
     }
 
