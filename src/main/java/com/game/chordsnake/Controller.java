@@ -145,7 +145,7 @@ public class Controller {
             Main.setPane(5);
         }
 
-        if (success == 0) { //success = false;
+        else if (success == 0) { //success = false;
             stopAnimation();
             gameInstance.setGameStarted(false);
             Main.setPane(4); //fail page
