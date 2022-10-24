@@ -18,7 +18,7 @@
                 <Insets bottom="30.0" top="10.0" />
             </BorderPane.margin>
             <font>
-                <Font name="Open Sans SemiBold" size="42.0" />
+                <Font name="Bauhaus 93" size="51.0"/>
             </font>
         </Text>
     </top>
@@ -73,7 +73,7 @@
                 </ImageView>
                 <Button fx:id="playSongBtn" mnemonicParsing="false" onMouseClicked="#playSong" text="Play">
                     <font>
-                        <Font name="Open Sans Medium" size="18.0" />
+                        <Font name="Bauhaus 93" size="18.0"/>
                     </font>
                     <HBox.margin>
                         <Insets left="20.0" right="20.0" />

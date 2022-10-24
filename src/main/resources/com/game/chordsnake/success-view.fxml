@@ -12,7 +12,7 @@
     <bottom>
         <Button fx:id="backHome" mnemonicParsing="false" text="Back Home" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Medium" size="24.0"/>
+                <Font name="Bauhaus 93" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>

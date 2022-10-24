@@ -12,7 +12,7 @@
     <bottom>
         <Button mnemonicParsing="false" onMouseClicked="#confirmSong" text="Confirm" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Medium" size="24.0"/>
+                <Font name="Bauhaus 93" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>
@@ -74,7 +74,7 @@
                 <Insets top="100.0"/>
             </BorderPane.margin>
             <font>
-                <Font name="Open Sans SemiBold" size="36.0"/>
+                <Font name="Bauhaus 93" size="36.0"/>
             </font>
         </Text>
     </top>

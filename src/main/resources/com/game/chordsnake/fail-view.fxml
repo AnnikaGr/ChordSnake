@@ -13,7 +13,7 @@
     <bottom>
         <Button mnemonicParsing="false" onMouseClicked="#tryAgain" text="Try Again?" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Regular" size="24.0"/>
+                <Font name="Bauhaus 93" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0"/>

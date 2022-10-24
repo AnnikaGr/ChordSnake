@@ -13,7 +13,7 @@
     <bottom>
         <Button mnemonicParsing="false" onMouseClicked="#doneStudying" text="Start" BorderPane.alignment="CENTER">
             <font>
-                <Font name="Open Sans Medium" size="24.0" />
+                <Font name="Bauhaus 93" size="24.0"/>
             </font>
             <BorderPane.margin>
                 <Insets bottom="20.0" top="20.0" />
@@ -24,10 +24,16 @@
         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <Text layoutX="77.0" layoutY="160.0" text="Click THE BOOK to review the chords!" textAlignment="CENTER" wrappingWidth="626.5689086914062">
                 <font>
-                    <Font name="Open Sans SemiBold" size="33.0" />
+                    <Font name="Bauhaus 93" size="44.0"/>
                 </font>
             </Text>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="320.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true">
+            <Text layoutX="330.0" layoutY="90.0" text="HERE" wrappingWidth="148.56906127929688">
+                <font>
+                    <Font name="Bauhaus 93" size="55.0"/>
+                </font>
+            </Text>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="525.0" layoutY="283.0" pickOnBounds="true"
+                       preserveRatio="true">
                 <image>
                     <Image url="@assets/open-book.png" />
                 </image>
