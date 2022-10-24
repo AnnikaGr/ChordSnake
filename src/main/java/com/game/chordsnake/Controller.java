@@ -15,14 +15,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-
-import javax.sound.sampled.Clip;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import javafx.scene.media.AudioClip;
 
 public class Controller {
     @FXML
@@ -33,10 +29,13 @@ public class Controller {
     private ImageView albumCover = new ImageView();
     @FXML
     private Text message;
+
     private Song songModel;
     private Board boardModel;
-    private Label[][] labels;
     private Game gameInstance;
+
+    private Label[][] labels;
+
     private boolean isInChordPopupState = false;
     private int success = 1;
     private int noteCounter;
@@ -143,7 +142,6 @@ public class Controller {
             gameInstance.setGameStarted(false);
             Main.setPane(5);
         }
-
         else if (success == 0) { //success = false;
             stopAnimation();
             gameInstance.setGameStarted(false);
@@ -151,7 +149,7 @@ public class Controller {
         } else if (success == 2) { //chord was appended
             stopAnimation();
             success = boardModel.updateArrangement();
-            this.popup = new ChordPopup("Select the notes of " + boardModel.getChordToCheck(), "Insert Chord Name here");
+            this.popup = new ChordPopup("Enter the notes of " , boardModel.getChordToCheck());
             isInChordPopupState = true;
             noteCounter = 0;
             popup.resetNoteText();
